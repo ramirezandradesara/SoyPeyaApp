@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SoyPeyaApp"
 include(":app")
+include(":appmodule")
