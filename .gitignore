@@ -1,16 +1,5 @@
-# Compiled class file
+# === Java / Kotlin / Android ===
 *.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
 *.nar
@@ -18,26 +7,66 @@
 *.zip
 *.tar.gz
 *.rar
+*.dex
+*.apk
+*.ap_
+*.so
+*.o
+*.a
+*.log
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# === Gradle ===
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+/captures/
+.externalNativeBuild/
+.cxx/
+.kotlinc/
+.kotlin/
+.gradle-cache/
+.idea/libraries/
+.gradle/
+
+# === Kotlin DSL specific ===
+*.kotlin_module
+
+# === Android Studio ===
+.idea/
+*.iml
+local.properties
+.idea/caches/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/gradle.xml
+.idea/compiler.xml
+
+# === Jetpack Compose Preview cache ===
+.idea/composePreview/
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === crash logs ===
 hs_err_pid*
 replay_pid*
 
-# Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
-.kotlin/
+# === Signatures & secrets ===
+*.jks
+*.keystore
+*.pem
+*.key
+*.crt
 
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+# === Virtual device files ===
+*.avd/
+*.ini
+
+# === Misc ===
+*.tmp
+*.bak
+*.swp
+*.swo
