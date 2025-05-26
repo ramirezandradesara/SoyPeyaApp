@@ -1,4 +1,4 @@
-# SoyPeyaApp
+# Technologies Used in SoyPeyaApp
 
 ## What is SoyPeya?
 SoyPeya is an MVP of an e-commerce application designed to provide essential shopping functionalities. 
@@ -7,13 +7,24 @@ This foundational version focuses on delivering a smooth and intuitive user expe
 
 
 ## Technologies used
-- Kotlin
-- Jetpack Compose
-- Hilt para DI
-- Retrofit + Gson
-- Room
-- Navigation
-- Material Design
-- RecyclerView
-- Glide
 
+### Main Language
+- **Kotlin**: A modern, safe, and official language for Android development that enables clean and concise code.
+
+#### Versions
+- **Minimum SDK**: 24, to support a broad range of current devices while enabling modern features.
+- **Java Version**: 11, chosen for its stability and Android ecosystem support.
+
+### Architecture
+- **MVVM (Model-View-ViewModel)**: Promotes separation of concerns, enhances maintainability, and improves UI lifecycle and state management.
+
+### Key Frameworks and Libraries
+
+- **Hilt**: Simplifies dependency injection, reduces boilerplate, and improves modularity.
+- **Retrofit + Gson**: Facilitate efficient HTTP communication and JSON serialization/deserialization.
+- **Room**: Provides an abstraction layer over SQLite, enabling easy local database handling with coroutine support.
+- **Navigation Component**: Manages screen navigation declaratively with safe args and back stack support.
+- **Jetpack Compose**: A modern toolkit for building declarative and reactive UI in Android.
+- **Material Design**: Ensures visual consistency and a user experience aligned with Google's guidelines.
+- **RecyclerView**: Efficiently handles large or dynamic lists with flexibility.
+- **Glide**: Efficiently loads and caches images to optimize visual performance.
