@@ -1,4 +1,4 @@
-package com.soyhenry.soypeyaapp
+package com.soyhenry.soypeyaapp.view.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -42,6 +42,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     SoyPeyaAppTheme {
-        Greeting("Android")
+        Greeting("Dami")
     }
 }

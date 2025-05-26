@@ -1,10 +1,11 @@
-package com.soyhenry.soypeyaapp
+package com.soyhenry.soypeyaapp.view.ui.activities
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.soyhenry.soypeyaapp.R
 
 class ProductDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
