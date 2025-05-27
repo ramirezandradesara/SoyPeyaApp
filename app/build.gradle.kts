@@ -66,6 +66,9 @@ dependencies {
     implementation(libs.navigation.fragment) // Navigation
     implementation(libs.navigation.ui) // Navigation
 
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
+
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
