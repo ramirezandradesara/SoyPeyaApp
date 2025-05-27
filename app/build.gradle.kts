@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.retrofit) // Retrofit
     implementation(libs.retrofit.gson) // Gson
     implementation(libs.okhttp.logging)  // HTTP request debugger
+    implementation(libs.lifecycle.viewmodel) // ViewModel
+    implementation(libs.lifecycle.livedata) // LiveData
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
