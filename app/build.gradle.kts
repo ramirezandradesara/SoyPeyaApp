@@ -50,12 +50,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation("com.google.dagger:hilt-android:2.51.1")
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    // Convertidor Gson (para convertir JSON a objetos Kotlin)
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    // (Opcional) Logger para debugging de solicitudes HTTP
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation(libs.retrofit) // Retrofit
+    implementation(libs.retrofit.gson) // Gson
+    implementation(libs.okhttp.logging)  // HTTP request debugger
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
