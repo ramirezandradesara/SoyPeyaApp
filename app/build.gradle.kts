@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("kapt") // Doesn't work
 }
 
 android {
@@ -50,11 +51,17 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation("com.google.dagger:hilt-android:2.51.1")
+
     implementation(libs.retrofit) // Retrofit
     implementation(libs.retrofit.gson) // Gson
     implementation(libs.okhttp.logging)  // HTTP request debugger
+
     implementation(libs.lifecycle.viewmodel) // ViewModel
     implementation(libs.lifecycle.livedata) // LiveData
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+     // kapt(libs.room.compiler)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
