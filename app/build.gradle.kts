@@ -63,6 +63,9 @@ dependencies {
     implementation(libs.room.ktx)
      // kapt(libs.room.compiler)
 
+    implementation(libs.navigation.fragment) // Navigation
+    implementation(libs.navigation.ui) // Navigation
+
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
