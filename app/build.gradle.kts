@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("kapt") // Doesn't work
+    
+    kotlin("kapt")
+    // alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -51,6 +53,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation("com.google.dagger:hilt-android:2.51.1")
+
+    // implementation(libs.hilt.android) // Hilt
+    // kapt(libs.hilt.compiler)
 
     implementation(libs.retrofit) // Retrofit
     implementation(libs.retrofit.gson) // Gson
