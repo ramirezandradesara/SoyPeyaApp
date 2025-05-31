@@ -74,14 +74,16 @@ dependencies {
     implementation(libs.glide)
     kapt(libs.glide.compiler)
 
-    implementation(project(":feature:card"))
+    implementation(project(":feature:login"))
 
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
     testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

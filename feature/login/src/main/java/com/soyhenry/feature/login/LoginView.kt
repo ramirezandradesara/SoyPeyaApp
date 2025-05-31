@@ -1,3 +1,5 @@
+// LoginView
+package com.soyhenry.feature.login
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import com.soyhenry.feature.login.LoginViewModel
 
 @Composable
 fun LoginView(loginViewModel: LoginViewModel) {
@@ -41,7 +42,7 @@ fun LoginView(loginViewModel: LoginViewModel) {
         OutlinedTextField(
             value = loginViewModel.username,
             onValueChange = { loginViewModel.username = it },
-            label = { Text("User") },
+            label = { Text("Username") },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -66,10 +67,8 @@ fun LoginView(loginViewModel: LoginViewModel) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun LoginViewPreview() {
-    // Si tienes un tema global, aplícalo
-    // Ejemplo con tu SoyPeyaAppTheme
     LoginView(loginViewModel = LoginViewModel())
 }
