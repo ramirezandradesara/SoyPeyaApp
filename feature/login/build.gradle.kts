@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.feature.card"
+    namespace = "com.soyhenry.feature.login"
     compileSdk = 35
 
     defaultConfig {
@@ -33,12 +33,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":data"))
-    implementation(project(":library:utils"))
+    implementation(libs.lifecycle.viewmodel) // ViewModel
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

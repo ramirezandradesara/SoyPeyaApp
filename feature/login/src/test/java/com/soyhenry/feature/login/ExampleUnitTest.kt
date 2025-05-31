@@ -1,4 +1,4 @@
-package com.soyhenry.feature.card
+package com.soyhenry.feature.login
 
 import org.junit.Test
 

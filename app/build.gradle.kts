@@ -74,7 +74,7 @@ dependencies {
     implementation(libs.glide)
     kapt(libs.glide.compiler)
 
-    implementation(project(":feature:card"))
+    implementation(project(":feature:login"))
 
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.appcompat)
