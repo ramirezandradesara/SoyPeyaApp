@@ -27,7 +27,7 @@ fun LoginView(loginViewModel: LoginViewModel) {
 
     LaunchedEffect(loginSuccess) {
         loginSuccess?.let {
-            val message = if (it) "Welcome 🎉" else "Wrong user or password, please try again ❌"
+            val message = if (it) "Welcome, ${loginViewModel.username} 🎉" else "Wrong user or password, please try again ❌"
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             loginViewModel.resetLoginState()
         }
