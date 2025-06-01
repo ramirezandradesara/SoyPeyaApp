@@ -74,8 +74,10 @@ dependencies {
     implementation(libs.glide)
     kapt(libs.glide.compiler)
 
-    implementation(project(":feature:login"))
+    implementation(libs.androidx.navigation.compose)
 
+    implementation(project(":feature:login"))
+    implementation(project(":feature:home"))
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -20,9 +20,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavController
 
 @Composable
-fun LoginView(loginViewModel: LoginViewModel) {
+fun LoginView(loginViewModel: LoginViewModel, navController: NavController) {
     val context = LocalContext.current
 
     val email by loginViewModel.email.collectAsState()
@@ -36,6 +37,14 @@ fun LoginView(loginViewModel: LoginViewModel) {
         toastMessage?.let {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             loginViewModel.clearToastMessage()
+        }
+    }
+
+    LaunchedEffect(loginSuccess) {
+        if (loginSuccess == true) {
+            navController.navigate("home") {
+                popUpTo("login") { inclusive = true }
+            }
         }
     }
 
@@ -65,7 +74,7 @@ fun LoginView(loginViewModel: LoginViewModel) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = { loginViewModel.onLoginClick() },
+            onClick = { loginViewModel.onLoginClick(context) },
             modifier = Modifier.fillMaxWidth(),
             enabled = isFormValid
         ) {
@@ -77,5 +86,8 @@ fun LoginView(loginViewModel: LoginViewModel) {
 @Preview(showBackground = true)
 @Composable
 fun LoginViewPreview() {
-    LoginView(loginViewModel = LoginViewModel())
+    LoginView(
+        loginViewModel = LoginViewModel(),
+        navController = TODO()
+    )
 }

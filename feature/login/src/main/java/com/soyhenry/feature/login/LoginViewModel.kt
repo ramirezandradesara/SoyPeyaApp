@@ -1,5 +1,6 @@
 package com.soyhenry.feature.login
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +35,7 @@ class LoginViewModel : ViewModel() {
         _password.value = newPassword
     }
 
-    fun onLoginClick() {
+    fun onLoginClick(context: Context) {
         viewModelScope.launch {
             if (!isValidEmail(_email.value)) {
                 _toastMessage.value = "Invalid email format ❌"
@@ -43,8 +44,19 @@ class LoginViewModel : ViewModel() {
 
             val success = _email.value == correctEmail && _password.value == correctPass
             _loginSuccess.value = success
-            _toastMessage.value = if (success) "Welcome 🎉" else "Wrong user or password ❌"
+
+            if (success) {
+                saveLoginStatus(context, true)
+                _toastMessage.value = "Welcome 🎉"
+            } else {
+                _toastMessage.value = "Wrong user or password ❌"
+            }
         }
+    }
+
+    private fun saveLoginStatus(context: Context, isLoggedIn: Boolean) {
+        val sharedPreferences = context.getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putBoolean("is_logged_in", isLoggedIn).apply()
     }
 
     fun clearToastMessage() {

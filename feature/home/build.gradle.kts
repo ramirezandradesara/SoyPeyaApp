@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.feature.login"
+    namespace = "com.soyhenry.feature.home"
     compileSdk = 35
 
     defaultConfig {
@@ -54,8 +54,6 @@ dependencies {
     testImplementation(libs.junit)
 
     debugImplementation(libs.androidx.ui.tooling)
-    implementation(libs.navigation.ui)
-    implementation (libs.lifecycle.viewmodel)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

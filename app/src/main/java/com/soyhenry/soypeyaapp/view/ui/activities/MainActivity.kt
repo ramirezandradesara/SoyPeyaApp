@@ -3,10 +3,14 @@ package com.soyhenry.soypeyaapp.view.ui.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.soyhenry.feature.login.LoginView
 import com.soyhenry.feature.login.LoginViewModel
-import com.soyhenry.soypeyaapp.ui.theme.SoyPeyaAppTheme
+import com.soyhenry.feature.home.HomeView
 import androidx.activity.viewModels
 
 class MainActivity : ComponentActivity() {
@@ -14,10 +18,21 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            SoyPeyaAppTheme {
-                LoginView(loginViewModel = loginViewModel)
+            val navController = rememberNavController()
+
+            Surface(color = MaterialTheme.colorScheme.background) {
+                NavHost(navController = navController, startDestination = "login") {
+                    composable("login") {
+                        LoginView(
+                            loginViewModel = loginViewModel,
+                            navController = navController
+                        )
+                    }
+                    composable("home") {
+                        HomeView()
+                    }
+                }
             }
         }
     }
