@@ -28,14 +28,14 @@ fun LoginView(loginViewModel: LoginViewModel) {
     val email by loginViewModel.email.collectAsState()
     val password by loginViewModel.password.collectAsState()
     val loginSuccess by loginViewModel.loginSuccess.collectAsState()
+    val toastMessage by loginViewModel.toastMessage.collectAsState()
 
     val isFormValid = email.isNotBlank() && password.isNotBlank()
 
-    LaunchedEffect(loginSuccess) {
-        loginSuccess?.let {
-            val message = if (it) "Welcome 🎉" else "Wrong user or password, please try again ❌"
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            loginViewModel.resetLoginState()
+    LaunchedEffect(toastMessage) {
+        toastMessage?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            loginViewModel.clearToastMessage()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.soyhenry.feature.login
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,9 @@ class LoginViewModel : ViewModel() {
     private val _loginSuccess = MutableStateFlow<Boolean?>(null)
     val loginSuccess: StateFlow<Boolean?> = _loginSuccess.asStateFlow()
 
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
+
 
     private val correctEmail = "admin@gmail.com"
     private val correctPass = "123"
@@ -32,11 +36,22 @@ class LoginViewModel : ViewModel() {
 
     fun onLoginClick() {
         viewModelScope.launch {
-            _loginSuccess.value = (_email.value == correctEmail && _password.value == correctPass)
+            if (!isValidEmail(_email.value)) {
+                _toastMessage.value = "Invalid email format ❌"
+                return@launch
+            }
+
+            val success = _email.value == correctEmail && _password.value == correctPass
+            _loginSuccess.value = success
+            _toastMessage.value = if (success) "Welcome 🎉" else "Wrong user or password ❌"
         }
     }
 
-    fun resetLoginState() {
-        _loginSuccess.value = null
+    fun clearToastMessage() {
+        _toastMessage.value = null
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }
