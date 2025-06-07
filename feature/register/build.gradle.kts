@@ -57,7 +57,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)
     implementation (libs.lifecycle.viewmodel)
-    implementation(libs.lifecycle.viewmodel.compose)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

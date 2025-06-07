@@ -1,12 +1,12 @@
-package com.soyhenry.feature.login
+package com.soyhenry.feature.login.viewmodel
 
 import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {

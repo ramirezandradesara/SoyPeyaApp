@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.feature.login"
+    namespace = "com.soyhenry.library.ui.components"
     compileSdk = 35
 
     defaultConfig {
@@ -25,11 +25,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -43,8 +43,9 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.material3)
+    implementation(libs.compose.icons.extended)
     implementation(libs.material)
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.material3.android)
@@ -53,8 +54,6 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
-    implementation(project(":feature:register"))
-    implementation(project(":library:ui:components"))
 
     testImplementation(libs.junit)
 

@@ -1,4 +1,4 @@
-package com.soyhenry.feature.register
+package com.soyhenry.feature.register.viewmodel
 
 import android.content.Context
 import android.util.Patterns

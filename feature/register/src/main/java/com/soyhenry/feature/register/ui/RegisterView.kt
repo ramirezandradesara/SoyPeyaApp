@@ -1,4 +1,4 @@
-package com.soyhenry.feature.register
+package com.soyhenry.feature.register.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.soyhenry.feature.register.viewmodel.RegisterViewModel
 
 @Composable
 fun RegisterView(
@@ -87,7 +88,7 @@ fun RegisterView(
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = registerViewModel::onConfirmPasswordChange,
-            label = { Text("Confirma password") },
+            label = { Text("Confirm password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )

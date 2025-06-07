@@ -1,4 +1,4 @@
-package com.soyhenry.feature.login
+package com.soyhenry.feature.login.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +16,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
@@ -28,7 +27,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.soyhenry.feature.register.RegisterView
+import com.soyhenry.feature.login.viewmodel.LoginViewModel
+import com.soyhenry.feature.register.ui.RegisterView
+import com.soyhenry.library.ui.components.PasswordTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,11 +77,10 @@ fun LoginView(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedTextField(
+        PasswordTextField(
             value = password,
             onValueChange = { loginViewModel.onPasswordChange(it) },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
+            label = "Password",
             modifier = Modifier.fillMaxWidth()
         )
 

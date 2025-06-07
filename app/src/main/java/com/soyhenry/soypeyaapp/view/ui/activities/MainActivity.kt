@@ -8,8 +8,8 @@ import androidx.compose.material3.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.soyhenry.feature.login.LoginView
-import com.soyhenry.feature.login.LoginViewModel
+import com.soyhenry.feature.login.ui.LoginView
+import com.soyhenry.feature.login.viewmodel.LoginViewModel
 import com.soyhenry.feature.home.HomeView
 import androidx.activity.viewModels
 import androidx.navigation.NavHostController
