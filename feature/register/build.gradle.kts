@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.feature.login"
+    namespace = "com.soyhenry.feature.register"
     compileSdk = 35
 
     defaultConfig {
@@ -50,16 +50,14 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
-    implementation(project(":feature:register"))
-
     testImplementation(libs.junit)
 
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)
     implementation (libs.lifecycle.viewmodel)
+    implementation(libs.lifecycle.viewmodel.compose)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

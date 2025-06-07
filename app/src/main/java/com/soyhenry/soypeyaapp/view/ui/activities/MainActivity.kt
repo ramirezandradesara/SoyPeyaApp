@@ -12,6 +12,7 @@ import com.soyhenry.feature.login.LoginView
 import com.soyhenry.feature.login.LoginViewModel
 import com.soyhenry.feature.home.HomeView
 import androidx.activity.viewModels
+import androidx.navigation.NavHostController
 
 class MainActivity : ComponentActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
@@ -19,17 +20,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
+            val navController: NavHostController = rememberNavController()
 
             Surface(color = MaterialTheme.colorScheme.background) {
                 NavHost(navController = navController, startDestination = "login") {
-                    composable("login") {
+                    composable(route = "login") {
                         LoginView(
                             loginViewModel = loginViewModel,
                             navController = navController
                         )
                     }
-                    composable("home") {
+                    composable(route = "home") {
                         HomeView()
                     }
                 }
