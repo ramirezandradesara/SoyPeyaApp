@@ -3,45 +3,38 @@ package com.soyhenry.soypeyaapp.view.ui.activities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.soyhenry.soypeyaapp.ui.theme.SoyPeyaAppTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.soyhenry.feature.login.ui.LoginView
+import com.soyhenry.feature.login.viewmodel.LoginViewModel
+import com.soyhenry.feature.home.HomeView
+import androidx.activity.viewModels
+import androidx.navigation.NavHostController
 
 class MainActivity : ComponentActivity() {
+    private val loginViewModel: LoginViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            SoyPeyaAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            val navController: NavHostController = rememberNavController()
+
+            Surface(color = MaterialTheme.colorScheme.background) {
+                NavHost(navController = navController, startDestination = "login") {
+                    composable(route = "login") {
+                        LoginView(
+                            loginViewModel = loginViewModel,
+                            navController = navController
+                        )
+                    }
+                    composable(route = "home") {
+                        HomeView()
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello M2L8 $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SoyPeyaAppTheme {
-        Greeting("Android")
     }
 }
