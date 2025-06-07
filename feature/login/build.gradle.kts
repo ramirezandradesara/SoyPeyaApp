@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(project(":feature:register"))
     implementation(project(":library:ui:components"))
+    implementation(project(":core:approutes"))
+    implementation(project(":core:constants:appinfo"))
 
     testImplementation(libs.junit)
 

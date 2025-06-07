@@ -24,7 +24,6 @@ class LoginViewModel : ViewModel() {
     val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
 
     private val _showRegisterSheet = MutableStateFlow(false)
-    val showRegisterSheet: StateFlow<Boolean> = _showRegisterSheet.asStateFlow()
 
     private val correctEmail = "admin@gmail.com"
     private val correctPass = "123"
