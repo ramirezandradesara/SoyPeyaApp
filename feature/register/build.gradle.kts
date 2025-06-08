@@ -54,6 +54,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
 
+    implementation(project(":library:ui:components"))
+    implementation(project(":core:approutes"))
+
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)
     implementation (libs.lifecycle.viewmodel)

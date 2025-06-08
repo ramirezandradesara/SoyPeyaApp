@@ -1,12 +1,18 @@
 package com.soyhenry.feature.register.ui
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,14 +20,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.feature.register.viewmodel.RegisterViewModel
+import com.soyhenry.library.ui.components.PasswordTextField
 
 @Composable
 fun RegisterView(
@@ -36,6 +43,10 @@ fun RegisterView(
     val confirmPassword by registerViewModel.confirmPassword.collectAsState()
     val toastMessage by registerViewModel.toastMessage.collectAsState()
     val registerSuccess by registerViewModel.registerSuccess.collectAsState()
+    val emailError by registerViewModel.emailError.collectAsState()
+    val nameError by registerViewModel.nameError.collectAsState()
+    val passwordError by registerViewModel.passwordError.collectAsState()
+    val confirmPasswordError by registerViewModel.confirmPasswordError.collectAsState()
 
     LaunchedEffect(toastMessage) {
         toastMessage?.let {
@@ -52,16 +63,30 @@ fun RegisterView(
         }
     }
 
-    Column(modifier = Modifier.padding(24.dp)) {
-        Text("Sign up")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Sign up",
+            style = MaterialTheme.typography.headlineSmall
+        )
 
         Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(
             value = email,
-            onValueChange = { registerViewModel.onEmailChange(it) },
+            onValueChange = registerViewModel::onEmailChange,
             label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            isError = emailError != null,
+            supportingText = {
+                if (emailError != null) {
+                    Text(text = emailError ?: "")
+                }
+            }
         )
 
         Spacer(Modifier.height(8.dp))
@@ -70,27 +95,43 @@ fun RegisterView(
             value = name,
             onValueChange = registerViewModel::onNameChange,
             label = { Text("Full name") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            isError = nameError != null,
+            supportingText = {
+                if (nameError != null) {
+                    Text(text = nameError ?: "")
+                }
+            }
         )
 
         Spacer(Modifier.height(8.dp))
 
-        OutlinedTextField(
+        PasswordTextField(
             value = password,
             onValueChange = registerViewModel::onPasswordChange,
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
+            label = "Password",
+            modifier = Modifier.fillMaxWidth(),
+            isError = passwordError != null,
+            supportingText = {
+                if (passwordError != null) {
+                    Text(text = passwordError ?: "")
+                }
+            }
         )
 
         Spacer(Modifier.height(8.dp))
 
-        OutlinedTextField(
+        PasswordTextField(
             value = confirmPassword,
             onValueChange = registerViewModel::onConfirmPasswordChange,
-            label = { Text("Confirm password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
+            label = "Confirm password",
+            modifier = Modifier.fillMaxWidth(),
+            isError = confirmPasswordError != null,
+            supportingText = {
+                if (confirmPasswordError != null) {
+                    Text(text = confirmPasswordError ?: "")
+                }
+            }
         )
 
         Spacer(Modifier.height(16.dp))
@@ -100,17 +141,41 @@ fun RegisterView(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 15.dp),
+            enabled = emailError == null &&
+                    nameError == null &&
+                    passwordError == null &&
+                    confirmPasswordError == null
         ) {
             Text("Register")
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(text = "Already have an account?")
+
+            Spacer(modifier = Modifier.width(2.dp))
+
+            Text(
+                text = "Log in",
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable {
+                    navController.navigate(AppRoutes.LogIn.route) {
+                        popUpTo(AppRoutes.Register.route) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun RegisterViewPreview(){
+fun RegisterViewPreview() {
     val navController = rememberNavController()
-
     RegisterView(
         navController = navController
     )

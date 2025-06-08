@@ -23,9 +23,6 @@ class LoginViewModel : ViewModel() {
     private val _toastMessage = MutableStateFlow<String?>(null)
     val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
 
-    private val _showRegisterSheet = MutableStateFlow(false)
-    val showRegisterSheet: StateFlow<Boolean> = _showRegisterSheet.asStateFlow()
-
     private val correctEmail = "admin@gmail.com"
     private val correctPass = "123"
 
@@ -35,10 +32,6 @@ class LoginViewModel : ViewModel() {
 
     fun onPasswordChange(newPassword: String) {
         _password.value = newPassword
-    }
-
-    fun handleShowRegisterSheet() {
-        _showRegisterSheet.value = !_showRegisterSheet.value
     }
 
     fun onLoginClick(context: Context) {

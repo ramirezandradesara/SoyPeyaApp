@@ -78,6 +78,9 @@ dependencies {
 
     implementation(project(":feature:login"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:register"))
+    implementation(project(":core:approutes"))
+
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
