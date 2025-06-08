@@ -15,6 +15,7 @@ import androidx.activity.viewModels
 import androidx.navigation.NavHostController
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.feature.register.ui.RegisterView
+import com.soyhenryfeature.products.ui.ProductsView
 
 class MainActivity : ComponentActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
             Surface(color = MaterialTheme.colorScheme.background) {
                 NavHost(
                     navController = navController,
-                    startDestination = AppRoutes.LogIn.route
+                    startDestination = AppRoutes.Products.route
                 ) {
                     composable(route =  AppRoutes.LogIn.route) {
                         LoginView(
@@ -42,6 +43,9 @@ class MainActivity : ComponentActivity() {
                         RegisterView(
                             navController = navController
                         )
+                    }
+                    composable(route = AppRoutes.Products.route) {
+                        ProductsView(navController = navController)
                     }
                 }
             }
