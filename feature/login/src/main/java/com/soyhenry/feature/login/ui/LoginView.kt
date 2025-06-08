@@ -70,7 +70,7 @@ fun LoginView(
     ) {
         OutlinedTextField(
             value = email,
-            onValueChange = { loginViewModel::onEmailChange },
+            onValueChange = loginViewModel::onEmailChange,
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -79,7 +79,7 @@ fun LoginView(
 
         PasswordTextField(
             value = password,
-            onValueChange = { loginViewModel::onPasswordChange },
+            onValueChange = loginViewModel::onPasswordChange,
             label = "Password",
             modifier = Modifier.fillMaxWidth()
         )

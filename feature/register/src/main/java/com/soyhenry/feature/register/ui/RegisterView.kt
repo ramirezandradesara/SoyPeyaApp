@@ -43,6 +43,10 @@ fun RegisterView(
     val confirmPassword by registerViewModel.confirmPassword.collectAsState()
     val toastMessage by registerViewModel.toastMessage.collectAsState()
     val registerSuccess by registerViewModel.registerSuccess.collectAsState()
+    val emailError by registerViewModel.emailError.collectAsState()
+    val nameError by registerViewModel.nameError.collectAsState()
+    val passwordError by registerViewModel.passwordError.collectAsState()
+    val confirmPasswordError by registerViewModel.confirmPasswordError.collectAsState()
 
     LaunchedEffect(toastMessage) {
         toastMessage?.let {
@@ -65,15 +69,24 @@ fun RegisterView(
             .padding(24.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Sign up")
+        Text(
+            text = "Sign up",
+            style = MaterialTheme.typography.headlineSmall
+        )
 
         Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(
             value = email,
-            onValueChange = { registerViewModel::onEmailChange },
+            onValueChange = registerViewModel::onEmailChange,
             label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            isError = emailError != null,
+            supportingText = {
+                if (emailError != null) {
+                    Text(text = emailError ?: "")
+                }
+            }
         )
 
         Spacer(Modifier.height(8.dp))
@@ -82,7 +95,13 @@ fun RegisterView(
             value = name,
             onValueChange = registerViewModel::onNameChange,
             label = { Text("Full name") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            isError = nameError != null,
+            supportingText = {
+                if (nameError != null) {
+                    Text(text = nameError ?: "")
+                }
+            }
         )
 
         Spacer(Modifier.height(8.dp))
@@ -91,7 +110,13 @@ fun RegisterView(
             value = password,
             onValueChange = registerViewModel::onPasswordChange,
             label = "Password",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            isError = passwordError != null,
+            supportingText = {
+                if (passwordError != null) {
+                    Text(text = passwordError ?: "")
+                }
+            }
         )
 
         Spacer(Modifier.height(8.dp))
@@ -100,7 +125,13 @@ fun RegisterView(
             value = confirmPassword,
             onValueChange = registerViewModel::onConfirmPasswordChange,
             label = "Confirm password",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            isError = confirmPasswordError != null,
+            supportingText = {
+                if (confirmPasswordError != null) {
+                    Text(text = confirmPasswordError ?: "")
+                }
+            }
         )
 
         Spacer(Modifier.height(16.dp))
@@ -110,9 +141,14 @@ fun RegisterView(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 15.dp),
+            enabled = emailError == null &&
+                    nameError == null &&
+                    passwordError == null &&
+                    confirmPasswordError == null
         ) {
             Text("Register")
         }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -138,9 +174,8 @@ fun RegisterView(
 
 @Preview(showBackground = true)
 @Composable
-fun RegisterViewPreview(){
+fun RegisterViewPreview() {
     val navController = rememberNavController()
-
     RegisterView(
         navController = navController
     )

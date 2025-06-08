@@ -17,9 +17,12 @@ fun PasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isError: Boolean = false,
+    supportingText: @Composable (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
 ) {
-    var passwordVisible by remember { mutableStateOf(false) }
+    var passwordVisible: Boolean by remember { mutableStateOf(false) }
 
     OutlinedTextField(
         value = value,
@@ -36,7 +39,9 @@ fun PasswordTextField(
                 Icon(imageVector = icon, contentDescription = description)
             }
         },
-        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
+        isError = isError,
+        supportingText = supportingText,
+        keyboardOptions = keyboardOptions
     )
 }
 
@@ -44,10 +49,17 @@ fun PasswordTextField(
 @Composable
 fun PasswordTextFieldPreview() {
     var password by remember { mutableStateOf("admin123") }
+    var isError by remember { mutableStateOf(false) }
 
     PasswordTextField(
-        value = password,
-        onValueChange = { password = it },
-        label = "Password"
+            value = password,
+            onValueChange = { password = it },
+            label = "Password",
+            isError = isError,
+            supportingText = {
+                if (isError) {
+                    Text(text = "Password must be at least 8 characters")
+                }
+            }
     )
 }
