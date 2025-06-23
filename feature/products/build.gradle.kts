@@ -2,6 +2,12 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.android)
+    kotlin("kapt")
+}
+
+hilt {
+    enableAggregatingTask = false
 }
 
 android {
@@ -31,6 +37,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
@@ -52,6 +61,19 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    // Hilt
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    implementation(libs.lifecycle.viewmodel) // ViewModel
+
+   // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     testImplementation(libs.junit)
 

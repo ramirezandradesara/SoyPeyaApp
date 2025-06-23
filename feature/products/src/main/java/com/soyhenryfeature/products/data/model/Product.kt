@@ -1,4 +1,4 @@
-package com.soyhenryfeature.products.model
+package com.soyhenryfeature.products.data.model
 
 data class Product(
     val id: Int,

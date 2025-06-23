@@ -1,44 +1,68 @@
 package com.soyhenryfeature.products.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.soyhenryfeature.products.model.Product
+import com.soyhenryfeature.products.data.model.Product
+import com.soyhenryfeature.products.viewmodel.ProductsUiState
+import com.soyhenryfeature.products.viewmodel.ProductsViewModel
+import androidx.compose.runtime.getValue
+import dagger.hilt.android.AndroidEntryPoint
 
 @Composable
 fun ProductsView(
-    navController: NavController
+    navController: NavController,
+    viewModel: ProductsViewModel = hiltViewModel()
 ) {
-    val products = listOf(
-        Product(1, "Laptop", 999.99, "High performance laptop"),
-        Product(2, "Smartphone", 699.99, "Latest model smartphone"),
-        Product(3, "Headphones", 149.99, "Noise cancelling headphones"),
-        Product(4, "Keyboard", 79.99, "Mechanical keyboard"),
-        Product(5, "Mouse", 49.99, "Wireless ergonomic mouse")
-    )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 15.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(products) { product ->
-            ProductItem(product = product)
+    when (val state = uiState) {
+        is ProductsUiState.Loading -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+        is ProductsUiState.Error -> {
+            Text("Error: ${state.message}")
+        }
+        is ProductsUiState.Success -> {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(state.products) { product ->
+                    ProductItem(product = product)
+                }
+            }
         }
     }
+
+    /* when (val state = uiState) {  // Note the 'val' here
+        is ProductsUiState.Loading -> LoadingScreen()
+        is ProductsUiState.Success -> ProductList(state.products)
+        is ProductsUiState.Error -> ErrorScreen(state.message)
+    } */
 }
 
 @Composable
@@ -67,12 +91,3 @@ fun ProductItem(product: Product) {
     }
 }
 
-@Composable
-@Preview(showBackground = true)
-fun ProductsViewPreview(){
-    val navController = rememberNavController()
-
-    ProductsView(
-        navController = navController
-    )
-}
