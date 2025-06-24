@@ -21,12 +21,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "SoyPeyaApp"
 include(":app")
-include(":appmodule")
 include(":feature:cart")
 include(":core:model")
 include(":data")
 include(":library:utils")
-include(":feature:card")
 include(":feature:login")
 include(":feature:home")
 include(":feature:register")

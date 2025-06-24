@@ -68,7 +68,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel) // ViewModel
     implementation(libs.lifecycle.livedata) // LiveData
 
-    implementation(libs.room.runtime) // Room
+    // Room
+    implementation(libs.room.runtime)
     implementation(libs.room.ktx)
      // kapt(libs.room.compiler)
 
