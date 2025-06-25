@@ -1,12 +1,15 @@
-# Technologies Used in SoyPeyaApp
+# 🛵 SoyPeyaApp - E-Commerce MVP
 
-## What is SoyPeya?
+---
+
+## 🚀 Overview
 SoyPeya is an MVP of an e-commerce application designed to provide essential shopping functionalities. 
 It features a product catalog where users can browse available items, a detailed product view to display individual product information, a shopping cart to manage selected products, and a checkout process to complete purchases. 
 This foundational version focuses on delivering a smooth and intuitive user experience through modern Android development practices.
 
+---
 
-## Technologies used
+## 🛠 Tech Stack
 
 ### Main Language
 - **Kotlin**: A modern, safe, and official language for Android development that enables clean and concise code.
@@ -28,3 +31,29 @@ This foundational version focuses on delivering a smooth and intuitive user expe
 - **Material Design**: Ensures visual consistency and a user experience aligned with Google's guidelines.
 - **RecyclerView**: Efficiently handles large or dynamic lists with flexibility.
 - **Glide**: Efficiently loads and caches images to optimize visual performance.
+
+---
+
+## 🏗 Project Structure
+
+```
+com.soypeya/
+├── app/                  
+├── core/                 
+│   ├── approutes/          
+│   └── constants/         
+│ 
+├── data/
+│    ├── remote/           
+│    └── local/                       
+│
+├── feature/          
+│   ├── cart/
+│   └── login/              
+│   ├── products/         
+│   └── register/          
+│
+└── library/                 
+    ├── ui/            
+    └── utils/            
+```
