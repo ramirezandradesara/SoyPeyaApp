@@ -6,12 +6,8 @@ plugins {
     kotlin("kapt")
 }
 
-hilt {
-    enableAggregatingTask = false
-}
-
 android {
-    namespace = "com.soyhenryfeature.products"
+    namespace = "com.soyhenry.feature.cart"
     compileSdk = 35
 
     defaultConfig {
