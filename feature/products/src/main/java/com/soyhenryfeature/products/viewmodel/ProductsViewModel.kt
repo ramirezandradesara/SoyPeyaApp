@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyhenryfeature.products.data.model.Product
 import com.soyhenryfeature.products.data.repository.ProductsRepository
-import com.soyhenryfeature.products.data.repository.ProductsRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +15,6 @@ import javax.inject.Inject
 class ProductsViewModel
 @Inject constructor( private val repository: ProductsRepository) : ViewModel() {
 
-    // UI state
     private val _uiState = MutableStateFlow<ProductsUiState>(ProductsUiState.Loading)
     val uiState: StateFlow<ProductsUiState> = _uiState.asStateFlow()
 

@@ -15,6 +15,6 @@ object ProductsModule {
     @Provides
     @Singleton
     fun provideProductsRepository(): ProductsRepository {
-        return ProductsRepositoryImpl() // Instancia concreta
+        return ProductsRepositoryImpl()
     }
 }

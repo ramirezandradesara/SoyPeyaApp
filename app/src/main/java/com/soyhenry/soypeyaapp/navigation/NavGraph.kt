@@ -21,7 +21,7 @@ fun NavGraph(navController : NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = AppRoutes.LogIn.route
+        startDestination = AppRoutes.Products.route
     ) {
         composable(route = AppRoutes.LogIn.route) {
             LoginView(
