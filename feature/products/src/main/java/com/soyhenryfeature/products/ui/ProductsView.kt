@@ -22,6 +22,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.soyhenryfeature.products.viewmodel.ProductsUiState
 import com.soyhenryfeature.products.viewmodel.ProductsViewModel
 import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 @Composable
 fun ProductsView(
@@ -29,43 +37,77 @@ fun ProductsView(
     viewModel: ProductsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var filterText by remember { mutableStateOf("") }
 
-    when (val state = uiState) {
-        is ProductsUiState.Loading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
+        Text(
+            text = "Products",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(vertical = 16.dp)
+        )
+
+        OutlinedTextField(
+            value = filterText,
+            onValueChange = { filterText = it },
+            label = { Text("Filter products") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            singleLine = true
+        )
+
+        when (val state = uiState) {
+            is ProductsUiState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
             }
-        }
 
-        is ProductsUiState.Error -> {
-            Text("Error: ${state.message}")
-        }
+            is ProductsUiState.Error -> {
+                Text("Error: ${state.message}")
+            }
 
-        is ProductsUiState.Success -> {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(12.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(state.products.chunked(2)) { productPair ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        productPair.getOrNull(0)?.let { product ->
-                            ProductItem(
-                                product = product,
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
+            is ProductsUiState.Success -> {
+                val filteredProducts = if (filterText.isBlank()) {
+                    state.products
+                } else {
+                    state.products.filter { product ->
+                        product.name.contains(filterText, ignoreCase = true) ||
+                                product.description?.contains(filterText, ignoreCase = true) == true
+                    }
+                }
 
-                        Spacer(modifier = Modifier.width(8.dp))
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(bottom = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(filteredProducts.chunked(2)) { productPair ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            Box(modifier = Modifier.weight(1f)) {
+                                ProductItem(
+                                    product = productPair[0],
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
 
-                        productPair.getOrNull(1)?.let { product ->
-                            ProductItem(
-                                product = product,
-                                modifier = Modifier.weight(1f)
-                            )
+                            if (productPair.size > 1) {
+                                Box(modifier = Modifier.weight(1f)) {
+                                    ProductItem(
+                                        product = productPair[1],
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                }
+                            } else {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
                         }
                     }
                 }
