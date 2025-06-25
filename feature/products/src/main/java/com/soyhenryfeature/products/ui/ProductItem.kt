@@ -50,8 +50,7 @@ fun ProductItem(product: Product, modifier: Modifier = Modifier) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
                 text = product.name,
-                style = MaterialTheme.typography.titleSmall.copy(
-                ),
+                style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
