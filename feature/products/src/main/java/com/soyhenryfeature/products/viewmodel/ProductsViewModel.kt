@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.soyhenryfeature.products.data.model.Product
 import com.soyhenryfeature.products.data.repository.ProductsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,14 +24,18 @@ class ProductsViewModel
         loadProducts()
     }
 
+    val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        println("Error in ProductsViewModel: ${exception.message}")
+    }
+
     fun loadProducts() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _uiState.value = ProductsUiState.Loading
             try {
                 val products = repository.getProducts()
                 _uiState.value = ProductsUiState.Success(products)
             } catch (e: Exception) {
-                _uiState.value = ProductsUiState.Error(e.message ?: "Unknown error")
+                _uiState.value = ProductsUiState.Error(e.message ?: "Error in loading products")
             }
         }
     }
