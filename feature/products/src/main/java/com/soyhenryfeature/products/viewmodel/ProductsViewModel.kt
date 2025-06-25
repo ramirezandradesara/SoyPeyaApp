@@ -39,12 +39,13 @@ class ProductsViewModel
     }
 
     private fun applyFilter() {
-        val filtered = if (_filterText.value.isBlank()) {
+        val text = _filterText.value.trim()
+        val filtered = if (text.isBlank()) {
             allProducts
         } else {
             allProducts.filter { product ->
-                product.name.contains(_filterText.value, ignoreCase = true) ||
-                        product.description.contains(_filterText.value, ignoreCase = true)
+                product.name.contains(text, ignoreCase = true) ||
+                        product.description.contains(text, ignoreCase = true)
             }
         }
         _uiState.value = ProductsUiState.Success(filtered)
