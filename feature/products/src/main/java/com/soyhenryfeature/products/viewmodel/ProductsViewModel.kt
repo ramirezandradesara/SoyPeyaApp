@@ -15,10 +15,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel
-@Inject constructor( private val repository: ProductsRepository) : ViewModel() {
+@Inject constructor(private val repository: ProductsRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ProductsUiState>(ProductsUiState.Loading)
     val uiState: StateFlow<ProductsUiState> = _uiState.asStateFlow()
+
+    private var allProducts: List<Product> = emptyList()
+
+    private val _filterText = MutableStateFlow("")
+    val filterText: StateFlow<String> = _filterText.asStateFlow()
 
     init {
         loadProducts()
@@ -28,14 +33,31 @@ class ProductsViewModel
         println("Error in ProductsViewModel: ${exception.message}")
     }
 
-    fun loadProducts() {
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+    fun onFilterTextChange(filter: String) {
+        _filterText.value = filter
+        applyFilter()
+    }
+
+    private fun applyFilter() {
+        val filtered = if (_filterText.value.isBlank()) {
+            allProducts
+        } else {
+            allProducts.filter { product ->
+                product.name.contains(_filterText.value, ignoreCase = true) ||
+                        product.description.contains(_filterText.value, ignoreCase = true)
+            }
+        }
+        _uiState.value = ProductsUiState.Success(filtered)
+    }
+
+    private fun loadProducts() {
+        viewModelScope.launch {
             _uiState.value = ProductsUiState.Loading
             try {
-                val products = repository.getProducts()
-                _uiState.value = ProductsUiState.Success(products)
+                allProducts = repository.getProducts()
+                applyFilter()
             } catch (e: Exception) {
-                _uiState.value = ProductsUiState.Error(e.message ?: "Error in loading products")
+                _uiState.value = ProductsUiState.Error(e.message ?: "Error loading products")
             }
         }
     }
@@ -44,7 +66,7 @@ class ProductsViewModel
         viewModelScope.launch {
             try {
                 repository.addProduct(product)
-                loadProducts() // Refresh the list
+                loadProducts()
             } catch (e: Exception) {
                 _uiState.value = ProductsUiState.Error("Failed to add product")
             }
