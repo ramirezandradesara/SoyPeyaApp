@@ -57,8 +57,8 @@ fun RegisterView(
 
     LaunchedEffect(registerSuccess) {
         if (registerSuccess) {
-            navController.navigate("home") {
-                popUpTo("login") { inclusive = true }
+            navController.navigate(AppRoutes.Products.route) {
+                popUpTo(AppRoutes.Register.route) { inclusive = true }
             }
         }
     }

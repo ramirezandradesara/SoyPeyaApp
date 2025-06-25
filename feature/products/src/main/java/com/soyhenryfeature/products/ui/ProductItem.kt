@@ -1,0 +1,117 @@
+package com.soyhenryfeature.products.ui
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import com.soyhenryfeature.products.R
+import com.soyhenryfeature.products.data.model.Product
+import androidx.compose.ui.graphics.Color
+
+@Composable
+fun ProductItem(product: Product, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(90.dp)
+                .clip(RoundedCornerShape(8.dp))
+        ) {
+            val imagePainter = if (product.imgURL.isNotBlank()) {
+                rememberAsyncImagePainter(model = product.imgURL)
+            } else {
+                painterResource(id = R.drawable.product_empty_state)
+            }
+
+            Image(
+                painter = imagePainter,
+                contentDescription = "Product image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.matchParentSize()
+            )
+        }
+
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = product.name,
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+
+            Text(
+                text = product.description,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "$${product.price}",
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                )
+
+                IconButton(
+                    onClick = { /* Handle add to cart */ },
+                    modifier = Modifier.size(25.dp),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.primary, // Fondo
+                    )
+                ) {
+                    Icon(
+                        modifier = Modifier.size(15.dp),
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add to cart",
+                        tint = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun ProductItemPreview() {
+    val sampleProduct = Product(
+        id = 1,
+        name = "Sample Product",
+        price = 29.99,
+        description = "This is a sample product description for preview purposes.",
+        imgURL = ""
+    )
+
+    MaterialTheme {
+        ProductItem(
+            product = sampleProduct,
+            modifier = Modifier
+                .padding(16.dp)
+                .width(180.dp)
+        )
+    }
+}

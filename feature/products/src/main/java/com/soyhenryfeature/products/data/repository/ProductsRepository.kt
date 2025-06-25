@@ -1,0 +1,9 @@
+package com.soyhenryfeature.products.data.repository
+
+import com.soyhenryfeature.products.data.model.Product
+
+interface ProductsRepository {
+    suspend fun getProducts(): List<Product>
+    suspend fun addProduct(product: Product)
+    suspend fun deleteProduct(productId: Int)
+}

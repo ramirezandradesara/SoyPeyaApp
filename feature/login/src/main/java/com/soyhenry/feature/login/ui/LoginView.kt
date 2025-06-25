@@ -24,7 +24,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.soyhenry.core.approutes.AppRoutes
@@ -32,7 +31,6 @@ import com.soyhenry.core.constants.appinfo.AppInfo
 import com.soyhenry.feature.login.viewmodel.LoginViewModel
 import com.soyhenry.library.ui.components.PasswordTextField
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginView(
     loginViewModel: LoginViewModel,
@@ -56,8 +54,8 @@ fun LoginView(
 
     LaunchedEffect(loginSuccess) {
         if (loginSuccess == true) {
-            navController.navigate("home") {
-                popUpTo("login") { inclusive = true }
+            navController.navigate(AppRoutes.Products.route) {
+                popUpTo(AppRoutes.LogIn.route) { inclusive = true }
             }
         }
     }

@@ -2,9 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    
+    alias(libs.plugins.hilt.android)
     kotlin("kapt")
-    // alias(libs.plugins.hilt.android)
+}
+
+hilt {
+    enableAggregatingTask = false 
 }
 
 android {
@@ -52,10 +55,11 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation("com.google.dagger:hilt-android:2.51.1")
 
-    // implementation(libs.hilt.android) // Hilt
-    // kapt(libs.hilt.compiler)
+    // Hilt
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     implementation(libs.retrofit) // Retrofit
     implementation(libs.retrofit.gson) // Gson
@@ -64,7 +68,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel) // ViewModel
     implementation(libs.lifecycle.livedata) // LiveData
 
-    implementation(libs.room.runtime) // Room
+    // Room
+    implementation(libs.room.runtime)
     implementation(libs.room.ktx)
      // kapt(libs.room.compiler)
 
@@ -75,10 +80,12 @@ dependencies {
     kapt(libs.glide.compiler)
 
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.javapoet)
 
     implementation(project(":feature:login"))
     implementation(project(":feature:home"))
     implementation(project(":feature:register"))
+    implementation(project(":feature:products"))
     implementation(project(":core:approutes"))
 
     implementation(libs.androidx.recyclerview)
@@ -95,4 +102,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }
