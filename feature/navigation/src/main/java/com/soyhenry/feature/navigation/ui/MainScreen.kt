@@ -17,7 +17,7 @@ import com.soyhenry.feature.navigation.graph.NavGraph
 @Composable
 fun MainScreen(navController: NavHostController) {
     val bottomNavItems = listOf(
-        BottomNavItem(Icons.Filled.ShoppingCart, "Productos", AppRoutes.Products),
+        BottomNavItem(Icons.Filled.ShoppingCart, "Products", AppRoutes.Products),
         BottomNavItem(Icons.Filled.ShoppingCart, "Cart", AppRoutes.Products),
         BottomNavItem(Icons.Filled.Person, "Profile", AppRoutes.Products)
         // BottomNavItem(Icons.Filled.ShoppingCart, "Cart", AppRoutes.Products),

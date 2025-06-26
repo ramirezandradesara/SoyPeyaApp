@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soyhenry.core.approutes.AppRoutes
@@ -33,25 +33,25 @@ import com.soyhenry.library.ui.components.PasswordTextField
 @Composable
 fun RegisterView(
     navController: NavController,
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    val registerViewModel: RegisterViewModel = viewModel()
     val context = LocalContext.current
 
-    val email by registerViewModel.email.collectAsState()
-    val name by registerViewModel.name.collectAsState()
-    val password by registerViewModel.password.collectAsState()
-    val confirmPassword by registerViewModel.confirmPassword.collectAsState()
-    val toastMessage by registerViewModel.toastMessage.collectAsState()
-    val registerSuccess by registerViewModel.registerSuccess.collectAsState()
-    val emailError by registerViewModel.emailError.collectAsState()
-    val nameError by registerViewModel.nameError.collectAsState()
-    val passwordError by registerViewModel.passwordError.collectAsState()
-    val confirmPasswordError by registerViewModel.confirmPasswordError.collectAsState()
+    val email by viewModel.email.collectAsState()
+    val name by viewModel.name.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val confirmPassword by viewModel.confirmPassword.collectAsState()
+    val toastMessage by viewModel.toastMessage.collectAsState()
+    val registerSuccess by viewModel.registerSuccess.collectAsState()
+    val emailError by viewModel.emailError.collectAsState()
+    val nameError by viewModel.nameError.collectAsState()
+    val passwordError by viewModel.passwordError.collectAsState()
+    val confirmPasswordError by viewModel.confirmPasswordError.collectAsState()
 
     LaunchedEffect(toastMessage) {
         toastMessage?.let {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            registerViewModel.clearToastMessage()
+            viewModel.clearToastMessage()
         }
     }
 
@@ -78,7 +78,7 @@ fun RegisterView(
 
         OutlinedTextField(
             value = email,
-            onValueChange = registerViewModel::onEmailChange,
+            onValueChange = viewModel::onEmailChange,
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth(),
             isError = emailError != null,
@@ -93,7 +93,7 @@ fun RegisterView(
 
         OutlinedTextField(
             value = name,
-            onValueChange = registerViewModel::onNameChange,
+            onValueChange = viewModel::onNameChange,
             label = { Text("Full name") },
             modifier = Modifier.fillMaxWidth(),
             isError = nameError != null,
@@ -108,7 +108,7 @@ fun RegisterView(
 
         PasswordTextField(
             value = password,
-            onValueChange = registerViewModel::onPasswordChange,
+            onValueChange = viewModel::onPasswordChange,
             label = "Password",
             modifier = Modifier.fillMaxWidth(),
             isError = passwordError != null,
@@ -123,7 +123,7 @@ fun RegisterView(
 
         PasswordTextField(
             value = confirmPassword,
-            onValueChange = registerViewModel::onConfirmPasswordChange,
+            onValueChange = viewModel::onConfirmPasswordChange,
             label = "Confirm password",
             modifier = Modifier.fillMaxWidth(),
             isError = confirmPasswordError != null,
@@ -137,7 +137,7 @@ fun RegisterView(
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { registerViewModel.onRegisterClick(context) },
+            onClick = { viewModel.onRegisterClick(context) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 15.dp),
@@ -157,7 +157,7 @@ fun RegisterView(
         ) {
             Text(text = "Already have an account?")
 
-            Spacer(modifier = Modifier.width(2.dp))
+            Spacer(modifier = Modifier.width(3.dp))
 
             Text(
                 text = "Log in",
@@ -176,7 +176,7 @@ fun RegisterView(
 @Composable
 fun RegisterViewPreview() {
     val navController = rememberNavController()
-    RegisterView(
-        navController = navController
-    )
+    val viewModel: RegisterViewModel = hiltViewModel()
+
+    RegisterView(navController, viewModel)
 }
