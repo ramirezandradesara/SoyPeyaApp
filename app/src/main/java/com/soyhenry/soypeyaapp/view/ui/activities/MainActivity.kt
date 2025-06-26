@@ -7,8 +7,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavHostController
+import com.soyhenry.feature.navigation.ui.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
-import com.soyhenry.soypeyaapp.navigation.NavGraph
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
             val navController: NavHostController = rememberNavController()
 
             Surface(color = MaterialTheme.colorScheme.background) {
-                NavGraph(navController)
+                MainScreen(navController)
             }
         }
     }

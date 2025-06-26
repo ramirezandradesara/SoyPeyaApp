@@ -6,12 +6,8 @@ plugins {
     kotlin("kapt")
 }
 
-hilt {
-    enableAggregatingTask = false
-}
-
 android {
-    namespace = "com.soyhenryfeature.products"
+    namespace = "com.soyhenry.feature.navigation"
     compileSdk = 35
 
     defaultConfig {
@@ -59,8 +55,12 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
+
+    implementation(project(":feature:login"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:register"))
+    implementation(project(":feature:products"))
     implementation(project(":core:approutes"))
-    implementation(project(":core:constants:appinfo"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
