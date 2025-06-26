@@ -51,7 +51,8 @@ com.soypeya/
 │   ├── cart/
 │   └── login/              
 │   ├── products/         
-│   └── register/          
+│   └── register/
+│   └── navigation/              
 │
 └── library/                 
     ├── ui/            
