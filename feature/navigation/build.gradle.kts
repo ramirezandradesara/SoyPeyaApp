@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.feature.register"
+    namespace = "com.soyhenry.feature.navigation"
     compileSdk = 35
 
     defaultConfig {
@@ -52,17 +52,31 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.activity)
+
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(project(":feature:login"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:register"))
+    implementation(project(":feature:products"))
+    implementation(project(":core:approutes"))
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     // Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.androidx.navigation.compose)
-    testImplementation(libs.junit)
+    implementation(libs.lifecycle.viewmodel) // ViewModel
 
-    implementation(project(":library:ui:components"))
-    implementation(project(":core:approutes"))
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    testImplementation(libs.junit)
 
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)
