@@ -1,6 +1,5 @@
 # 🛵 SoyPeyaApp - E-Commerce MVP
 
----
 
 ## 🚀 Overview
 SoyPeya is an MVP of an e-commerce application designed to provide essential shopping functionalities. 
