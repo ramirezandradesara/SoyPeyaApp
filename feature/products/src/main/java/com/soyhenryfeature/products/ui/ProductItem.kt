@@ -17,11 +17,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenryfeature.products.R
-import com.soyhenryfeature.products.data.model.Product
 import androidx.compose.ui.graphics.Color
+import com.soyhenry.core.model.Product
 
 @Composable
-fun ProductItem(product: Product, modifier: Modifier = Modifier) {
+fun ProductItem(
+    product: Product,
+    modifier: Modifier = Modifier,
+    onAddToCart: (Product) -> Unit,
+) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -76,7 +80,7 @@ fun ProductItem(product: Product, modifier: Modifier = Modifier) {
                 )
 
                 IconButton(
-                    onClick = { /* Handle add to cart */ },
+                    onClick = { onAddToCart(product) },
                     modifier = Modifier.size(25.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = MaterialTheme.colorScheme.primary, // Fondo
@@ -111,7 +115,8 @@ fun ProductItemPreview() {
             product = sampleProduct,
             modifier = Modifier
                 .padding(16.dp)
-                .width(180.dp)
+                .width(180.dp),
+            onAddToCart = { }
         )
     }
 }

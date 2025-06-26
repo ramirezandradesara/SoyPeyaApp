@@ -16,11 +16,13 @@ import com.soyhenryfeature.products.viewmodel.ProductsViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import com.soyhenry.feature.cart.viewmodel.CartViewModel
 
 @Composable
 fun ProductsView(
     navController: NavController,
-    viewModel: ProductsViewModel = hiltViewModel()
+    viewModel: ProductsViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val filterText by viewModel.filterText.collectAsStateWithLifecycle()
@@ -47,7 +49,10 @@ fun ProductsView(
             }
 
             is ProductsUiState.Success -> {
-                ProductList(products = state.products)
+                ProductList(
+                    products = state.products,
+                    onAddToCart = cartViewModel::addToCart
+                )
             }
         }
     }

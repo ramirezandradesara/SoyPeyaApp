@@ -22,10 +22,6 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,21 +32,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.soyhenry.core.model.CartItem
+import com.soyhenry.core.model.Product
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
-import com.soyhenry.feature.cart.data.model.CartItem
 
 @Composable
-fun CartItemCard(item: CartItem) {
-    var quantity by remember { mutableStateOf(1) }
-
+fun CartItemCard(
+    item: CartItem,
+    onIncrease: () -> Unit,
+    onDecrease: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFF6F6F6), RoundedCornerShape(16.dp))
+            .background(Color.White, RoundedCornerShape(16.dp))
             .padding(12.dp), verticalAlignment = Alignment.CenterVertically
     ) {
-        val imagePainter = if (item.imgURL.isNotBlank()) {
-            rememberAsyncImagePainter(model = item.imgURL)
+        val imagePainter = if (item.product.imgURL.isNotBlank()) {
+            rememberAsyncImagePainter(model = item.product.imgURL)
         } else {
             painterResource(id = missing_img_product)
         }
@@ -70,14 +69,14 @@ fun CartItemCard(item: CartItem) {
         Column(
             modifier = Modifier.weight(1.5f)
         ) {
-            Text(text = item.name, fontWeight = FontWeight.SemiBold)
+            Text(text = item.product.name, fontWeight = FontWeight.SemiBold)
             Text(
-                text = item.description,
+                text = item.product.description,
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray
             )
             Text(
-                text = "$${item.price}",
+                text = "$${item.product.price}",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -89,7 +88,7 @@ fun CartItemCard(item: CartItem) {
             modifier = Modifier.wrapContentWidth()
         ) {
             IconButton(
-                onClick = { if (quantity > 1) quantity-- },
+                onClick = { onDecrease() },
                 modifier = Modifier.size(25.dp),
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -104,13 +103,13 @@ fun CartItemCard(item: CartItem) {
             }
 
             Text(
-                text = quantity.toString(),
+                text = item.quantity.toString(),
                 modifier = Modifier.padding(horizontal = 4.dp),
                 style = MaterialTheme.typography.bodyMedium
             )
 
             IconButton(
-                onClick = { quantity++ },
+                onClick = { onIncrease() },
                 modifier = Modifier.size(25.dp),
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -134,14 +133,20 @@ fun CartItemPreview() {
         "https://media.istockphoto.com/id/1442417585/es/foto/persona-recibiendo-un-pedazo-de-pizza-de-pepperoni-con-queso.jpg?s=612x612&w=0&k=20&c=Uk4fj96OIDxE4v2S5sRRXRY_gZ899_TE6jGD-T-TysI="
 
     val item = CartItem(
-        id = 1,
-        name = "Melting Cheese Pizza",
-        description = "Pizza Italiano",
-        price = 11.88,
-        imgURL = image
+        Product (
+            id = 1,
+            name = "Melting Cheese Pizza",
+            description = "Pizza Italiano",
+            price = 11.88,
+            imgURL = image
+        )
     )
 
     MaterialTheme {
-        CartItemCard(item)
+        CartItemCard(
+            item,
+            onIncrease = {},
+            onDecrease= {}
+        )
     }
 }

@@ -56,6 +56,7 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
     implementation(project(":core:approutes"))
+    implementation(project(":core:model"))
     implementation(project(":core:constants:appinfo"))
 
     implementation(libs.hilt.android)

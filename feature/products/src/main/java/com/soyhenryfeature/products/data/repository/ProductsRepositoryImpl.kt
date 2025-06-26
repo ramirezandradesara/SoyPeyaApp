@@ -1,6 +1,6 @@
 package com.soyhenryfeature.products.data.repository
 
-import com.soyhenryfeature.products.data.model.Product
+import com.soyhenry.core.model.Product
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 import javax.inject.Singleton

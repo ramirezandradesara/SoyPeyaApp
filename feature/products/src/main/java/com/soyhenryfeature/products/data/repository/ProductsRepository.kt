@@ -1,6 +1,6 @@
 package com.soyhenryfeature.products.data.repository
 
-import com.soyhenryfeature.products.data.model.Product
+import com.soyhenry.core.model.Product
 
 interface ProductsRepository {
     suspend fun getProducts(): List<Product>
