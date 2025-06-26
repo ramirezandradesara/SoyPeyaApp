@@ -25,6 +25,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.constants.appinfo.AppInfo
@@ -33,8 +34,8 @@ import com.soyhenry.library.ui.components.PasswordTextField
 
 @Composable
 fun LoginView(
-    loginViewModel: LoginViewModel,
-    navController: NavController
+    navController: NavController,
+    loginViewModel: LoginViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
 
@@ -102,7 +103,7 @@ fun LoginView(
         ) {
             Text(text = "New to ${AppInfo.APP_NAME}?")
 
-            Spacer(modifier = Modifier.width(2.dp))
+            Spacer(modifier = Modifier.width(3.dp))
 
             Text(
                 text = "Sign up",
@@ -120,11 +121,8 @@ fun LoginView(
 @Preview(showBackground = true)
 @Composable
 fun LoginViewPreview() {
-    val fakeLoginViewModel: LoginViewModel = viewModel()
+    val loginViewModel: LoginViewModel = hiltViewModel()
     val navController = rememberNavController()
     
-    LoginView(
-        loginViewModel = fakeLoginViewModel,
-        navController = navController
-    )
+    LoginView(navController, loginViewModel)
 }
