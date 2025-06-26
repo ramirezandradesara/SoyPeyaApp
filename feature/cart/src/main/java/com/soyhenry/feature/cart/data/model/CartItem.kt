@@ -1,9 +1,9 @@
 package com.soyhenry.feature.cart.data.model
 
-data class CartModel (
+data class CartItem (
     val id: Int,
     val name: String,
-    val price: Double,
     val description: String,
+    val price: Double,
     val imgURL: String
 )
