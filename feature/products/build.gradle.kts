@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
+    implementation(project(":feature:cart"))
+    implementation(project(":core:model"))
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
 
@@ -83,6 +85,5 @@ dependencies {
     implementation (libs.lifecycle.viewmodel)
 
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.espresso.core)
 }

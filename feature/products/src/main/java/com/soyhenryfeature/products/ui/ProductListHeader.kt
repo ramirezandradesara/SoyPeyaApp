@@ -15,7 +15,7 @@ fun ProductListHeader(
     onFilterTextChange: (String) -> Unit
 ) {
     Text(
-        text = "Products",
+        text = "Products 🍔",
         style = MaterialTheme.typography.headlineMedium,
         modifier = Modifier.padding(vertical = 16.dp)
     )

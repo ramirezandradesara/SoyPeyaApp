@@ -1,6 +1,6 @@
-package com.soyhenryfeature.products.data.model
+package com.soyhenry.core.model
 
-data class Product(
+data class Product (
     val id: Int,
     val name: String,
     val price: Double,

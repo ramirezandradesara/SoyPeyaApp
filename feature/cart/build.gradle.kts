@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.feature.navigation"
+    namespace = "com.soyhenry.feature.cart"
     compileSdk = 35
 
     defaultConfig {
@@ -55,13 +55,9 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
-
-    implementation(project(":feature:login"))
-    implementation(project(":feature:home"))
-    implementation(project(":feature:register"))
-    implementation(project(":feature:products"))
-    implementation(project(":feature:cart"))
     implementation(project(":core:approutes"))
+    implementation(project(":core:model"))
+    implementation(project(":core:constants:appinfo"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -77,6 +73,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation(libs.compose.icons.extended)
     testImplementation(libs.junit)
 
     debugImplementation(libs.androidx.ui.tooling)
@@ -84,6 +81,5 @@ dependencies {
     implementation (libs.lifecycle.viewmodel)
 
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.espresso.core)
 }

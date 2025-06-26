@@ -17,19 +17,17 @@ import com.soyhenry.feature.navigation.graph.NavGraph
 @Composable
 fun MainScreen(navController: NavHostController) {
     val bottomNavItems = listOf(
-        BottomNavItem(Icons.Filled.ShoppingCart, "Products", AppRoutes.Products),
-        BottomNavItem(Icons.Filled.ShoppingCart, "Cart", AppRoutes.Products),
-        BottomNavItem(Icons.Filled.Person, "Profile", AppRoutes.Products)
-        // BottomNavItem(Icons.Filled.ShoppingCart, "Cart", AppRoutes.Products),
-        // BottomNavItem(Icons.Filled.Person, "Profile", AppRoutes.Profile)
+        BottomNavItem(Icons.Filled.Home, "Products", AppRoutes.Products),
+        BottomNavItem(Icons.Filled.ShoppingCart, "Cart", AppRoutes.Cart),
+        BottomNavItem(Icons.Filled.Person, "Profile", AppRoutes.Profile)
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
     val showBottomBar = when (currentDestination?.route) {
-        // AppRoutes.Cart.route,
-        // AppRoutes.Profile.route,
+        AppRoutes.Cart.route,
+        AppRoutes.Profile.route,
         AppRoutes.Products.route -> true
         else -> false
     }

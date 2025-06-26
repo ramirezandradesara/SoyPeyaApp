@@ -2,7 +2,7 @@ package com.soyhenryfeature.products.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soyhenryfeature.products.data.model.Product
+import com.soyhenry.core.model.Product
 import com.soyhenryfeature.products.data.repository.ProductsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler

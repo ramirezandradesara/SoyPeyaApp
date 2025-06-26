@@ -1,4 +1,5 @@
 package com.soyhenryfeature.products.ui
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,10 +11,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.soyhenryfeature.products.data.model.Product
+import com.soyhenry.core.model.Product
 
 @Composable
-fun ProductList(products: List<Product>) {
+fun ProductList(
+    products: List<Product>,
+    onAddToCart: (Product) -> Unit,
+) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(bottom = 16.dp),
@@ -27,7 +31,8 @@ fun ProductList(products: List<Product>) {
                 Box(modifier = Modifier.weight(1f)) {
                     ProductItem(
                         product = productPair[0],
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        onAddToCart = onAddToCart,
                     )
                 }
 
@@ -35,7 +40,8 @@ fun ProductList(products: List<Product>) {
                     Box(modifier = Modifier.weight(1f)) {
                         ProductItem(
                             product = productPair[1],
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            onAddToCart = onAddToCart,
                         )
                     }
                 } else {
