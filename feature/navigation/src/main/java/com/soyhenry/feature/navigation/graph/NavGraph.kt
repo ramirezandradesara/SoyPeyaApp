@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 import com.soyhenry.core.approutes.AppRoutes
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.soyhenry.feature.cart.ui.CartView
+import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import com.soyhenry.feature.login.ui.LoginView
 import com.soyhenry.feature.login.viewmodel.LoginViewModel
 import com.soyhenry.feature.register.ui.RegisterView
@@ -22,10 +24,11 @@ fun NavGraph(
     val loginViewModel: LoginViewModel = hiltViewModel()
     val productsViewModel: ProductsViewModel = hiltViewModel()
     val registerViewModel: RegisterViewModel = hiltViewModel()
+    val cartViewModel: CartViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
-        startDestination = AppRoutes.LogIn.route,
+        startDestination = AppRoutes.Cart.route,
         modifier = modifier
     ) {
         composable(AppRoutes.LogIn.route) {
@@ -36,6 +39,9 @@ fun NavGraph(
         }
         composable(AppRoutes.Products.route) {
             ProductsView(navController, productsViewModel)
+        }
+        composable(AppRoutes.Cart.route) {
+            CartView(navController, cartViewModel)
         }
     }
 }

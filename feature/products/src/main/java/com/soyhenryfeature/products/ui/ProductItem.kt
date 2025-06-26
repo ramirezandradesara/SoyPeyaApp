@@ -36,7 +36,7 @@ fun ProductItem(product: Product, modifier: Modifier = Modifier) {
             val imagePainter = if (product.imgURL.isNotBlank()) {
                 rememberAsyncImagePainter(model = product.imgURL)
             } else {
-                painterResource(id = R.drawable.product_empty_state)
+                painterResource(id = R.drawable.missing_img_product)
             }
 
             Image(
