@@ -32,6 +32,9 @@ material3Android = "1.3.2"
 runtimeAndroid = "1.8.2"
 hiltNavigationCompose = "1.2.0"
 materialIconsExtended = "1.6.0"
+cloudinary = "2.3.1"
+coil = "2.4.0"
+coroutines = "1.7.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -76,6 +79,9 @@ androidx-material3-android = { group = "androidx.compose.material3", name = "mat
 androidx-runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroid" }
 compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+cloudinary = { module = "com.cloudinary:cloudinary-android", version.ref = "cloudinary" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -90,7 +90,7 @@ dependencies {
     implementation(project(":feature:navigation"))
     implementation(project(":core:approutes"))
 
-    implementation("com.cloudinary:cloudinary-android:2.3.1")
+    implementation(libs.cloudinary)
 
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.appcompat)

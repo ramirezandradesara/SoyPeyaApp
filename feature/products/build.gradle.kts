@@ -75,9 +75,11 @@ dependencies {
     implementation(libs.lifecycle.viewmodel) // ViewModel
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(libs.kotlinx.coroutines.android)
 
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    // Coil
+    implementation(libs.coil.compose)
+
     testImplementation(libs.junit)
 
     debugImplementation(libs.androidx.ui.tooling)
