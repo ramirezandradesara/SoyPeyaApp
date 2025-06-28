@@ -57,7 +57,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(project(":feature:login"))
-    implementation(project(":feature:home"))
     implementation(project(":feature:register"))
     implementation(project(":feature:products"))
     implementation(project(":feature:profile"))

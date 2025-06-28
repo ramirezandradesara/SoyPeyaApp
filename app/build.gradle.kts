@@ -83,7 +83,6 @@ dependencies {
     implementation(libs.javapoet)
 
     implementation(project(":feature:login"))
-    implementation(project(":feature:home"))
     implementation(project(":feature:register"))
     implementation(project(":feature:products"))
     implementation(project(":feature:profile"))
