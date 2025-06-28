@@ -1,6 +1,6 @@
 package com.soyhenry.feature.profile.data.repository
 
-import com.soyhenry.feature.profile.data.model.Profile
+import com.soyhenry.feature.profile.data.model.ProfileModel
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -9,7 +9,7 @@ import javax.inject.Singleton
 class ProfileRepositoryImpl @Inject constructor() : ProfileRepository {
 
     private val _profile =
-        Profile(
+        ProfileModel(
             name = "Sara",
             lastName = "Ramírez Andrade",
             email = "sara.ramirez@example.com",
@@ -18,7 +18,7 @@ class ProfileRepositoryImpl @Inject constructor() : ProfileRepository {
         )
 
 
-    override suspend fun getProfile(): Profile {
+    override suspend fun getProfile(): ProfileModel {
         delay(500)
         return _profile
     }

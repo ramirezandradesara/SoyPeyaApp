@@ -1,6 +1,6 @@
 package com.soyhenry.feature.profile.data.model
 
-data class Profile (
+data class ProfileModel (
     val name: String = "",
     val lastName: String = "",
     val email: String = "",

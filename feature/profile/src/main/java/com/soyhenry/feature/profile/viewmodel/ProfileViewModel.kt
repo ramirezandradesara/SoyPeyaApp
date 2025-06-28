@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cloudinary.Cloudinary
-import com.soyhenry.feature.profile.data.model.Profile
+import com.soyhenry.feature.profile.data.model.ProfileModel
 import com.soyhenry.feature.profile.data.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,8 +23,8 @@ class ProfileViewModel @Inject constructor(
     private val repository: ProfileRepository,
 ): AndroidViewModel(myApplication)  {
 
-    private val _profile = MutableStateFlow(Profile())
-    val profile: StateFlow<Profile> = _profile.asStateFlow()
+    private val _profile = MutableStateFlow(ProfileModel())
+    val profile: StateFlow<ProfileModel> = _profile.asStateFlow()
 
     private val _isImageUploading =  MutableStateFlow(false)
     val isImageUploading: StateFlow<Boolean> = _isImageUploading.asStateFlow()
@@ -47,7 +47,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun updateProfile(newProfile: Profile, imageUri: Uri?) {
+    fun updateProfile(newProfile: ProfileModel, imageUri: Uri?) {
         _profile.value = newProfile
         if (imageUri != null) {
             uploadImage(imageUri)

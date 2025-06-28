@@ -31,7 +31,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
-import com.soyhenry.feature.profile.data.model.Profile
+import com.soyhenry.feature.profile.data.model.ProfileModel
 import com.soyhenry.library.ui.components.PasswordTextField
 
 @Composable
@@ -190,7 +190,7 @@ fun ProfileView(
 
         Button(
             onClick = {
-                val updateProfile = Profile(
+                val updateProfile = ProfileModel(
                     name = name,
                     lastName = lastName,
                     email = email,
