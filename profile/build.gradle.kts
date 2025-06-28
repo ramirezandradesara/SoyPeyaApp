@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.data"
+    namespace = "com.soyhenry.feature.profile"
     compileSdk = 35
 
     defaultConfig {

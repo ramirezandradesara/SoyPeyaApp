@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.feature.cart"
+    namespace = "com.soyhenry.feature.profile"
     compileSdk = 35
 
     defaultConfig {
@@ -55,8 +55,9 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
-    implementation(project(":core:approutes"))
+    implementation(project(":library:ui:components"))
     implementation(project(":core:model"))
+    implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
 
     implementation(libs.hilt.android)
@@ -67,15 +68,18 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.lifecycle.viewmodel) // ViewModel
+    // ViewModel
+    implementation(libs.lifecycle.viewmodel)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 
+    // Cloudinary
+    implementation(libs.cloudinary)
+
     // Coil
     implementation(libs.coil.compose)
 
-    implementation(libs.compose.icons.extended)
     testImplementation(libs.junit)
 
     debugImplementation(libs.androidx.ui.tooling)
@@ -85,3 +89,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+
+
+
