@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.feature.navigation"
+    namespace = "com.soyhenry.feature.profile"
     compileSdk = 35
 
     defaultConfig {
@@ -55,14 +55,10 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
-
-    implementation(project(":feature:login"))
-    implementation(project(":feature:home"))
-    implementation(project(":feature:register"))
-    implementation(project(":feature:products"))
-    implementation(project(":feature:profile"))
-    implementation(project(":feature:cart"))
+    implementation(project(":library:ui:components"))
+    implementation(project(":core:model"))
     implementation(project(":core:approutes"))
+    implementation(project(":core:constants:appinfo"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -85,6 +81,8 @@ dependencies {
     implementation (libs.lifecycle.viewmodel)
 
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.espresso.core)
 }
+
+
+

@@ -15,7 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel
-@Inject constructor(private val repository: ProductsRepository) : ViewModel() {
+@Inject constructor(
+    private val repository: ProductsRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ProductsUiState>(ProductsUiState.Loading)
     val uiState: StateFlow<ProductsUiState> = _uiState.asStateFlow()
@@ -53,7 +55,6 @@ class ProductsViewModel
 
     private fun loadProducts() {
         viewModelScope.launch {
-            _uiState.value = ProductsUiState.Loading
             try {
                 allProducts = repository.getProducts()
                 applyFilter()

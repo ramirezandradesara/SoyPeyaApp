@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.constants.appinfo.AppInfo
 import com.soyhenry.feature.login.viewmodel.LoginViewModel

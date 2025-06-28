@@ -71,7 +71,7 @@ dependencies {
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-     // kapt(libs.room.compiler)
+    kapt(libs.room.compiler)
 
     implementation(libs.navigation.fragment) // Navigation
     implementation(libs.navigation.ui) // Navigation
@@ -86,8 +86,11 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:register"))
     implementation(project(":feature:products"))
+    implementation(project(":feature:profile"))
     implementation(project(":feature:navigation"))
     implementation(project(":core:approutes"))
+
+    implementation("com.cloudinary:cloudinary-android:2.3.1")
 
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.appcompat)
