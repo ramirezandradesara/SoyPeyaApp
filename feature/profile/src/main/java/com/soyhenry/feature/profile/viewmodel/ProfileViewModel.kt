@@ -1,11 +1,16 @@
 package com.soyhenry.feature.profile.viewmodel
 
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.net.Uri
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.cloudinary.Cloudinary
 import com.soyhenry.feature.profile.data.model.Profile
 import com.soyhenry.feature.profile.data.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,14 +19,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val repository: ProfileRepository
-): ViewModel()  {
-
-    private val _isImageUploading =  MutableStateFlow(true)
-    val isImageUploading: StateFlow<Boolean> = _isImageUploading.asStateFlow()
+    val myApplication: Application,
+    private val repository: ProfileRepository,
+): AndroidViewModel(myApplication)  {
 
     private val _profile = MutableStateFlow(Profile())
-    val profile = _profile.asStateFlow()
+    val profile: StateFlow<Profile> = _profile.asStateFlow()
+
+    private val _isImageUploading =  MutableStateFlow(false)
+    val isImageUploading: StateFlow<Boolean> = _isImageUploading.asStateFlow()
+
+    private val cloudinary = Cloudinary(
+        mapOf(
+            "cloud_name" to "dnddyowef",
+            "api_key" to "414152879489885",
+            "api_secret" to "nPooAbwF84B3L1vyZwo6pWn-m9Q"
+        )
+    )
 
     init {
         loadProfile()
@@ -30,6 +44,30 @@ class ProfileViewModel @Inject constructor(
     private fun loadProfile(){
         viewModelScope.launch {
             _profile.value = repository.getProfile()
+        }
+    }
+
+    fun updateProfile(newProfile: Profile, imageUri: Uri?) {
+        _profile.value = newProfile
+        if (imageUri != null) {
+            uploadImage(imageUri)
+        }
+    }
+
+    private fun uploadImage(uri: Uri) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isImageUploading.value = true
+            try {
+                val inputStream = getApplication<Application>().contentResolver.openInputStream(uri)
+                val uploadResult = cloudinary.uploader().upload(inputStream, mapOf("upload_preset" to "soypeya-example"))
+                val imageUrl = uploadResult["secure_url"] as String
+                val updatedProfile = _profile.value.copy(image = imageUrl)
+                _profile.value = updatedProfile
+            } catch (e: Exception) {
+                Log.e("Cloudinary", "Error uploading image", e)
+            } finally {
+                _isImageUploading.value = false
+            }
         }
     }
 }

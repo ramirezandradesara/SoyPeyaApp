@@ -27,7 +27,11 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.layout.ContentScale
+import coil.compose.AsyncImage
+import com.soyhenry.feature.profile.data.model.Profile
 import com.soyhenry.library.ui.components.PasswordTextField
 
 @Composable
@@ -42,8 +46,9 @@ fun ProfileView(
     var email by remember(profile.email) { mutableStateOf(profile.email) }
     var password by remember(profile.password) { mutableStateOf(profile.password) }
     var nationality by remember(profile.nationality) { mutableStateOf(profile.nationality) }
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
 
+    val isImageUploading by profileViewModel.isImageUploading.collectAsState()
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
     val context = LocalContext.current
 
     val launcher = rememberLauncherForActivityResult(
@@ -56,7 +61,7 @@ fun ProfileView(
         modifier = Modifier
             .fillMaxWidth()
             .padding(24.dp)
-            .verticalScroll(rememberScrollState()) // Hace scrollable el contenido
+            .verticalScroll(rememberScrollState())
     ) {
         Text(
             text = "Profile 👩🏼",
@@ -64,48 +69,74 @@ fun ProfileView(
             modifier = Modifier.padding(vertical = 16.dp)
         )
 
-        Spacer(Modifier.height(8.dp))
-
-        Card(
-            modifier = Modifier
-                .size(120.dp)
-                .align(Alignment.CenterHorizontally)
-                .clickable { launcher.launch("image/*") }
-        ) {
-            if (imageUri != null) {
-                val bitmap = remember(imageUri) {
-                    try {
-                        @Suppress("DEPRECATION")
-                        android.provider.MediaStore.Images.Media.getBitmap(
-                            context.contentResolver,
-                            imageUri
-                        ).asImageBitmap()
-                    } catch (e: Exception) {
-                        null
+        // Alert Dialog for image uploading
+        if (isImageUploading) {
+            AlertDialog(
+                onDismissRequest = {},
+                confirmButton = {},
+                title = { Text(text = "Subiendo imagen") },
+                text = {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
+            )
+        }
 
-                if (bitmap != null) {
-                    Image(
-                        bitmap = bitmap,
-                        contentDescription = "Profile Image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
+        if (profile.image.isNotEmpty()) {
+            imageUri = null
+            LoadImage(
+                url = profile.image, contentDescription = profile.name,
+                modifier = Modifier.size(50.dp)
+            )
+        } else {
+            Card(
+                modifier = Modifier
+                    .size(120.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .clickable { launcher.launch("image/*") }
+            ) {
+                if (imageUri != null) {
+                    val bitmap = remember(imageUri) {
+                        try {
+                            @Suppress("DEPRECATION")
+                            android.provider.MediaStore.Images.Media.getBitmap(
+                                context.contentResolver,
+                                imageUri
+                            ).asImageBitmap()
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+
+                    if (bitmap != null) {
+                        Image(
+                            bitmap = bitmap,
+                            contentDescription = "Profile Image",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "Error al cargar")
+                        }
+                    }
                 } else {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "Error al cargar")
+                        Text(text = "Seleccionar Imagen")
                     }
-                }
-            } else {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "Seleccionar Imagen")
                 }
             }
         }
@@ -115,7 +146,8 @@ fun ProfileView(
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Name") }
+            label = { Text("Name") },
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(Modifier.height(8.dp))
@@ -123,7 +155,8 @@ fun ProfileView(
         OutlinedTextField(
             value = lastName,
             onValueChange = { lastName = it },
-            label = { Text("Last name") }
+            label = { Text("Last name") },
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(Modifier.height(8.dp))
@@ -131,16 +164,11 @@ fun ProfileView(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") }
+            label = { Text("Email") },
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(Modifier.height(8.dp))
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") }
-        )
 
         PasswordTextField(
             value = password,
@@ -155,15 +183,39 @@ fun ProfileView(
             value = nationality,
             onValueChange = { nationality = it },
             label = { Text("Nationality") },
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(Modifier.height(8.dp))
 
         Button(
-            onClick = {},
-            enabled = true
+            onClick = {
+                val updateProfile = Profile(
+                    name = name,
+                    lastName = lastName,
+                    email = email,
+                    password = password,
+                    nationality = nationality,
+                    image = profile.image
+                )
+                profileViewModel.updateProfile(updateProfile, imageUri)
+            },
+            enabled = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
         ) {
             Text("Save changes")
         }
     }
+}
+
+@Composable
+fun LoadImage(url: String, contentDescription: String, modifier: Modifier) {
+    AsyncImage(
+        model = url,
+        contentDescription = contentDescription,
+        modifier = modifier,
+        contentScale = ContentScale.Crop
+    )
 }
