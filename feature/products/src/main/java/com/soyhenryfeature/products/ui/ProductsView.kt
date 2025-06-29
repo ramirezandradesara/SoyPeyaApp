@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.ShoppingCart
-import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import com.soyhenry.library.ui.components.EmptyState
@@ -29,10 +27,6 @@ fun ProductsView(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val filterText by viewModel.filterText.collectAsStateWithLifecycle()
-
-    fun navigateToProducts() {
-        navController.navigate(AppRoutes.Products.route)
-    }
 
     Column(
         modifier = Modifier

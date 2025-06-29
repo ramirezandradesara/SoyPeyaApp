@@ -21,37 +21,6 @@ class CartViewModel @Inject constructor(
     private val _cartItems = MutableStateFlow<List<CartItemWithProductEntity>>(emptyList())
     val cartItems: StateFlow<List<CartItemWithProductEntity>> = _cartItems.asStateFlow()
 
-   /* fun addToCart(product: Product) {
-        _cartItems.update { currentItems ->
-            val existingItem = currentItems.find { it.product.id == product.id }
-
-            if (existingItem != null) {
-                currentItems.map {
-                    if (it.product.id == product.id)  {
-                        it.copy(quantity = it.quantity + 1)
-                    }
-                    else {
-                        it
-                    }
-                }
-            } else {
-                currentItems + CartItem(product)
-            }
-        }
-    }
-
-
-    fun removeFromCart(productId: Int) {
-        _cartItems.update { items -> items.filterNot { it.product.id == productId } }
-    }
-
-    fun clearCart() {
-        _cartItems.value = emptyList()
-    } */
-
-    private suspend fun initializeCartItems(){
-
-    }
     init {
         refreshCartItems()
     }
@@ -63,15 +32,6 @@ class CartViewModel @Inject constructor(
             }
         }
     }
-
-    /*fun updateQuantity(productId: Int, newQuantity: Int) {
-        _cartItems.update { items ->
-            items.map {
-                if (it.product.id == productId) it.copy(quantity = newQuantity.coerceAtLeast(1))
-                else it
-            }
-        }
-    } */
 
     fun updateQuantity(productId: String, newQuantity: Int) {
         viewModelScope.launch {
@@ -109,7 +69,6 @@ class CartViewModel @Inject constructor(
 
     fun removeAllFromCart() {
         viewModelScope.launch {
-            //delay(500L)
             cartItemRepository.deleteCartItems()
             refreshCartItems()
         }
