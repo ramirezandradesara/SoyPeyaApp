@@ -25,6 +25,10 @@ fun CartView(
 ) {
     val cartItems by cartViewModel.cartItems.collectAsState()
 
+    val totalItems = cartItems.sumOf { it.quantity }
+   // val totalAmount = cartItems.sumOf { it.quantity * it.productIdprice }
+    val totalAmount = 123.0
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,19 +46,30 @@ fun CartView(
                 CartItemCard(
                     item = item,
                     onIncrease = {
-                        cartViewModel.updateQuantity(item.product.id, item.quantity + 1)
+                        cartViewModel.updateQuantity(item.productId, item.quantity + 1)
                     },
                     onDecrease = {
                         if (item.quantity > 1) {
-                            cartViewModel.updateQuantity(item.product.id, item.quantity - 1)
-                        } else {
-                            cartViewModel.removeFromCart(item.product.id)
+                            cartViewModel.updateQuantity(item.productId, item.quantity - 1)
                         }
+                        /*else {
+                            cartViewModel.removeFromCart(item.product)
+                        }*/
                     }
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
+
+        Text(
+            text = "Total items: $totalItems",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(vertical = 4.dp)
+        )
+        Text(
+            text = "Total amount: $${"%.2f".format(totalAmount)}",
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
 

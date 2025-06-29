@@ -2,7 +2,7 @@ package com.soyhenryfeature.products.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soyhenry.core.model.Product
+import com.soyhenry.core.model.database.entities.ProductEntity
 import com.soyhenryfeature.products.data.repository.ProductsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,7 +22,7 @@ class ProductsViewModel
     private val _uiState = MutableStateFlow<ProductsUiState>(ProductsUiState.Loading)
     val uiState: StateFlow<ProductsUiState> = _uiState.asStateFlow()
 
-    private var allProducts: List<Product> = emptyList()
+    private var allProducts: List<ProductEntity> = emptyList()
 
     private val _filterText = MutableStateFlow("")
     val filterText: StateFlow<String> = _filterText.asStateFlow()
@@ -46,8 +46,7 @@ class ProductsViewModel
             allProducts
         } else {
             allProducts.filter { product ->
-                product.name.contains(text, ignoreCase = true) ||
-                        product.description.contains(text, ignoreCase = true)
+                product.productName.contains(text, ignoreCase = true)
             }
         }
         _uiState.value = ProductsUiState.Success(filtered)
@@ -56,6 +55,7 @@ class ProductsViewModel
     private fun loadProducts() {
         viewModelScope.launch {
             try {
+                repository.refreshProducts() // <- Esto trae desde "la nube"
                 allProducts = repository.getProducts()
                 applyFilter()
             } catch (e: Exception) {
@@ -64,6 +64,7 @@ class ProductsViewModel
         }
     }
 
+    /*
     fun addProduct(product: Product) {
         viewModelScope.launch {
             try {
@@ -84,5 +85,5 @@ class ProductsViewModel
                 _uiState.value = ProductsUiState.Error("Failed to delete product")
             }
         }
-    }
+    }*/
 }

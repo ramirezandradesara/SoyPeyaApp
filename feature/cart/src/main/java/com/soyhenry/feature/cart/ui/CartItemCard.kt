@@ -34,11 +34,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenry.core.model.CartItem
 import com.soyhenry.core.model.Product
+import com.soyhenry.core.model.database.entities.CartItemEntity
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
 
 @Composable
 fun CartItemCard(
-    item: CartItem,
+    item: CartItemEntity,
     onIncrease: () -> Unit,
     onDecrease: () -> Unit
 ) {
@@ -48,14 +49,16 @@ fun CartItemCard(
             .background(Color.White, RoundedCornerShape(16.dp))
             .padding(12.dp), verticalAlignment = Alignment.CenterVertically
     ) {
+
+        /*
         val imagePainter = if (item.product.imgURL.isNotBlank()) {
             rememberAsyncImagePainter(model = item.product.imgURL)
         } else {
             painterResource(id = missing_img_product)
-        }
+        }*/
 
         Image(
-            painter = imagePainter,
+            painter = painterResource(id = missing_img_product),
             contentDescription = "Product image",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -69,7 +72,7 @@ fun CartItemCard(
         Column(
             modifier = Modifier.weight(1.5f)
         ) {
-            Text(text = item.product.name, fontWeight = FontWeight.SemiBold)
+            /* Text(text = item.product.name, fontWeight = FontWeight.SemiBold)
             Text(
                 text = item.product.description,
                 style = MaterialTheme.typography.bodySmall,
@@ -79,7 +82,7 @@ fun CartItemCard(
                 text = "$${item.product.price}",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
-            )
+            ) */
         }
 
         Row(
@@ -126,7 +129,7 @@ fun CartItemCard(
     }
 }
 
-@Preview(showBackground = true)
+/* @Preview(showBackground = true)
 @Composable
 fun CartItemPreview() {
     val image =
@@ -149,4 +152,4 @@ fun CartItemPreview() {
             onDecrease= {}
         )
     }
-}
+} */

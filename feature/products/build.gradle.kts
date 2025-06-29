@@ -64,8 +64,10 @@ dependencies {
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
 
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    // Room for local database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
 
     // Hilt
     implementation(libs.androidx.hilt.navigation.compose)

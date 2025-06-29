@@ -82,12 +82,14 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.javapoet)
 
+    implementation(project(":feature:navigation"))
     implementation(project(":feature:login"))
     implementation(project(":feature:register"))
     implementation(project(":feature:products"))
+    implementation(project(":feature:cart"))
     implementation(project(":feature:profile"))
-    implementation(project(":feature:navigation"))
     implementation(project(":core:approutes"))
+    implementation(project(":core:model"))
 
     implementation(libs.cloudinary)
 

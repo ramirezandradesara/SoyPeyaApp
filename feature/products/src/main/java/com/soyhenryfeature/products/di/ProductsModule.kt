@@ -1,5 +1,7 @@
 package com.soyhenryfeature.products.di
 
+import com.soyhenry.core.model.database.dao.ProductDao
+import com.soyhenry.core.repository.ProductDataSource
 import com.soyhenryfeature.products.data.repository.ProductsRepository
 import com.soyhenryfeature.products.data.repository.ProductsRepositoryImpl
 import dagger.Module
@@ -14,7 +16,16 @@ object ProductsModule {
 
     @Provides
     @Singleton
-    fun provideProductsRepository(): ProductsRepository {
-        return ProductsRepositoryImpl()
+    fun provideProductDataSource(): ProductDataSource {
+        return ProductDataSource()
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductsRepository(
+        productDao: ProductDao,
+        productDataSource: ProductDataSource
+    ): ProductsRepository {
+        return ProductsRepositoryImpl(productDao, productDataSource)
     }
 }
