@@ -6,6 +6,7 @@ import com.soyhenry.core.model.database.entities.CartItemEntity
 import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
 import com.soyhenry.core.model.database.entities.ProductEntity
 import com.soyhenry.core.repository.CartItemRepository
+import com.soyhenry.core.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,9 @@ class CartViewModel @Inject constructor(
     private val cartItemRepository: CartItemRepository
 ) : ViewModel() {
 
+    private val _uiState = MutableStateFlow<UiState<List<CartItemWithProductEntity>>>(UiState.Loading)
+    val uiState: StateFlow<UiState<List<CartItemWithProductEntity>>> = _uiState.asStateFlow()
+
     private val _cartItems = MutableStateFlow<List<CartItemWithProductEntity>>(emptyList())
     val cartItems: StateFlow<List<CartItemWithProductEntity>> = _cartItems.asStateFlow()
 
@@ -27,8 +31,13 @@ class CartViewModel @Inject constructor(
 
     private fun refreshCartItems() {
         viewModelScope.launch {
-            cartItemRepository.getAllCartItemsWithProducts().collect { items ->
-                _cartItems.value = items
+            try {
+                _uiState.value = UiState.Loading
+                cartItemRepository.getAllCartItemsWithProducts().collect { items ->
+                    _uiState.value = UiState.Success(items)
+                }
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error("Error loading cart: ${e.message}")
             }
         }
     }
