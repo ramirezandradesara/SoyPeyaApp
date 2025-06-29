@@ -74,7 +74,8 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.lifecycle.viewmodel) // ViewModel
+    // ViewModel
+    implementation(libs.lifecycle.viewmodel)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)

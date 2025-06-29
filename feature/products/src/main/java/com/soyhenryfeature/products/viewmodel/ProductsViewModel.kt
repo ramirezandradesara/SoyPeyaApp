@@ -3,10 +3,9 @@ package com.soyhenryfeature.products.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyhenry.core.model.database.entities.ProductEntity
-import com.soyhenryfeature.products.data.repository.ProductsRepository
+import com.soyhenry.core.repository.ProductsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -55,8 +54,8 @@ class ProductsViewModel
     private fun loadProducts() {
         viewModelScope.launch {
             try {
-                repository.refreshProducts() // <- Esto trae desde "la nube"
-                allProducts = repository.getProducts()
+                repository.refreshProducts()
+                allProducts = repository.getAllProducts()
                 applyFilter()
             } catch (e: Exception) {
                 _uiState.value = ProductsUiState.Error(e.message ?: "Error loading products")

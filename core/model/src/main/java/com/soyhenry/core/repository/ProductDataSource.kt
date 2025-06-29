@@ -1,14 +1,11 @@
 package com.soyhenry.core.repository
 
-import com.soyhenry.core.model.database.dao.ProductDao
 import com.soyhenry.core.model.database.entities.ProductEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ProductDataSource @Inject constructor(
-    private val productDao: ProductDao
-) {
+class ProductDataSource @Inject constructor() {
     fun getAllProducts(): List<ProductEntity> {
 
         return listOf(
