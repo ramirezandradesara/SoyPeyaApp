@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -25,9 +23,8 @@ fun CartView(
 ) {
     val cartItems by cartViewModel.cartItems.collectAsState()
 
-    val totalItems = cartItems.sumOf { it.quantity }
-   // val totalAmount = cartItems.sumOf { it.quantity * it.productIdprice }
-    val totalAmount = 123.0
+    val totalItems = cartItems.sumOf { it.cartItem.quantity }
+    val totalAmount = cartItems.sumOf { it.cartItem.quantity * it.product.price }
 
     Column(
         modifier = Modifier
@@ -46,15 +43,15 @@ fun CartView(
                 CartItemCard(
                     item = item,
                     onIncrease = {
-                        cartViewModel.updateQuantity(item.productId, item.quantity + 1)
+                        cartViewModel.updateQuantity(item.product.id, item.cartItem.quantity + 1)
                     },
                     onDecrease = {
-                        if (item.quantity > 1) {
-                            cartViewModel.updateQuantity(item.productId, item.quantity - 1)
+                        if (item.cartItem.quantity > 1) {
+                            cartViewModel.updateQuantity(item.product.id, item.cartItem.quantity - 1)
                         }
-                        /*else {
-                            cartViewModel.removeFromCart(item.product)
-                        }*/
+                        else {
+                            cartViewModel.removeFromCart(item.cartItem)
+                        }
                     }
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -71,13 +68,4 @@ fun CartView(
             style = MaterialTheme.typography.bodyLarge
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CartViewPreview() {
-    val navController = rememberNavController()
-    val viewModel: CartViewModel = hiltViewModel()
-
-    CartView(navController, viewModel)
 }

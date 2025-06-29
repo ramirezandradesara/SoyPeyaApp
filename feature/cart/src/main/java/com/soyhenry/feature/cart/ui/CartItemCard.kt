@@ -32,33 +32,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.soyhenry.core.model.CartItem
-import com.soyhenry.core.model.Product
 import com.soyhenry.core.model.database.entities.CartItemEntity
+import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
+import com.soyhenry.core.model.database.entities.ProductEntity
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
 
 @Composable
 fun CartItemCard(
-    item: CartItemEntity,
+    item: CartItemWithProductEntity,
     onIncrease: () -> Unit,
     onDecrease: () -> Unit
 ) {
+    val imagePainter = if (item.product.imageURL.isNotBlank()) {
+        rememberAsyncImagePainter(model = item.product.imageURL)
+    } else {
+        painterResource(id = missing_img_product)
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, RoundedCornerShape(16.dp))
             .padding(12.dp), verticalAlignment = Alignment.CenterVertically
     ) {
-
-        /*
-        val imagePainter = if (item.product.imgURL.isNotBlank()) {
-            rememberAsyncImagePainter(model = item.product.imgURL)
-        } else {
-            painterResource(id = missing_img_product)
-        }*/
-
         Image(
-            painter = painterResource(id = missing_img_product),
+            painter = imagePainter,
             contentDescription = "Product image",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -72,9 +70,9 @@ fun CartItemCard(
         Column(
             modifier = Modifier.weight(1.5f)
         ) {
-            /* Text(text = item.product.name, fontWeight = FontWeight.SemiBold)
+            Text(text = item.product.productName, fontWeight = FontWeight.SemiBold)
             Text(
-                text = item.product.description,
+                text = item.product.category,
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray
             )
@@ -82,7 +80,7 @@ fun CartItemCard(
                 text = "$${item.product.price}",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
-            ) */
+            )
         }
 
         Row(
@@ -106,7 +104,7 @@ fun CartItemCard(
             }
 
             Text(
-                text = item.quantity.toString(),
+                text = item.cartItem.quantity.toString(),
                 modifier = Modifier.padding(horizontal = 4.dp),
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -129,27 +127,29 @@ fun CartItemCard(
     }
 }
 
-/* @Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun CartItemPreview() {
-    val image =
-        "https://media.istockphoto.com/id/1442417585/es/foto/persona-recibiendo-un-pedazo-de-pizza-de-pepperoni-con-queso.jpg?s=612x612&w=0&k=20&c=Uk4fj96OIDxE4v2S5sRRXRY_gZ899_TE6jGD-T-TysI="
-
-    val item = CartItem(
-        Product (
-            id = 1,
-            name = "Melting Cheese Pizza",
-            description = "Pizza Italiano",
+    val cartItemWithProductEntity = CartItemWithProductEntity(
+        product = ProductEntity(
+            id = "id_1",
+            productName = "Melting Cheese Pizza",
+            category = "Pizza",
             price = 11.88,
-            imgURL = image
-        )
+            imageURL = ""
+        ),
+        cartItem = CartItemEntity(
+            id = 1,
+            productId = "id_1",
+            quantity = 2
+        ),
     )
 
     MaterialTheme {
         CartItemCard(
-            item,
+            item = cartItemWithProductEntity,
             onIncrease = {},
-            onDecrease= {}
+            onDecrease = {}
         )
     }
-} */
+}

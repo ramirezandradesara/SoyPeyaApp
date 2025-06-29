@@ -3,6 +3,7 @@ package com.soyhenry.feature.cart.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyhenry.core.model.database.entities.CartItemEntity
+import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
 import com.soyhenry.core.model.database.entities.ProductEntity
 import com.soyhenry.core.repository.CartItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +18,8 @@ class CartViewModel @Inject constructor(
     private val cartItemRepository: CartItemRepository
 ) : ViewModel() {
 
-    private val _cartItems = MutableStateFlow<List<CartItemEntity>>(emptyList())
-    val cartItems: StateFlow<List<CartItemEntity>> = _cartItems.asStateFlow()
+    private val _cartItems = MutableStateFlow<List<CartItemWithProductEntity>>(emptyList())
+    val cartItems: StateFlow<List<CartItemWithProductEntity>> = _cartItems.asStateFlow()
 
    /* fun addToCart(product: Product) {
         _cartItems.update { currentItems ->
@@ -57,7 +58,7 @@ class CartViewModel @Inject constructor(
 
     private fun refreshCartItems() {
         viewModelScope.launch {
-            cartItemRepository.getAllCartItems().collect { items ->
+            cartItemRepository.getAllCartItemsWithProducts().collect { items ->
                 _cartItems.value = items
             }
         }
@@ -86,11 +87,9 @@ class CartViewModel @Inject constructor(
             val existingCartItem = cartItemRepository.getCartItemByProductId(product.id)
 
             if (existingCartItem != null) {
-                // If the item already exists, increase its quantity
                 val updatedCartItem = existingCartItem.copy(quantity = existingCartItem.quantity + 1)
                 cartItemRepository.updateCartItem(updatedCartItem)
             } else {
-                // If the item does not exist, insert a new entry
                 cartItemRepository.insertCartItem(
                     CartItemEntity(productId = product.id, quantity = 1)
                 )
@@ -104,7 +103,7 @@ class CartViewModel @Inject constructor(
             cartItemRepository.getCartItemByProductId(cartItem.productId)?.let {
                 cartItemRepository.deleteCartItem(it.id)
             }
-            refreshCartItems() // Refresh state after changes
+            refreshCartItems()
         }
     }
 

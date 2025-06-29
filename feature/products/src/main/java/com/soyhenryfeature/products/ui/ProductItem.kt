@@ -26,6 +26,12 @@ fun ProductItem(
     modifier: Modifier = Modifier,
     onAddToCart: (ProductEntity) -> Unit,
 ) {
+    val imagePainter = if (product.imageURL.isNotBlank()) {
+        rememberAsyncImagePainter(model = product.imageURL)
+    } else {
+        painterResource(id = R.drawable.missing_img_product)
+    }
+
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -37,12 +43,6 @@ fun ProductItem(
                 .height(90.dp)
                 .clip(RoundedCornerShape(8.dp))
         ) {
-            val imagePainter = if (product.imageURL.isNotBlank()) {
-                rememberAsyncImagePainter(model = product.imageURL)
-            } else {
-                painterResource(id = R.drawable.missing_img_product)
-            }
-
             Image(
                 painter = imagePainter,
                 contentDescription = "Product image",
@@ -83,7 +83,7 @@ fun ProductItem(
                     onClick = { onAddToCart(product) },
                     modifier = Modifier.size(25.dp),
                     colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary, // Fondo
+                        containerColor = MaterialTheme.colorScheme.primary,
                     )
                 ) {
                     Icon(
@@ -106,16 +106,14 @@ fun ProductItemPreview() {
         id = "1",
         productName = "Sample Product",
         price = 29.99,
-        category = "This is a sample product description for preview purposes.",
+        category = "Pizza",
         imageURL = ""
     )
 
     MaterialTheme {
         ProductItem(
             product = sampleProduct,
-            modifier = Modifier
-                .padding(16.dp)
-                .width(180.dp),
+            modifier = Modifier.padding(16.dp).width(180.dp),
             onAddToCart = { }
         )
     }
