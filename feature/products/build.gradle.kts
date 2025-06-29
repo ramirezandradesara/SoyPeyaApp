@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
+    implementation(project(":library:ui:components"))
 
     // Room for local database
     implementation(libs.room.runtime)

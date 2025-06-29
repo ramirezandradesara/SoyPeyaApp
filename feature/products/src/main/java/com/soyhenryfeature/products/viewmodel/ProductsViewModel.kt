@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyhenry.core.model.database.entities.ProductEntity
 import com.soyhenry.core.repository.ProductsRepository
+import com.soyhenry.core.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,8 +19,8 @@ class ProductsViewModel
     private val repository: ProductsRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<ProductsUiState>(ProductsUiState.Loading)
-    val uiState: StateFlow<ProductsUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow<UiState<List<ProductEntity>>>(UiState.Loading)
+    val uiState: StateFlow<UiState<List<ProductEntity>>> = _uiState
 
     private var allProducts: List<ProductEntity> = emptyList()
 
@@ -34,23 +35,6 @@ class ProductsViewModel
         println("Error in ProductsViewModel: ${exception.message}")
     }
 
-    fun onFilterTextChange(filter: String) {
-        _filterText.value = filter
-        applyFilter()
-    }
-
-    private fun applyFilter() {
-        val text = _filterText.value.trim()
-        val filtered = if (text.isBlank()) {
-            allProducts
-        } else {
-            allProducts.filter { product ->
-                product.productName.contains(text, ignoreCase = true)
-            }
-        }
-        _uiState.value = ProductsUiState.Success(filtered)
-    }
-
     private fun loadProducts() {
         viewModelScope.launch {
             try {
@@ -58,31 +42,26 @@ class ProductsViewModel
                 allProducts = repository.getAllProducts()
                 applyFilter()
             } catch (e: Exception) {
-                _uiState.value = ProductsUiState.Error(e.message ?: "Error loading products")
+                _uiState.value = UiState.Error(e.message ?: "Error loading products")
             }
         }
     }
 
-    /*
-    fun addProduct(product: Product) {
-        viewModelScope.launch {
-            try {
-                repository.addProduct(product)
-                loadProducts()
-            } catch (e: Exception) {
-                _uiState.value = ProductsUiState.Error("Failed to add product")
-            }
-        }
+    fun onFilterTextChange(filter: String) {
+        _filterText.value = filter
+        applyFilter()
     }
 
-    fun deleteProduct(productId: Int) {
-        viewModelScope.launch {
-            try {
-                repository.deleteProduct(productId)
-                loadProducts()
-            } catch (e: Exception) {
-                _uiState.value = ProductsUiState.Error("Failed to delete product")
+    private fun applyFilter() {
+        val text = _filterText.value.trim()
+
+        val filtered = if (text.isBlank()) {
+            allProducts
+        } else {
+            allProducts.filter { product ->
+                product.productName.contains(text, ignoreCase = true)
             }
         }
-    }*/
+        _uiState.value = UiState.Success(filtered)
+    }
 }
