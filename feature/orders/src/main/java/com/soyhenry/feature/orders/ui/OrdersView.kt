@@ -14,6 +14,7 @@ import com.soyhenry.core.model.database.entities.OrderEntity
 import com.soyhenry.core.model.database.entities.OrderItemEntity
 import com.soyhenry.core.model.database.entities.OrderWithItems
 import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
+import com.soyhenry.library.ui.components.ViewContainer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,15 +66,9 @@ fun OrdersView(
         )
     )
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Order History") })
-        }
-    ) { padding ->
+    ViewContainer(title = "Order history") {
         LazyColumn(
             modifier = Modifier
-                .padding(padding)
-                .padding(16.dp)
                 .fillMaxSize()
         ) {
             items(orders) { orderWithItems ->
@@ -83,7 +78,6 @@ fun OrdersView(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

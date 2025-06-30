@@ -2,7 +2,6 @@ package com.soyhenry.feature.cart.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.state.UiState
 import com.soyhenry.library.ui.components.EmptyState
+import com.soyhenry.library.ui.components.ViewContainer
 
 @Composable
 fun CartView(
@@ -34,19 +34,7 @@ fun CartView(
         navController.navigate(AppRoutes.Products.route)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "Cart",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(vertical = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
+    ViewContainer(title = "Cart") {
         when (val state = uiState) {
             is UiState.Loading -> {
                 CircularProgressIndicator()
