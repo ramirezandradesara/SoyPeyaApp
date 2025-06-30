@@ -50,11 +50,11 @@ fun OrderWithItemsCard(orderWithItems: OrderWithItems) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    "Order #${orderWithItems.order.id}",
+                    text = "Order #${orderWithItems.order.id}",
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
-                    "$${"%.2f".format(orderWithItems.order.totalAmount)}",
+                    text = "$${"%.2f".format(orderWithItems.order.totalAmount)}",
                     style = MaterialTheme.typography.titleMedium,
                 )
             }

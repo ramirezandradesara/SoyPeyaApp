@@ -2,6 +2,7 @@ package com.soyhenry.feature.cart.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -60,39 +61,37 @@ fun CartView(
                                 item = item,
                                 onIncrease = {
                                     cartViewModel.updateQuantity(
-                                        item.product.id,
-                                        item.cartItem.quantity + 1
+                                        item.product.id, item.cartItem.quantity + 1
                                     )
                                 },
                                 onDecrease = {
                                     if (item.cartItem.quantity > 1) {
                                         cartViewModel.updateQuantity(
-                                            item.product.id,
-                                            item.cartItem.quantity - 1
+                                            item.product.id, item.cartItem.quantity - 1
                                         )
                                     } else {
                                         cartViewModel.removeFromCart(item.cartItem)
                                     }
-                                }
-                            )
+                                })
                             Spacer(modifier = Modifier.height(12.dp))
                         }
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(
-                        text = "Total items: $totalItems",
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(vertical = 4.dp)
+                    CartSummaryRow(
+                        label = "Total items",
+                        value = totalItems.toString()
                     )
-                    Text(
-                        text = "Total amount: $${"%.2f".format(totalAmount)}",
-                        style = MaterialTheme.typography.bodyLarge
+                    CartSummaryRow(
+                        label = "Total amount",
+                        value = "$${"%.2f".format(totalAmount)}",
                     )
                     Button(
-                        onClick = { }
-                    ) { Text("Create order") }
+                        onClick = { }, modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Create order")
+                    }
                 }
             }
 
