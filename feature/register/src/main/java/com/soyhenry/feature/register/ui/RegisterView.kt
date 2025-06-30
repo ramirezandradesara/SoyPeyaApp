@@ -1,34 +1,20 @@
 package com.soyhenry.feature.register.ui
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.runtime.getValue
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.feature.register.viewmodel.RegisterViewModel
+import com.soyhenry.library.ui.components.AuthContainer
 import com.soyhenry.library.ui.components.PasswordTextField
+import androidx.compose.material3.*
+import androidx.compose.foundation.layout.*
 
 @Composable
 fun RegisterView(
@@ -48,6 +34,13 @@ fun RegisterView(
     val passwordError by viewModel.passwordError.collectAsState()
     val confirmPasswordError by viewModel.confirmPasswordError.collectAsState()
 
+    val isFormValid = listOf(
+        emailError,
+        nameError,
+        passwordError,
+        confirmPasswordError
+    ).all { it == null }
+
     LaunchedEffect(toastMessage) {
         toastMessage?.let {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -63,30 +56,28 @@ fun RegisterView(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center
+    AuthContainer(
+        title = "Sign up, it's free!",
+        submitButtonText = "Register",
+        isSubmitEnabled = isFormValid,
+        onSubmitClick = { viewModel.onRegisterClick(context) },
+        bottomText = "Already have an account?",
+        bottomActionText = "Log in",
+        onBottomActionClick = {
+            navController.navigate(AppRoutes.LogIn.route) {
+                popUpTo(AppRoutes.Register.route) { inclusive = true }
+            }
+        }
     ) {
-        Text(
-            text = "Sign up",
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(Modifier.height(16.dp))
-
         OutlinedTextField(
             value = email,
             onValueChange = viewModel::onEmailChange,
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth(),
             isError = emailError != null,
-            supportingText = {
-                if (emailError != null) {
-                    Text(text = emailError ?: "")
-                }
-            }
+            supportingText = if (emailError != null) {
+                { Text(emailError!!) }
+            } else null
         )
 
         Spacer(Modifier.height(8.dp))
@@ -97,11 +88,9 @@ fun RegisterView(
             label = { Text("Full name") },
             modifier = Modifier.fillMaxWidth(),
             isError = nameError != null,
-            supportingText = {
-                if (nameError != null) {
-                    Text(text = nameError ?: "")
-                }
-            }
+            supportingText = if (nameError != null) {
+                { Text(nameError!!) }
+            } else null
         )
 
         Spacer(Modifier.height(8.dp))
@@ -112,11 +101,10 @@ fun RegisterView(
             label = "Password",
             modifier = Modifier.fillMaxWidth(),
             isError = passwordError != null,
-            supportingText = {
-                if (passwordError != null) {
-                    Text(text = passwordError ?: "")
-                }
-            }
+            supportingText = if (passwordError != null) {
+                { Text(passwordError!!) }
+            } else null
+
         )
 
         Spacer(Modifier.height(8.dp))
@@ -127,48 +115,10 @@ fun RegisterView(
             label = "Confirm password",
             modifier = Modifier.fillMaxWidth(),
             isError = confirmPasswordError != null,
-            supportingText = {
-                if (confirmPasswordError != null) {
-                    Text(text = confirmPasswordError ?: "")
-                }
-            }
+            supportingText = if (confirmPasswordError != null) {
+                { Text(confirmPasswordError!!) }
+            } else null
         )
-
-        Spacer(Modifier.height(16.dp))
-
-        Button(
-            onClick = { viewModel.onRegisterClick(context) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 15.dp),
-            enabled = emailError == null &&
-                    nameError == null &&
-                    passwordError == null &&
-                    confirmPasswordError == null
-        ) {
-            Text("Register")
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 10.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(text = "Already have an account?")
-
-            Spacer(modifier = Modifier.width(3.dp))
-
-            Text(
-                text = "Log in",
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable {
-                    navController.navigate(AppRoutes.LogIn.route) {
-                        popUpTo(AppRoutes.Register.route) { inclusive = true }
-                    }
-                }
-            )
-        }
     }
 }
 

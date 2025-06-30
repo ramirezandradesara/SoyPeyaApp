@@ -1,14 +1,9 @@
 package com.soyhenry.feature.login.ui
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,14 +16,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.constants.appinfo.AppInfo
 import com.soyhenry.feature.login.viewmodel.LoginViewModel
+import com.soyhenry.library.ui.components.AuthContainer
 import com.soyhenry.library.ui.components.PasswordTextField
 
 @Composable
@@ -60,11 +52,18 @@ fun LoginView(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center
+    AuthContainer(
+        title = "Welcome back!",
+        submitButtonText = "Log in",
+        onSubmitClick = { loginViewModel.onLoginClick(context) },
+        isSubmitEnabled = isFormValid,
+        bottomText = "New to ${AppInfo.APP_NAME}?",
+        bottomActionText = "Sign up",
+        onBottomActionClick = {
+            navController.navigate(AppRoutes.Register.route) {
+                popUpTo(AppRoutes.LogIn.route) { inclusive = true }
+            }
+        }
     ) {
         OutlinedTextField(
             value = email,
@@ -81,39 +80,6 @@ fun LoginView(
             label = "Password",
             modifier = Modifier.fillMaxWidth()
         )
-
-        Spacer(Modifier.height(16.dp))
-
-        Button(
-            onClick = { loginViewModel.onLoginClick(context) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 15.dp),
-            enabled = isFormValid
-        ) {
-            Text("Log in")
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 10.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(text = "New to ${AppInfo.APP_NAME}?")
-
-            Spacer(modifier = Modifier.width(3.dp))
-
-            Text(
-                text = "Sign up",
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable {
-                    navController.navigate(AppRoutes.Register.route) {
-                        popUpTo(AppRoutes.LogIn.route) { inclusive = true }
-                    }
-                }
-            )
-        }
     }
 }
 
