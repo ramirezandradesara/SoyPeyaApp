@@ -69,7 +69,6 @@ fun ProfileView(
             modifier = Modifier.padding(vertical = 16.dp)
         )
 
-        // Alert Dialog for image uploading
         if (isImageUploading) {
             AlertDialog(
                 onDismissRequest = {},
