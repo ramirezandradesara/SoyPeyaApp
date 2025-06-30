@@ -55,9 +55,11 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
+
     implementation(project(":core:approutes"))
     implementation(project(":core:model"))
     implementation(project(":core:constants:appinfo"))
+    implementation(project(":library:ui:components"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -66,6 +68,11 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    // Room for local database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
 
     implementation(libs.lifecycle.viewmodel) // ViewModel
 

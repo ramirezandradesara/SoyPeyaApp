@@ -11,12 +11,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.soyhenry.core.model.Product
+import com.soyhenry.core.model.database.entities.ProductEntity
 
 @Composable
 fun ProductList(
-    products: List<Product>,
-    onAddToCart: (Product) -> Unit,
+    products: List<ProductEntity>,
+    onAddToCart: (ProductEntity) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),

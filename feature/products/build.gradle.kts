@@ -63,16 +63,20 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
+    implementation(project(":library:ui:components"))
 
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    // Room for local database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
 
     // Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.lifecycle.viewmodel) // ViewModel
+    // ViewModel
+    implementation(libs.lifecycle.viewmodel)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)

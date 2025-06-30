@@ -1,22 +1,23 @@
 package com.soyhenryfeature.products.ui
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.soyhenryfeature.products.viewmodel.ProductsUiState
 import com.soyhenryfeature.products.viewmodel.ProductsViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
+import com.soyhenry.library.ui.components.EmptyState
 
 @Composable
 fun ProductsView(
@@ -38,21 +39,28 @@ fun ProductsView(
         )
 
         when (val state = uiState) {
-            is ProductsUiState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
+            is UiState.Loading -> {
+                CircularProgressIndicator()
+            }
+
+            is UiState.Success -> {
+                val products = state.data
+                if (products.isEmpty()) {
+                    EmptyState(
+                        title = "No products found",
+                        subtitle = "Try adjusting your filters.",
+                        icon = Icons.Default.Search,
+                    )
+                } else {
+                    ProductList(
+                        products = products,
+                        onAddToCart = cartViewModel::addToCart
+                    )
                 }
             }
 
-            is ProductsUiState.Error -> {
-                Text("Error: ${state.message}")
-            }
-
-            is ProductsUiState.Success -> {
-                ProductList(
-                    products = state.products,
-                    onAddToCart = cartViewModel::addToCart
-                )
+            is UiState.Error -> {
+                Text(text = state.message)
             }
         }
     }

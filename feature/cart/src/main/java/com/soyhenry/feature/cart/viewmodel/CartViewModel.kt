@@ -1,54 +1,85 @@
 package com.soyhenry.feature.cart.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.soyhenry.core.model.CartItem
-import com.soyhenry.core.model.Product
+import androidx.lifecycle.viewModelScope
+import com.soyhenry.core.model.database.entities.CartItemEntity
+import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
+import com.soyhenry.core.model.database.entities.ProductEntity
+import com.soyhenry.core.repository.CartItemRepository
+import com.soyhenry.core.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
-class CartViewModel @Inject constructor() : ViewModel() {
+class CartViewModel @Inject constructor(
+    private val cartItemRepository: CartItemRepository
+) : ViewModel() {
 
-    private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
-    val cartItems: StateFlow<List<CartItem>> = _cartItems.asStateFlow()
+    private val _uiState = MutableStateFlow<UiState<List<CartItemWithProductEntity>>>(UiState.Loading)
+    val uiState: StateFlow<UiState<List<CartItemWithProductEntity>>> = _uiState.asStateFlow()
 
-    fun addToCart(product: Product) {
-        _cartItems.update { currentItems ->
-            val existingItem = currentItems.find { it.product.id == product.id }
+    private val _cartItems = MutableStateFlow<List<CartItemWithProductEntity>>(emptyList())
+    val cartItems: StateFlow<List<CartItemWithProductEntity>> = _cartItems.asStateFlow()
 
-            if (existingItem != null) {
-                currentItems.map {
-                    if (it.product.id == product.id)  {
-                        it.copy(quantity = it.quantity + 1)
-                    }
-                    else {
-                        it
-                    }
+    init {
+        refreshCartItems()
+    }
+
+    private fun refreshCartItems() {
+        viewModelScope.launch {
+            try {
+                _uiState.value = UiState.Loading
+                cartItemRepository.getAllCartItemsWithProducts().collect { items ->
+                    _uiState.value = UiState.Success(items)
                 }
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error("Error loading cart: ${e.message}")
+            }
+        }
+    }
+
+    fun updateQuantity(productId: String, newQuantity: Int) {
+        viewModelScope.launch {
+            cartItemRepository.getCartItemByProductId(productId)?.let { existing ->
+                val updated = existing.copy(quantity = newQuantity.coerceAtLeast(1))
+                cartItemRepository.updateCartItem(updated)
+            }
+        }
+    }
+
+    fun addToCart(product: ProductEntity) {
+        viewModelScope.launch {
+            val existingCartItem = cartItemRepository.getCartItemByProductId(product.id)
+
+            if (existingCartItem != null) {
+                val updatedCartItem = existingCartItem.copy(quantity = existingCartItem.quantity + 1)
+                cartItemRepository.updateCartItem(updatedCartItem)
             } else {
-                currentItems + CartItem(product)
+                cartItemRepository.insertCartItem(
+                    CartItemEntity(productId = product.id, quantity = 1)
+                )
             }
+            refreshCartItems()
         }
     }
 
-    fun updateQuantity(productId: Int, newQuantity: Int) {
-        _cartItems.update { items ->
-            items.map {
-                if (it.product.id == productId) it.copy(quantity = newQuantity.coerceAtLeast(1))
-                else it
+    fun removeFromCart(cartItem: CartItemEntity) {
+        viewModelScope.launch {
+            cartItemRepository.getCartItemByProductId(cartItem.productId)?.let {
+                cartItemRepository.deleteCartItem(it.id)
             }
+            refreshCartItems()
         }
     }
 
-    fun removeFromCart(productId: Int) {
-        _cartItems.update { items -> items.filterNot { it.product.id == productId } }
-    }
-
-    fun clearCart() {
-        _cartItems.value = emptyList()
+    fun removeAllFromCart() {
+        viewModelScope.launch {
+            cartItemRepository.deleteCartItems()
+            refreshCartItems()
+        }
     }
 }

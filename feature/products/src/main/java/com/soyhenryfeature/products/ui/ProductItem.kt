@@ -18,14 +18,20 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenryfeature.products.R
 import androidx.compose.ui.graphics.Color
-import com.soyhenry.core.model.Product
+import com.soyhenry.core.model.database.entities.ProductEntity
 
 @Composable
 fun ProductItem(
-    product: Product,
+    product: ProductEntity,
     modifier: Modifier = Modifier,
-    onAddToCart: (Product) -> Unit,
+    onAddToCart: (ProductEntity) -> Unit,
 ) {
+    val imagePainter = if (product.imageURL.isNotBlank()) {
+        rememberAsyncImagePainter(model = product.imageURL)
+    } else {
+        painterResource(id = R.drawable.missing_img_product)
+    }
+
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -37,12 +43,6 @@ fun ProductItem(
                 .height(90.dp)
                 .clip(RoundedCornerShape(8.dp))
         ) {
-            val imagePainter = if (product.imgURL.isNotBlank()) {
-                rememberAsyncImagePainter(model = product.imgURL)
-            } else {
-                painterResource(id = R.drawable.missing_img_product)
-            }
-
             Image(
                 painter = imagePainter,
                 contentDescription = "Product image",
@@ -53,13 +53,13 @@ fun ProductItem(
 
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
-                text = product.name,
+                text = product.productName,
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
             Text(
-                text = product.description,
+                text = product.category,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(top = 4.dp)
             )
@@ -83,7 +83,7 @@ fun ProductItem(
                     onClick = { onAddToCart(product) },
                     modifier = Modifier.size(25.dp),
                     colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary, // Fondo
+                        containerColor = MaterialTheme.colorScheme.primary,
                     )
                 ) {
                     Icon(
@@ -102,20 +102,18 @@ fun ProductItem(
 @Preview(showBackground = true)
 @Composable
 fun ProductItemPreview() {
-    val sampleProduct = Product(
-        id = 1,
-        name = "Sample Product",
+    val sampleProduct = ProductEntity(
+        id = "1",
+        productName = "Sample Product",
         price = 29.99,
-        description = "This is a sample product description for preview purposes.",
-        imgURL = ""
+        category = "Pizza",
+        imageURL = ""
     )
 
     MaterialTheme {
         ProductItem(
             product = sampleProduct,
-            modifier = Modifier
-                .padding(16.dp)
-                .width(180.dp),
+            modifier = Modifier.padding(16.dp).width(180.dp),
             onAddToCart = { }
         )
     }
