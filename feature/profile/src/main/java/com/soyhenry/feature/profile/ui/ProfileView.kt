@@ -64,7 +64,7 @@ fun ProfileView(
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "Profile 👩🏼",
+            text = "Profile",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(vertical = 16.dp)
         )
@@ -73,7 +73,7 @@ fun ProfileView(
             AlertDialog(
                 onDismissRequest = {},
                 confirmButton = {},
-                title = { Text(text = "Subiendo imagen") },
+                title = { Text(text = "Uploading imagen") },
                 text = {
                     Column(
                         modifier = Modifier
@@ -117,7 +117,7 @@ fun ProfileView(
                     if (bitmap != null) {
                         Image(
                             bitmap = bitmap,
-                            contentDescription = "Profile Image",
+                            contentDescription = "Profile image",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.fillMaxSize()
                         )
@@ -126,7 +126,7 @@ fun ProfileView(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(text = "Error al cargar")
+                            Text(text = "Error uploading image")
                         }
                     }
                 } else {
@@ -134,7 +134,7 @@ fun ProfileView(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "Seleccionar Imagen")
+                        Text(text = "Select image")
                     }
                 }
             }
