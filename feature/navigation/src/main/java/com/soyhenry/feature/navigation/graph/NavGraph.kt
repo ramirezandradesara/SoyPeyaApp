@@ -11,6 +11,8 @@ import com.soyhenry.feature.cart.ui.CartView
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import com.soyhenry.feature.login.ui.LoginView
 import com.soyhenry.feature.login.viewmodel.LoginViewModel
+import com.soyhenry.feature.orders.ui.OrdersView
+import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
 import com.soyhenry.feature.profile.ui.ProfileView
 import com.soyhenry.feature.profile.viewmodel.ProfileViewModel
 import com.soyhenry.feature.register.ui.RegisterView
@@ -28,6 +30,7 @@ fun NavGraph(
     val registerViewModel: RegisterViewModel = hiltViewModel()
     val cartViewModel: CartViewModel = hiltViewModel()
     val profileViewModel: ProfileViewModel = hiltViewModel()
+    val ordersViewModel: OrdersViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
@@ -48,6 +51,9 @@ fun NavGraph(
         }
         composable(AppRoutes.Profile.route) {
             ProfileView(navController, profileViewModel)
+        }
+        composable(AppRoutes.Orders.route) {
+            OrdersView(navController, ordersViewModel)
         }
     }
 }

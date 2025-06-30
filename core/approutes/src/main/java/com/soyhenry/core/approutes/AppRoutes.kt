@@ -6,6 +6,7 @@ sealed class AppRoutes(val route: String) {
     object Products : AppRoutes("products")
     object Cart : AppRoutes("cart")
     object Profile : AppRoutes("profile")
+    object Orders : AppRoutes("orders")
 
     /* data class Profile(val baseRoute: String = "profile", val argName: String = "userId") :
         AppRoutes("$baseRoute/{$argName}") {

@@ -13,6 +13,7 @@ import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -101,6 +102,9 @@ fun CartView(
                         text = "Total amount: $${"%.2f".format(totalAmount)}",
                         style = MaterialTheme.typography.bodyLarge
                     )
+                    Button(
+                        onClick = { }
+                    ) { Text("Create order") }
                 }
             }
 

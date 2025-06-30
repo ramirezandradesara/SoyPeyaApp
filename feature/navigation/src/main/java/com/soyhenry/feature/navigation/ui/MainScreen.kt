@@ -28,7 +28,8 @@ fun MainScreen(navController: NavHostController) {
     val showBottomBar = when (currentDestination?.route) {
         AppRoutes.Cart.route,
         AppRoutes.Profile.route,
-        AppRoutes.Products.route -> true
+        AppRoutes.Products.route,
+        AppRoutes.Orders.route,-> true
         else -> false
     }
 

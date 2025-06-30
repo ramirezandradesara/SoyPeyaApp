@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.soyhenry.feature.profile"
+    namespace = "com.soyhenry.feature.orders"
     compileSdk = 35
 
     defaultConfig {
@@ -55,10 +55,11 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
-    implementation(project(":library:ui:components"))
-    implementation(project(":core:model"))
+
     implementation(project(":core:approutes"))
+    implementation(project(":core:model"))
     implementation(project(":core:constants:appinfo"))
+    implementation(project(":library:ui:components"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -68,20 +69,20 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    // ViewModel
-    implementation(libs.lifecycle.viewmodel)
+    // Room for local database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
+
+    implementation(libs.lifecycle.viewmodel) // ViewModel
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
-
-    // Cloudinary
-    implementation(libs.cloudinary)
 
     // Coil
     implementation(libs.coil.compose)
 
     implementation(libs.compose.icons.extended)
-
     testImplementation(libs.junit)
 
     debugImplementation(libs.androidx.ui.tooling)
@@ -91,6 +92,3 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
-
-
-
