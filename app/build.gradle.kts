@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -8,6 +10,12 @@ plugins {
 
 hilt {
     enableAggregatingTask = false 
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
 }
 
 android {
@@ -22,6 +30,22 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "CLOUDINARY_CLOUD_NAME",
+            "\"${localProperties["CLOUDINARY_CLOUD_NAME"]}\""
+        )
+        buildConfigField(
+            "String",
+            "CLOUDINARY_API_KEY",
+            "\"${localProperties["CLOUDINARY_API_KEY"]}\""
+        )
+        buildConfigField(
+            "String",
+            "CLOUDINARY_API_SECRET",
+            "\"${localProperties["CLOUDINARY_API_SECRET"]}\""
+        )
     }
 
     buildTypes {
@@ -40,8 +64,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
+    buildFeatures{
         compose = true
+        buildConfig = true
     }
 }
 
@@ -88,6 +113,7 @@ dependencies {
     implementation(project(":feature:products"))
     implementation(project(":feature:cart"))
     implementation(project(":feature:profile"))
+    implementation(project(":feature:orders"))
     implementation(project(":core:approutes"))
     implementation(project(":core:model"))
 

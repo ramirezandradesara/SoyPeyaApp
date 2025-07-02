@@ -1,6 +1,5 @@
 package com.soyhenryfeature.products.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,13 +10,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.soyhenryfeature.products.viewmodel.ProductsViewModel
 import androidx.compose.runtime.getValue
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.OutlinedTextField
 import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import com.soyhenry.library.ui.components.EmptyState
+import com.soyhenry.library.ui.components.ViewContainer
 
 @Composable
 fun ProductsView(
@@ -28,14 +29,15 @@ fun ProductsView(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val filterText by viewModel.filterText.collectAsStateWithLifecycle()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-    ) {
-        ProductListHeader(
-            filterText = filterText,
-            onFilterTextChange = viewModel::onFilterTextChange
+    ViewContainer(title = "Products") {
+        OutlinedTextField(
+            value = filterText,
+            onValueChange = viewModel::onFilterTextChange,
+            label = { Text("Filter products") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            singleLine = true
         )
 
         when (val state = uiState) {

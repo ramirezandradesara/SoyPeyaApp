@@ -67,7 +67,7 @@ fun EmptyState(
 fun EmptyStatePreview() {
     EmptyState(
         title = "Your cart is empty",
-        subtitle = "You haven't added any products to your cart yet.",
+        subtitle = "Start selecting products to add to your cart.",
         buttonText = "Browse products",
         onClick = { }
     )
