@@ -1,6 +1,7 @@
 package com.soyhenry.core.di
 
-/* import com.cloudinary.Cloudinary
+import com.cloudinary.Cloudinary
+import com.soyhenry.core.model.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,4 +23,4 @@ object CloudinaryModule {
             )
         )
     }
-} */
+}

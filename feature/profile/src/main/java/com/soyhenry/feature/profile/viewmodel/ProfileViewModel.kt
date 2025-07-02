@@ -21,7 +21,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     val myApplication: Application,
     private val repository: ProfileRepository,
-    // val cloudinary: Cloudinary
+    val cloudinary: Cloudinary
 ): AndroidViewModel(myApplication)  {
 
     private val _profile = MutableStateFlow(ProfileModel())
@@ -29,14 +29,6 @@ class ProfileViewModel @Inject constructor(
 
     private val _isImageUploading =  MutableStateFlow(false)
     val isImageUploading: StateFlow<Boolean> = _isImageUploading.asStateFlow()
-
-    private val cloudinary = Cloudinary(
-        mapOf(
-            "cloud_name" to "dnddyowef",
-            "api_key" to "414152879489885",
-            "api_secret" to "nPooAbwF84B3L1vyZwo6pWn-m9Q"
-        )
-    )
 
     init {
         loadProfile()
@@ -53,6 +45,7 @@ class ProfileViewModel @Inject constructor(
         if (imageUri != null) {
             uploadImage(imageUri)
         }
+        // profile.dataSource.updateProfileInfo()
     }
 
     private fun uploadImage(uri: Uri) {
