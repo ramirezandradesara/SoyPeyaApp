@@ -93,6 +93,9 @@ dependencies {
     implementation(libs.retrofit.gson)
 
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
 
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)
