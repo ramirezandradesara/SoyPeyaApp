@@ -85,6 +85,9 @@ dependencies {
     implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
 
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)
