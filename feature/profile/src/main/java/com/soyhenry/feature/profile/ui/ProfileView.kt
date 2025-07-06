@@ -36,7 +36,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
 import com.soyhenry.feature.profile.data.model.ProfileModel
-import com.soyhenry.library.ui.components.PasswordTextField
+import com.soyhenry.library.ui.components.textField.PasswordTextField
 
 @Composable
 fun ProfileView(

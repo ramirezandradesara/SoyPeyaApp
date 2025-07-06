@@ -1,4 +1,4 @@
-package com.soyhenry.library.ui.components
+package com.soyhenry.library.ui.components.textField
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -18,48 +18,38 @@ fun PasswordTextField(
     onValueChange: (String) -> Unit,
     label: String,
     modifier: Modifier = Modifier,
-    isError: Boolean = false,
-    supportingText: @Composable (() -> Unit)? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done)
+    errorMessage: String? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
 ) {
-    var passwordVisible: Boolean by remember { mutableStateOf(false) }
+    var passwordVisible by remember { mutableStateOf(false) }
 
-    OutlinedTextField(
+    BaseTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
-        label = { Text(label) },
-        singleLine = true,
+        label = label,
+        isError = errorMessage != null,
+        errorMessage = errorMessage,
+        keyboardOptions = keyboardOptions,
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
             val icon = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
             val description = if (passwordVisible) "Hide password" else "Show password"
-
             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                 Icon(imageVector = icon, contentDescription = description)
             }
-        },
-        isError = isError,
-        supportingText = supportingText,
-        keyboardOptions = keyboardOptions
+        }
     )
 }
-
 @Preview(showBackground = true)
 @Composable
 fun PasswordTextFieldPreview() {
     var password by remember { mutableStateOf("admin123") }
-    var isError by remember { mutableStateOf(false) }
 
     PasswordTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = "Password",
-            isError = isError,
-            supportingText = {
-                if (isError) {
-                    Text(text = "Password must be at least 8 characters")
-                }
-            }
+        value = password,
+        onValueChange = { password = it },
+        label = "Password",
+        errorMessage = "Password is required",
     )
 }

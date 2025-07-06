@@ -21,7 +21,8 @@ import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.constants.appinfo.AppInfo
 import com.soyhenry.feature.login.viewmodel.LoginViewModel
 import com.soyhenry.library.ui.components.AuthContainer
-import com.soyhenry.library.ui.components.PasswordTextField
+import com.soyhenry.library.ui.components.textField.EmailTextField
+import com.soyhenry.library.ui.components.textField.PasswordTextField
 
 @Composable
 fun LoginView(
@@ -65,11 +66,10 @@ fun LoginView(
             }
         }
     ) {
-        OutlinedTextField(
+        EmailTextField(
             value = email,
             onValueChange = loginViewModel::onEmailChange,
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Spacer(Modifier.height(8.dp))
