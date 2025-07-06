@@ -23,7 +23,7 @@ data class OrderEntity(
         ),
         ForeignKey(
             entity = ProductEntity::class,
-            parentColumns = ["id"],
+            parentColumns = ["_id"],
             childColumns = ["productId"],
             onDelete = ForeignKey.CASCADE
         )

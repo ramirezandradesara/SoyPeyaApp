@@ -8,7 +8,7 @@ data class CartItemWithProductEntity(
 
     @Relation(
         parentColumn = "productId",
-        entityColumn = "id"
+        entityColumn = "_id"
     )
     val product: ProductEntity
 )

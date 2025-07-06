@@ -53,14 +53,14 @@ class CartViewModel @Inject constructor(
 
     fun addToCart(product: ProductEntity) {
         viewModelScope.launch {
-            val existingCartItem = cartItemRepository.getCartItemByProductId(product.id)
+            val existingCartItem = cartItemRepository.getCartItemByProductId(product._id)
 
             if (existingCartItem != null) {
                 val updatedCartItem = existingCartItem.copy(quantity = existingCartItem.quantity + 1)
                 cartItemRepository.updateCartItem(updatedCartItem)
             } else {
                 cartItemRepository.insertCartItem(
-                    CartItemEntity(productId = product.id, quantity = 1)
+                    CartItemEntity(productId = product._id, quantity = 1)
                 )
             }
             refreshCartItems()

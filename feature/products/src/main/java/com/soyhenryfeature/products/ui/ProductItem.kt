@@ -26,8 +26,8 @@ fun ProductItem(
     modifier: Modifier = Modifier,
     onAddToCart: (ProductEntity) -> Unit,
 ) {
-    val imagePainter = if (product.imageURL.isNotBlank()) {
-        rememberAsyncImagePainter(model = product.imageURL)
+    val imagePainter = if (product.imageUrl.isNotBlank()) {
+        rememberAsyncImagePainter(model = product.imageUrl)
     } else {
         painterResource(id = R.drawable.missing_img_product)
     }
@@ -53,13 +53,13 @@ fun ProductItem(
 
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
-                text = product.productName,
+                text = product.name,
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
             Text(
-                text = product.category,
+                text = product.description,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(top = 4.dp)
             )
@@ -103,11 +103,12 @@ fun ProductItem(
 @Composable
 fun ProductItemPreview() {
     val sampleProduct = ProductEntity(
-        id = "1",
-        productName = "Sample Product",
+        _id = "1",
+        name = "Sample Product",
         price = 29.99,
         category = "Pizza",
-        imageURL = ""
+        imageUrl = "",
+        description = "A delicious sample product for preview purposes.",
     )
 
     MaterialTheme {

@@ -81,6 +81,16 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    // Retrofit and Gson
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    // OkHttp
+    implementation(libs.okhttp.logging)
+
     // Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
@@ -116,6 +126,7 @@ dependencies {
     implementation(project(":feature:orders"))
     implementation(project(":core:approutes"))
     implementation(project(":core:model"))
+    implementation(project(":data"))
 
     implementation(libs.cloudinary)
 

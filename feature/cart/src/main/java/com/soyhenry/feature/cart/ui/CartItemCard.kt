@@ -43,8 +43,8 @@ fun CartItemCard(
     onIncrease: () -> Unit,
     onDecrease: () -> Unit
 ) {
-    val imagePainter = if (item.product.imageURL.isNotBlank()) {
-        rememberAsyncImagePainter(model = item.product.imageURL)
+    val imagePainter = if (item.product.imageUrl.isNotBlank()) {
+        rememberAsyncImagePainter(model = item.product.imageUrl)
     } else {
         painterResource(id = missing_img_product)
     }
@@ -70,7 +70,7 @@ fun CartItemCard(
         Column(
             modifier = Modifier.weight(1.5f)
         ) {
-            Text(text = item.product.productName, fontWeight = FontWeight.SemiBold)
+            Text(text = item.product.name, fontWeight = FontWeight.SemiBold)
             Text(
                 text = item.product.category,
                 style = MaterialTheme.typography.bodySmall,
@@ -132,11 +132,12 @@ fun CartItemCard(
 fun CartItemPreview() {
     val cartItemWithProductEntity = CartItemWithProductEntity(
         product = ProductEntity(
-            id = "id_1",
-            productName = "Melting Cheese Pizza",
+            _id = "id_1",
+            name = "Melting Cheese Pizza",
             category = "Pizza",
             price = 11.88,
-            imageURL = ""
+            imageUrl = "",
+            description = "A delicious pizza with melting cheese and a crispy crust.",
         ),
         cartItem = CartItemEntity(
             id = 1,

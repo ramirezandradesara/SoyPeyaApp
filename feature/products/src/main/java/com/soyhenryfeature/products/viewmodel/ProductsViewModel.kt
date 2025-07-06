@@ -3,8 +3,8 @@ package com.soyhenryfeature.products.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyhenry.core.model.database.entities.ProductEntity
-import com.soyhenry.core.repository.ProductsRepository
 import com.soyhenry.core.state.UiState
+import com.soyhenryfeature.products.data.repository.ProductsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,7 +59,7 @@ class ProductsViewModel
             allProducts
         } else {
             allProducts.filter { product ->
-                product.productName.contains(text, ignoreCase = true)
+                product.name.contains(text, ignoreCase = true)
             }
         }
         _uiState.value = UiState.Success(filtered)

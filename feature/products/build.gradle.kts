@@ -39,6 +39,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -64,6 +65,10 @@ dependencies {
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
     implementation(project(":library:ui:components"))
+    implementation(project(":data"))
+
+    // OkHttp
+    implementation(libs.okhttp.logging)
 
     // Room for local database
     implementation(libs.room.runtime)
@@ -83,6 +88,10 @@ dependencies {
 
     // Coil
     implementation(libs.coil.compose)
+
+    // Retrofit and Gson
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 
     testImplementation(libs.junit)
 

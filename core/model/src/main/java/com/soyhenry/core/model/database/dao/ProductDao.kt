@@ -15,12 +15,12 @@ interface ProductDao {
     @Update
     suspend fun updateProduct(product: ProductEntity)
 
-    @Query("DELETE FROM products WHERE id = :productId")
+    @Query("DELETE FROM products WHERE _id = :productId")
     suspend fun deleteProduct(productId: String)
 
     @Query("SELECT * FROM products")
     fun getAllProducts(): Flow<List<ProductEntity>>
 
-    @Query("SELECT * FROM products WHERE id = :productId")
+    @Query("SELECT * FROM products WHERE _id = :productId")
     suspend fun getProductById(productId: String): ProductEntity?
 }
