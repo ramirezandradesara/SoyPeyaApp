@@ -3,7 +3,7 @@ package com.soyhenry.data.remote.api
 import com.soyhenry.core.model.database.entities.ProductEntity
 import retrofit2.http.*
 
-interface  ProductsService {
+interface ProductsService {
     @GET("foods")
     suspend fun getAllProducts(): List<ProductEntity>
 

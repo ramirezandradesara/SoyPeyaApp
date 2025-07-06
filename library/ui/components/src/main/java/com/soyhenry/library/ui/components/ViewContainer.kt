@@ -19,7 +19,11 @@ fun ViewContainer(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 24.dp)
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 24.dp
+            )
     ) {
         Text(
             text = title,

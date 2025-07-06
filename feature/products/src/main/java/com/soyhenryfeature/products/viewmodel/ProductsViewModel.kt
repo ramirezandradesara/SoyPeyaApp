@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.soyhenry.core.model.database.entities.ProductEntity
 import com.soyhenry.core.state.UiState
 import com.soyhenryfeature.products.data.repository.ProductsRepository
+import com.soyhenryfeature.products.domain.usecase.GetProductsUseCase
+import com.soyhenryfeature.products.domain.usecase.RefreshProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductsViewModel
 @Inject constructor(
-    private val repository: ProductsRepository
+    private val repository: ProductsRepository,
+    private val getProductsUseCase: GetProductsUseCase,
+    private val refreshProductsUseCase: RefreshProductsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<ProductEntity>>>(UiState.Loading)
@@ -38,8 +42,8 @@ class ProductsViewModel
     private fun loadProducts() {
         viewModelScope.launch {
             try {
-                repository.refreshProducts()
-                allProducts = repository.getAllProducts()
+                refreshProductsUseCase()
+                allProducts = getProductsUseCase()
                 applyFilter()
             } catch (e: Exception) {
                 _uiState.value = UiState.Error(e.message ?: "Error loading products")
