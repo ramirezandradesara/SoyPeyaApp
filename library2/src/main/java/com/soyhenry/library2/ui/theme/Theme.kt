@@ -1,6 +1,5 @@
-package com.soyhenry.soypeyaapp.ui.theme
+package com.soyhenry.library2.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -11,31 +10,34 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.ui.graphics.Color
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+    primary = RedPrimary,
+    secondary = GoldPrimary,
+    surface = LightSurface,
+    onSurface = LightOnSurface,
+    background = LightSurface,
     onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    onSecondary = Color.Black
+)
+
+private val DarkColorScheme = darkColorScheme(
+    primary = DarkRedPrimary,
+    secondary = DarkGoldPrimary,
+    surface = DarkSurface,
+    onSurface = DarkOnSurface,
+    background = DarkSurface,
+    onPrimary = Color.White,
+    onSecondary = Color.Black
 )
 
 @Composable
 fun SoyPeyaAppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    //darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false, // Default to light theme for testing
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit

@@ -29,6 +29,7 @@
             <option value="$PROJECT_DIR$/library/ui" />
             <option value="$PROJECT_DIR$/library/ui/components" />
             <option value="$PROJECT_DIR$/library/utils" />
+            <option value="$PROJECT_DIR$/library2" />
           </set>
         </option>
       </GradleProjectSettings>
