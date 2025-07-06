@@ -1,6 +1,5 @@
 package com.soyhenry.feature.register.viewmodel
 
-import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import retrofit2.HttpException
+import java.io.IOException
 
 @HiltViewModel
 class RegisterViewModel
@@ -146,14 +147,26 @@ class RegisterViewModel
                     )
                     _toastMessage.value = "Registration successful"
                     _registerSuccess.value = true
+                } catch (e: HttpException) {
+                    val message = when (e.code()) {
+                        400 -> "Bad request: please check your input"
+                        403 -> "Forbidden: you are not allowed"
+                        409 -> "Email already registered"
+                        500 -> "Server error. Please try again later"
+                        else -> "Unknown error: ${e.code()}"
+                    }
+                    _toastMessage.value = "Registration failed: $message"
+                } catch (e: IOException) {
+                    _toastMessage.value = "Network error: please check your connection"
                 } catch (e: Exception) {
-                    _toastMessage.value = "Registration failed: ${e.message}"
+                    _toastMessage.value = "Unexpected error: ${e.message}"
                 }
             }
         } else {
             _toastMessage.value = "Please fix the errors in the form"
         }
     }
+
 
     fun clearToastMessage() {
         _toastMessage.value = null
