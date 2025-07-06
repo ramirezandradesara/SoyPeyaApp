@@ -4,13 +4,20 @@ import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.soyhenry.feature.login.domain.usecase.LoginUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import retrofit2.HttpException
+import java.io.IOException
 
-class LoginViewModel : ViewModel() {
-
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase
+) : ViewModel() {
     private val _email = MutableStateFlow("")
     val email: StateFlow<String> = _email.asStateFlow()
 
@@ -23,15 +30,17 @@ class LoginViewModel : ViewModel() {
     private val _toastMessage = MutableStateFlow<String?>(null)
     val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
 
-    private val correctEmail = "admin@gmail.com"
-    private val correctPass = "123"
-
     fun onEmailChange(newEmail: String) {
         _email.value = newEmail
     }
 
     fun onPasswordChange(newPassword: String) {
         _password.value = newPassword
+    }
+
+    private fun saveLoginStatus(context: Context, isLoggedIn: Boolean) {
+        val sharedPreferences = context.getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putBoolean("is_logged_in", isLoggedIn).apply()
     }
 
     fun onLoginClick(context: Context) {
@@ -41,21 +50,26 @@ class LoginViewModel : ViewModel() {
                 return@launch
             }
 
-            val success = _email.value == correctEmail && _password.value == correctPass
-            _loginSuccess.value = success
+            try {
+                loginUseCase(_email.value, _password.value)
 
-            if (success) {
-                saveLoginStatus(context, true)
+                // saveLoginStatus(context, true)
+                _loginSuccess.value = true
                 _toastMessage.value = "Welcome 🎉"
-            } else {
-                _toastMessage.value = "Wrong user or password ❌"
+            } catch (e: HttpException) {
+                val message = when (e.code()) {
+                    401 -> "Invalid credentials"
+                    404 -> "User not found"
+                    500 -> "Server error. Please try again later"
+                    else -> "Login error: ${e.code()}"
+                }
+                _toastMessage.value = message
+            } catch (e: IOException) {
+                _toastMessage.value = "Network error: please check your connection"
+            } catch (e: Exception) {
+                _toastMessage.value = "Unexpected error: ${e.message}"
             }
         }
-    }
-
-    private fun saveLoginStatus(context: Context, isLoggedIn: Boolean) {
-        val sharedPreferences = context.getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putBoolean("is_logged_in", isLoggedIn).apply()
     }
 
     fun clearToastMessage() {

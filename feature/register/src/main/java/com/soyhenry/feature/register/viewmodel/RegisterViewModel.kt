@@ -13,8 +13,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 @HiltViewModel
-class RegisterViewModel
-@Inject constructor(
+class RegisterViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
 ) : ViewModel() {
     private val _email = MutableStateFlow("")

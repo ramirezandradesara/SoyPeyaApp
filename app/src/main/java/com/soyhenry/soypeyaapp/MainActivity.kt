@@ -1,12 +1,12 @@
-package com.soyhenry.soypeyaapp.view.ui.activities
+package com.soyhenry.soypeyaapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.soyhenry.feature.navigation.ui.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
