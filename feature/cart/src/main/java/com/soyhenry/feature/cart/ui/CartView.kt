@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.state.UiState
 import com.soyhenry.library.ui.components.EmptyState
-import com.soyhenry.library.ui.components.ViewContainer
+import com.soyhenry.library.ui.components.container.ViewContainer
 
 @Composable
 fun CartView(

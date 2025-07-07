@@ -1,4 +1,4 @@
-package com.soyhenry.library.ui.components
+package com.soyhenry.library.ui.components.container
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

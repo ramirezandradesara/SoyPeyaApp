@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.feature.register.viewmodel.RegisterViewModel
-import com.soyhenry.library.ui.components.AuthContainer
+import com.soyhenry.library.ui.components.container.AuthContainer
 import com.soyhenry.library.ui.components.textField.PasswordTextField
 import androidx.compose.foundation.layout.*
 import com.soyhenry.library.ui.components.textField.EmailTextField

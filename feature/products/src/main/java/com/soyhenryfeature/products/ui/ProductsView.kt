@@ -18,7 +18,7 @@ import androidx.compose.material3.OutlinedTextField
 import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import com.soyhenry.library.ui.components.EmptyState
-import com.soyhenry.library.ui.components.ViewContainer
+import com.soyhenry.library.ui.components.container.ViewContainer
 
 @Composable
 fun ProductsView(
@@ -42,7 +42,7 @@ fun ProductsView(
 
         when (val state = uiState) {
             is UiState.Loading -> {
-                CircularProgressIndicator()
+                ProductsSkeletonList()
             }
 
             is UiState.Success -> {

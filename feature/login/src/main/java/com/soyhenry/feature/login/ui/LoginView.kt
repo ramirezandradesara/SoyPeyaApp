@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.constants.appinfo.AppInfo
 import com.soyhenry.feature.login.viewmodel.LoginViewModel
-import com.soyhenry.library.ui.components.AuthContainer
+import com.soyhenry.library.ui.components.container.AuthContainer
 import com.soyhenry.library.ui.components.textField.EmailTextField
 import com.soyhenry.library.ui.components.textField.PasswordTextField
 

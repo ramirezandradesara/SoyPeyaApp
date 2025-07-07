@@ -14,7 +14,7 @@ import com.soyhenry.core.model.database.entities.OrderEntity
 import com.soyhenry.core.model.database.entities.OrderItemEntity
 import com.soyhenry.core.model.database.entities.OrderWithItems
 import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
-import com.soyhenry.library.ui.components.ViewContainer
+import com.soyhenry.library.ui.components.container.ViewContainer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

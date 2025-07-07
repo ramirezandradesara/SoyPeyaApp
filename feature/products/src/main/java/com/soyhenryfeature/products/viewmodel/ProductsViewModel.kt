@@ -18,7 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductsViewModel
 @Inject constructor(
-    private val repository: ProductsRepository,
     private val getProductsUseCase: GetProductsUseCase,
     private val refreshProductsUseCase: RefreshProductsUseCase
 ) : ViewModel() {
