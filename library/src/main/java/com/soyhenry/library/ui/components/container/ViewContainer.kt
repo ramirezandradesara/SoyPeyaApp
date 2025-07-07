@@ -2,6 +2,7 @@ package com.soyhenry.library.ui.components.container
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 fun ViewContainer(
     title: String,
     modifier: Modifier = Modifier,
+    icon: (@Composable (() -> Unit))? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Column(
@@ -25,11 +27,20 @@ fun ViewContainer(
                 top = 24.dp
             )
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.headlineSmall,
+            )
+            icon?.let {
+                it()
+            }
+        }
         Column(
             modifier = Modifier.fillMaxWidth(),
             content = content

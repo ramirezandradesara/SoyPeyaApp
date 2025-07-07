@@ -36,6 +36,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
 import com.soyhenry.feature.profile.data.model.ProfileModel
+import com.soyhenry.library.ui.components.container.ViewContainer
 import com.soyhenry.library.ui.components.textField.PasswordTextField
 
 @Composable
@@ -61,32 +62,17 @@ fun ProfileView(
         imageUri = uri
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(24.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Profile",
-                style = MaterialTheme.typography.headlineMedium
-            )
-
+    ViewContainer(
+        title = "Profile",
+        icon = {
             IconButton(onClick = { navController.navigate("orders") }) {
                 Icon(
-                    imageVector = Icons.Default.Receipt, // O Icons.Filled.History
+                    imageVector = Icons.Default.Receipt,
                     contentDescription = "View orders"
                 )
             }
         }
-
+    ) {
         if (isImageUploading) {
             AlertDialog(
                 onDismissRequest = {},
@@ -225,6 +211,7 @@ fun ProfileView(
             Text("Save changes")
         }
     }
+
 }
 
 @Composable
