@@ -55,10 +55,10 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
-    implementation(project(":library:ui:components"))
     implementation(project(":core:model"))
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
+    implementation(project(":library"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

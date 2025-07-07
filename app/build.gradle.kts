@@ -127,7 +127,7 @@ dependencies {
     implementation(project(":core:approutes"))
     implementation(project(":core:model"))
     implementation(project(":data"))
-    implementation(project(":library2"))
+    implementation(project(":library"))
 
     implementation(libs.cloudinary)
 

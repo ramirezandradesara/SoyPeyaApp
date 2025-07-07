@@ -26,10 +26,6 @@
             <option value="$PROJECT_DIR$/feature/profile" />
             <option value="$PROJECT_DIR$/feature/register" />
             <option value="$PROJECT_DIR$/library" />
-            <option value="$PROJECT_DIR$/library/ui" />
-            <option value="$PROJECT_DIR$/library/ui/components" />
-            <option value="$PROJECT_DIR$/library/utils" />
-            <option value="$PROJECT_DIR$/library2" />
           </set>
         </option>
       </GradleProjectSettings>

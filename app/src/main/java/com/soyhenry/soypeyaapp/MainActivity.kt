@@ -8,7 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.soyhenry.feature.navigation.ui.MainScreen
-import com.soyhenry.library2.ui.theme.SoyPeyaAppTheme
+import com.soyhenry.library.ui.theme.SoyPeyaAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

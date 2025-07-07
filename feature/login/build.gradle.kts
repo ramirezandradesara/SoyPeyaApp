@@ -81,10 +81,10 @@ dependencies {
     testImplementation(libs.junit)
 
     implementation(project(":feature:register"))
-    implementation(project(":library:ui:components"))
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
     implementation(project(":data"))
+    implementation(project(":library"))
 
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)
