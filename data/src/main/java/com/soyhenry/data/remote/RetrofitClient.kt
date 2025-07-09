@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitClient {
 
-    private const val BASE_URL = BuildConfig.API_URL
+    private const val API_URL = BuildConfig.API_URL
 
     @Provides
     @Singleton
@@ -41,7 +41,7 @@ object RetrofitClient {
         okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(API_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

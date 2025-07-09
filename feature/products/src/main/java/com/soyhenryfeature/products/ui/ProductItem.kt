@@ -18,16 +18,16 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenryfeature.products.R
 import androidx.compose.ui.graphics.Color
-import com.soyhenry.core.model.database.entities.ProductEntity
+import com.soyhenry.core.domain.Product
 
 @Composable
 fun ProductItem(
-    product: ProductEntity,
+    product: Product,
     modifier: Modifier = Modifier,
-    onAddToCart: (ProductEntity) -> Unit,
+   // onAddToCart: (Product) -> Unit,
 ) {
-    val imagePainter = if (product.imageUrl.isNotBlank()) {
-        rememberAsyncImagePainter(model = product.imageUrl)
+    val imagePainter = if (product.imgURL.isNotBlank()) {
+        rememberAsyncImagePainter(model = product.imgURL)
     } else {
         painterResource(id = R.drawable.missing_img_product)
     }
@@ -80,7 +80,8 @@ fun ProductItem(
                 )
 
                 IconButton(
-                    onClick = { onAddToCart(product) },
+                   // onClick = { onAddToCart(product) },
+                    onClick = {},
                     modifier = Modifier.size(25.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
@@ -102,20 +103,20 @@ fun ProductItem(
 @Preview(showBackground = true)
 @Composable
 fun ProductItemPreview() {
-    val sampleProduct = ProductEntity(
-        _id = "1",
+    val sampleProduct = Product(
+        id = "1",
         name = "Sample Product",
+        description = "A delicious sample product for preview purposes.",
+        imgURL = "",
         price = 29.99,
         category = "Pizza",
-        imageUrl = "",
-        description = "A delicious sample product for preview purposes.",
     )
 
     MaterialTheme {
         ProductItem(
             product = sampleProduct,
             modifier = Modifier.padding(16.dp).width(180.dp),
-            onAddToCart = { }
+          //  onAddToCart = { }
         )
     }
 }

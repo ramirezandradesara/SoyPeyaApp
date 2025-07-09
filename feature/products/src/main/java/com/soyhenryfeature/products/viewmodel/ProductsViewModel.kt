@@ -2,11 +2,9 @@ package com.soyhenryfeature.products.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soyhenry.core.model.database.entities.ProductEntity
+import com.soyhenry.core.domain.Product
 import com.soyhenry.core.state.UiState
-import com.soyhenryfeature.products.data.repository.ProductsRepository
 import com.soyhenryfeature.products.domain.usecase.GetProductsUseCase
-import com.soyhenryfeature.products.domain.usecase.RefreshProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,13 +17,12 @@ import javax.inject.Inject
 class ProductsViewModel
 @Inject constructor(
     private val getProductsUseCase: GetProductsUseCase,
-    private val refreshProductsUseCase: RefreshProductsUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<List<ProductEntity>>>(UiState.Loading)
-    val uiState: StateFlow<UiState<List<ProductEntity>>> = _uiState
+    private val _uiState = MutableStateFlow<UiState<List<Product>>>(UiState.Loading)
+    val uiState: StateFlow<UiState<List<Product>>> = _uiState
 
-    private var allProducts: List<ProductEntity> = emptyList()
+    private var allProducts: List<Product> = emptyList()
 
     private val _filterText = MutableStateFlow("")
     val filterText: StateFlow<String> = _filterText.asStateFlow()
@@ -38,11 +35,10 @@ class ProductsViewModel
         println("Error in ProductsViewModel: ${exception.message}")
     }
 
-    private fun loadProducts() {
+    fun loadProducts(refreshData: Boolean = false) {
         viewModelScope.launch {
             try {
-                refreshProductsUseCase()
-                allProducts = getProductsUseCase()
+                allProducts = getProductsUseCase(refreshData)
                 applyFilter()
             } catch (e: Exception) {
                 _uiState.value = UiState.Error(e.message ?: "Error loading products")

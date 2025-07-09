@@ -58,13 +58,13 @@ fun CartView(
                                 item = item,
                                 onIncrease = {
                                     cartViewModel.updateQuantity(
-                                        item.product._id, item.cartItem.quantity + 1
+                                        item.product.id, item.cartItem.quantity + 1
                                     )
                                 },
                                 onDecrease = {
                                     if (item.cartItem.quantity > 1) {
                                         cartViewModel.updateQuantity(
-                                            item.product._id, item.cartItem.quantity - 1
+                                            item.product.id, item.cartItem.quantity - 1
                                         )
                                     } else {
                                         cartViewModel.removeFromCart(item.cartItem)

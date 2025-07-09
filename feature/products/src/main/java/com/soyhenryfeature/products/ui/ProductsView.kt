@@ -1,6 +1,5 @@
 package com.soyhenryfeature.products.ui
 
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
@@ -15,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.LaunchedEffect
 import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import com.soyhenry.library.ui.components.EmptyState
@@ -28,6 +28,10 @@ fun ProductsView(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val filterText by viewModel.filterText.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadProducts(refreshData = true)
+    }
 
     ViewContainer(title = "Products") {
         OutlinedTextField(
@@ -56,7 +60,7 @@ fun ProductsView(
                 } else {
                     ProductList(
                         products = products,
-                        onAddToCart = cartViewModel::addToCart
+                       // onAddToCart = cartViewModel::addToCart
                     )
                 }
             }

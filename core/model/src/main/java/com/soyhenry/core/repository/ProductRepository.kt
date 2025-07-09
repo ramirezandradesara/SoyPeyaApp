@@ -1,11 +1,11 @@
 package com.soyhenry.core.repository
 
 import com.soyhenry.core.model.database.dao.ProductDao
-import com.soyhenry.core.model.database.entities.ProductEntity
+import com.soyhenry.core.entities.ProductEntity
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
-
+/*
 @Singleton
 class ProductsRepository @Inject constructor(
     private val productDao: ProductDao,
@@ -28,4 +28,4 @@ class ProductsRepository @Inject constructor(
         val entities = productDataSource.getAllProducts()
         productDao.insertProducts(entities)
     }
-}
+} */

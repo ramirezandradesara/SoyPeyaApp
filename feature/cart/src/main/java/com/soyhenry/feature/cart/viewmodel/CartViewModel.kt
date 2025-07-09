@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyhenry.core.model.database.entities.CartItemEntity
 import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
-import com.soyhenry.core.model.database.entities.ProductEntity
+import com.soyhenry.core.entities.ProductEntity
 import com.soyhenry.core.repository.CartItemRepository
 import com.soyhenry.core.state.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,14 +53,14 @@ class CartViewModel @Inject constructor(
 
     fun addToCart(product: ProductEntity) {
         viewModelScope.launch {
-            val existingCartItem = cartItemRepository.getCartItemByProductId(product._id)
+            val existingCartItem = cartItemRepository.getCartItemByProductId(product.id)
 
             if (existingCartItem != null) {
                 val updatedCartItem = existingCartItem.copy(quantity = existingCartItem.quantity + 1)
                 cartItemRepository.updateCartItem(updatedCartItem)
             } else {
                 cartItemRepository.insertCartItem(
-                    CartItemEntity(productId = product._id, quantity = 1)
+                    CartItemEntity(productId = product.id, quantity = 1)
                 )
             }
             refreshCartItems()

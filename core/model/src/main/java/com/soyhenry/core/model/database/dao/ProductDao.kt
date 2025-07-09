@@ -1,7 +1,7 @@
 package com.soyhenry.core.model.database.dao
 
 import androidx.room.*
-import com.soyhenry.core.model.database.entities.ProductEntity
+import com.soyhenry.core.entities.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,12 +15,15 @@ interface ProductDao {
     @Update
     suspend fun updateProduct(product: ProductEntity)
 
-    @Query("DELETE FROM products WHERE _id = :productId")
+    @Query("DELETE FROM products WHERE id = :productId")
     suspend fun deleteProduct(productId: String)
 
     @Query("SELECT * FROM products")
     fun getAllProducts(): Flow<List<ProductEntity>>
 
-    @Query("SELECT * FROM products WHERE _id = :productId")
+    @Query("SELECT * FROM products WHERE id = :productId")
     suspend fun getProductById(productId: String): ProductEntity?
+
+    @Query("DELETE FROM products")
+    suspend fun clearAll()
 }

@@ -1,7 +1,13 @@
 package com.soyhenryfeature.products.di
 
+import com.soyhenry.core.model.database.dao.ProductDao
+import com.soyhenry.data.local.datasource.products.ProductLocalDataSource
+import com.soyhenry.data.local.datasource.products.ProductLocalDataSourceImpl
 import com.soyhenry.data.remote.api.ProductsService
-import com.soyhenryfeature.products.data.repository.*
+import com.soyhenry.data.remote.datasource.products.ProductRemoteDataSource
+import com.soyhenry.data.remote.datasource.products.ProductRemoteDataSourceImpl
+import com.soyhenry.data.repository.ProductRepositoryImpl
+import com.soyhenry.data.repository.ProductsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,8 +25,25 @@ object ProductsModule {
     }
 
     @Provides
+    fun provideRemoteDataSource(
+        productsService: ProductsService
+    ): ProductRemoteDataSource {
+        return ProductRemoteDataSourceImpl(productsService)
+    }
+
+    @Provides
+    fun provideLocalDataSource(
+        productDao: ProductDao
+    ): ProductLocalDataSource {
+        return ProductLocalDataSourceImpl(productDao)
+    }
+
+    @Provides
     @Singleton
-    fun provideProductsRepository(productsService: ProductsService): ProductsRepository {
-        return ProductsRepositoryImpl(productsService)
+    fun provideProductsRepository(
+        remoteDataSource: ProductRemoteDataSource,
+        localDataSource: ProductLocalDataSource
+    ): ProductsRepository {
+        return ProductRepositoryImpl(remoteDataSource, localDataSource)
     }
 }

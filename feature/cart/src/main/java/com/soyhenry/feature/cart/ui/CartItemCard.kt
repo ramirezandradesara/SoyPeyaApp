@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenry.core.model.database.entities.CartItemEntity
 import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
-import com.soyhenry.core.model.database.entities.ProductEntity
+import com.soyhenry.core.entities.ProductEntity
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
 
 @Composable
@@ -43,8 +43,8 @@ fun CartItemCard(
     onIncrease: () -> Unit,
     onDecrease: () -> Unit
 ) {
-    val imagePainter = if (item.product.imageUrl.isNotBlank()) {
-        rememberAsyncImagePainter(model = item.product.imageUrl)
+    val imagePainter = if (item.product.imageURL.isNotBlank()) {
+        rememberAsyncImagePainter(model = item.product.imageURL)
     } else {
         painterResource(id = missing_img_product)
     }
@@ -70,7 +70,7 @@ fun CartItemCard(
         Column(
             modifier = Modifier.weight(1.5f)
         ) {
-            Text(text = item.product.name, fontWeight = FontWeight.SemiBold)
+            Text(text = item.product.productName, fontWeight = FontWeight.SemiBold)
             Text(
                 text = item.product.category,
                 style = MaterialTheme.typography.bodySmall,
@@ -132,12 +132,11 @@ fun CartItemCard(
 fun CartItemPreview() {
     val cartItemWithProductEntity = CartItemWithProductEntity(
         product = ProductEntity(
-            _id = "id_1",
-            name = "Melting Cheese Pizza",
+            id = "id_1",
+            productName = "Melting Cheese Pizza",
             category = "Pizza",
             price = 11.88,
-            imageUrl = "",
-            description = "A delicious pizza with melting cheese and a crispy crust.",
+            imageURL = "",
         ),
         cartItem = CartItemEntity(
             id = 1,

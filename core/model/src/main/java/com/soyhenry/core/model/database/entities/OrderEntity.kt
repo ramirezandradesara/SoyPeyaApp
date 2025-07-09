@@ -3,6 +3,7 @@ package com.soyhenry.core.model.database.entities
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.soyhenry.core.entities.ProductEntity
 
 @Entity(tableName = "orders")
 data class OrderEntity(
@@ -23,7 +24,7 @@ data class OrderEntity(
         ),
         ForeignKey(
             entity = ProductEntity::class,
-            parentColumns = ["_id"],
+            parentColumns = ["id"],
             childColumns = ["productId"],
             onDelete = ForeignKey.CASCADE
         )
