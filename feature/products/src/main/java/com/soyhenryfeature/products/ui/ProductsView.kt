@@ -60,7 +60,7 @@ fun ProductsView(
                 } else {
                     ProductList(
                         products = products,
-                       // onAddToCart = cartViewModel::addToCart
+                        onAddToCart = cartViewModel::addToCart
                     )
                 }
             }

@@ -19,12 +19,14 @@ import coil.compose.rememberAsyncImagePainter
 import com.soyhenryfeature.products.R
 import androidx.compose.ui.graphics.Color
 import com.soyhenry.core.domain.Product
+import com.soyhenry.core.entities.ProductEntity
+import com.soyhenry.core.mappers.product.toEntity
 
 @Composable
 fun ProductItem(
     product: Product,
     modifier: Modifier = Modifier,
-   // onAddToCart: (Product) -> Unit,
+    onAddToCart: (ProductEntity) -> Unit,
 ) {
     val imagePainter = if (product.imgURL.isNotBlank()) {
         rememberAsyncImagePainter(model = product.imgURL)
@@ -80,8 +82,7 @@ fun ProductItem(
                 )
 
                 IconButton(
-                   // onClick = { onAddToCart(product) },
-                    onClick = {},
+                    onClick = { onAddToCart(product.toEntity()) },
                     modifier = Modifier.size(25.dp),
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
@@ -116,7 +117,7 @@ fun ProductItemPreview() {
         ProductItem(
             product = sampleProduct,
             modifier = Modifier.padding(16.dp).width(180.dp),
-          //  onAddToCart = { }
+            onAddToCart = { }
         )
     }
 }

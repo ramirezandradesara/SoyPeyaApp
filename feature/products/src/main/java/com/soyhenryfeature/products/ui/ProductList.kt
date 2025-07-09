@@ -17,7 +17,7 @@ import com.soyhenry.core.entities.ProductEntity
 @Composable
 fun ProductList(
     products: List<Product>,
-   // onAddToCart: (Product) -> Unit,
+    onAddToCart: (ProductEntity) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -33,7 +33,7 @@ fun ProductList(
                     ProductItem(
                         product = productPair[0],
                         modifier = Modifier.fillMaxWidth(),
-                        //onAddToCart = onAddToCart,
+                        onAddToCart = onAddToCart,
                     )
                 }
 
@@ -42,7 +42,7 @@ fun ProductList(
                         ProductItem(
                             product = productPair[1],
                             modifier = Modifier.fillMaxWidth(),
-                           // onAddToCart = onAddToCart,
+                            onAddToCart = onAddToCart,
                         )
                     }
                 } else {
