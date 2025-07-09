@@ -1,4 +1,4 @@
-package com.soyhenry.core.model.database.entities
+package com.soyhenry.core.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

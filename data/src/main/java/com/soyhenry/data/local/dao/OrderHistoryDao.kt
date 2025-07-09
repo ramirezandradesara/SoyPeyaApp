@@ -1,7 +1,7 @@
-package com.soyhenry.core.model.database.dao
+package com.soyhenry.data.local.dao
 
 import androidx.room.*
-import com.soyhenry.core.model.database.entities.OrderWithItems
+import com.soyhenry.core.entities.OrderWithItems
 import kotlinx.coroutines.flow.Flow
 
 @Dao

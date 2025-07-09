@@ -1,8 +1,8 @@
-package com.soyhenry.core.repository
+package com.soyhenry.data.repository
 
-import com.soyhenry.core.model.database.dao.CartItemDao
-import com.soyhenry.core.model.database.entities.CartItemEntity
-import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
+import com.soyhenry.core.entities.CartItemEntity
+import com.soyhenry.core.entities.CartItemWithProductEntity
+import com.soyhenry.data.local.dao.CartItemDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

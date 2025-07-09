@@ -1,9 +1,8 @@
-package com.soyhenry.core.model.database.entities
+package com.soyhenry.core.entities
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.soyhenry.core.entities.ProductEntity
 
 @Entity(
     tableName = "cart_items",

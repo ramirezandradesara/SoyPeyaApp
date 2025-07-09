@@ -32,8 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.soyhenry.core.model.database.entities.CartItemEntity
-import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
+import com.soyhenry.core.entities.CartItemEntity
+import com.soyhenry.core.entities.CartItemWithProductEntity
 import com.soyhenry.core.entities.ProductEntity
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
 

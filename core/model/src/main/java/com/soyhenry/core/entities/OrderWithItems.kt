@@ -1,4 +1,4 @@
-package com.soyhenry.core.model.database.entities
+package com.soyhenry.core.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation

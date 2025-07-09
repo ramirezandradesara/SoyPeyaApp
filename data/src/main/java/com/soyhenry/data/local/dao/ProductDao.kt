@@ -1,4 +1,4 @@
-package com.soyhenry.core.model.database.dao
+package com.soyhenry.data.local.dao
 
 import androidx.room.*
 import com.soyhenry.core.entities.ProductEntity
@@ -26,4 +26,7 @@ interface ProductDao {
 
     @Query("DELETE FROM products")
     suspend fun clearAll()
+
+    @Query("SELECT EXISTS(SELECT 1 FROM cart_items WHERE productId = :productId)")
+    suspend fun isProductUsedInCart(productId: String): Boolean
 }

@@ -15,8 +15,8 @@ class ProductRepositoryImpl @Inject constructor(
     override suspend fun getAllProducts(refreshData: Boolean): List<Product> {
         return if (refreshData) {
             val remoteProducts = remote.getAllProducts()
-            local.clearProducts()
-            local.insertProducts(remoteProducts.map { it.toEntity() })
+            //local.clearProducts()
+            //local.insertProducts(remoteProducts.map { it.toEntity() })
             remoteProducts.map { it.toDomain() }
         } else {
             val localProducts = local.getAllProducts()

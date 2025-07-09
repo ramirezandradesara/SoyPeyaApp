@@ -59,6 +59,7 @@ dependencies {
     implementation(project(":core:approutes"))
     implementation(project(":core:model"))
     implementation(project(":core:constants:appinfo"))
+    implementation(project(":data"))
     implementation(project(":library"))
 
     implementation(libs.hilt.android)

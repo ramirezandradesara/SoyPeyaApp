@@ -1,10 +1,9 @@
-package com.soyhenry.core.model.database
+package com.soyhenry.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.soyhenry.core.entities.ProductEntity
-import com.soyhenry.core.model.database.dao.*
-import com.soyhenry.core.model.database.entities.*
+import com.soyhenry.core.entities.*
+import com.soyhenry.data.local.dao.*
 
 @Database(
     entities = [

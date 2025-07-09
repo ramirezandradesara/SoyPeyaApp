@@ -1,6 +1,6 @@
 package com.soyhenry.data.local.datasource.products
 
-import com.soyhenry.core.model.database.dao.ProductDao
+import com.soyhenry.data.local.dao.ProductDao
 import com.soyhenry.core.entities.ProductEntity
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -29,5 +29,9 @@ class ProductLocalDataSourceImpl @Inject constructor(
 
     override suspend fun deleteProduct(productId: String) {
         productDao.deleteProduct(productId)
+    }
+
+    override suspend fun getProductById(productId: String): ProductEntity? {
+        return productDao.getProductById(productId)
     }
 }

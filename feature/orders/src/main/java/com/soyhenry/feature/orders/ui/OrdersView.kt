@@ -10,9 +10,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.soyhenry.core.model.database.entities.OrderEntity
-import com.soyhenry.core.model.database.entities.OrderItemEntity
-import com.soyhenry.core.model.database.entities.OrderWithItems
+import com.soyhenry.core.entities.OrderEntity
+import com.soyhenry.core.entities.OrderItemEntity
+import com.soyhenry.core.entities.OrderWithItems
 import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
 import com.soyhenry.library.ui.components.container.ViewContainer
 

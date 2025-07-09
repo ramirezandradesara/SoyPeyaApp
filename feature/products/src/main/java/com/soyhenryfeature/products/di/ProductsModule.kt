@@ -1,6 +1,6 @@
 package com.soyhenryfeature.products.di
 
-import com.soyhenry.core.model.database.dao.ProductDao
+import com.soyhenry.data.local.dao.ProductDao
 import com.soyhenry.data.local.datasource.products.ProductLocalDataSource
 import com.soyhenry.data.local.datasource.products.ProductLocalDataSourceImpl
 import com.soyhenry.data.remote.api.ProductsService

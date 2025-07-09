@@ -1,12 +1,8 @@
-package com.soyhenry.core.di
+package com.soyhenry.data.local
 
 import android.content.Context
 import androidx.room.Room
-import com.soyhenry.core.model.database.AppDatabase
-import com.soyhenry.core.model.database.dao.CartItemDao
-import com.soyhenry.core.model.database.dao.OrderHistoryDao
-import com.soyhenry.core.model.database.dao.OrderItemDao
-import com.soyhenry.core.model.database.dao.ProductDao
+import com.soyhenry.data.local.dao.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
