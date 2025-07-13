@@ -1,6 +1,7 @@
 package com.soyhenry.feature.profile.ui
 
 import android.net.Uri
+import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -38,6 +39,7 @@ import com.soyhenry.library.ui.components.textField.PasswordTextField
 import androidx.compose.ui.res.stringResource
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.feature.profile.R
+import com.soyhenry.library.ui.components.textField.EmailTextField
 
 @Composable
 fun ProfileView(
@@ -65,7 +67,7 @@ fun ProfileView(
     ViewContainer(
         title = stringResource(id = R.string.profile_title),
         icon = {
-            IconButton(onClick = { navController.navigate("orders") }) {
+            IconButton(onClick = { navController.navigate(AppRoutes.Orders.route) }) {
                 Icon(
                     imageVector = Icons.Default.Receipt,
                     contentDescription = stringResource(id = R.string.view_orders)
@@ -110,7 +112,7 @@ fun ProfileView(
                     val bitmap = remember(imageUri) {
                         try {
                             @Suppress("DEPRECATION")
-                            android.provider.MediaStore.Images.Media.getBitmap(
+                            MediaStore.Images.Media.getBitmap(
                                 context.contentResolver,
                                 imageUri
                             ).asImageBitmap()
@@ -165,11 +167,11 @@ fun ProfileView(
 
         Spacer(Modifier.height(8.dp))
 
-        OutlinedTextField(
+        EmailTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(stringResource(id = R.string.email_label)) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            // errorMessage = TODO(),
         )
 
         Spacer(Modifier.height(8.dp))
