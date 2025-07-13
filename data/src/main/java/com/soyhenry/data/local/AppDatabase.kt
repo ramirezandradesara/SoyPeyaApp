@@ -12,7 +12,7 @@ import com.soyhenry.data.local.dao.*
         OrderEntity::class,
         OrderItemEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

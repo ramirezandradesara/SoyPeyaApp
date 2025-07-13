@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "orders")
 data class OrderEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @PrimaryKey val id: String,
     val orderDate: Long = System.currentTimeMillis(),
     val totalAmount: Double,
     val totalItems: Int

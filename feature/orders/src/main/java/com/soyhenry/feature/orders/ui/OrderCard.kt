@@ -52,7 +52,7 @@ fun OrderCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Order #${orderWithItems.id}",
+                    text = "Order #${orderWithItems.id.takeLast(8)}...",
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(

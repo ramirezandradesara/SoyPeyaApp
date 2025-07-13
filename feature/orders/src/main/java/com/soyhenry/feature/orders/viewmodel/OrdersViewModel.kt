@@ -7,12 +7,13 @@ import com.soyhenry.core.domain.Order
 import com.soyhenry.core.entities.CartItemWithProductEntity
 import com.soyhenry.core.state.UiState
 import com.soyhenry.data.remote.dto.CartItemDto
-import com.soyhenry.data.remote.dto.OrderRequestDto
+import com.soyhenry.data.remote.dto.OrderDto
 import com.soyhenry.data.repository.OrderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,10 +35,14 @@ class OrdersViewModel @Inject constructor(
         }
     }
 
-    fun createOrder(cartItems: List<CartItemWithProductEntity>, onSuccess: () -> Unit, onError: (String) -> Unit) {
+    fun createOrder(
+        cartItems: List<CartItemWithProductEntity>,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
         viewModelScope.launch {
-            val orderRequest = OrderRequestDto(
-                orderId = System.currentTimeMillis().toString(),
+            val orderRequest = OrderDto(
+                orderId = UUID.randomUUID().toString(),
                 productIds = cartItems.map {
                     CartItemDto(
                         name = it.product.productName,
