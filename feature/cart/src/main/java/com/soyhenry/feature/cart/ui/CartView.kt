@@ -51,8 +51,8 @@ fun CartView(
 
             is UiState.Success -> {
                 val cartItems = state.data
-                val totalItems = cartItems.sumOf { it.cartItem.quantity }
-                val totalAmount = cartItems.sumOf { it.cartItem.quantity * it.product.price }
+                val totalItems = cartItems.sumOf { it.quantity }
+                val totalAmount = cartItems.sumOf { it.quantity * it.product.price }
 
                 if (cartItems.isEmpty()) {
                     EmptyState(
@@ -69,16 +69,16 @@ fun CartView(
                                 item = item,
                                 onIncrease = {
                                     cartViewModel.updateQuantity(
-                                        item.product.id, item.cartItem.quantity + 1
+                                        item.product.id, item.quantity + 1
                                     )
                                 },
                                 onDecrease = {
-                                    if (item.cartItem.quantity > 1) {
+                                    if (item.quantity > 1) {
                                         cartViewModel.updateQuantity(
-                                            item.product.id, item.cartItem.quantity - 1
+                                            item.product.id, item.quantity - 1
                                         )
                                     } else {
-                                        cartViewModel.removeFromCart(item.cartItem)
+                                        cartViewModel.removeFromCart(item)
                                     }
                                 })
                             Spacer(modifier = Modifier.height(12.dp))

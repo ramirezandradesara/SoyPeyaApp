@@ -29,24 +29,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.soyhenry.core.entities.CartItemEntity
-import com.soyhenry.core.entities.CartItemWithProductEntity
-import com.soyhenry.core.entities.ProductEntity
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
 import androidx.compose.ui.res.stringResource
+import com.soyhenry.core.domain.CartItem
 import com.soyhenry.feature.cart.R
 
 @Composable
 fun CartItemCard(
-    item: CartItemWithProductEntity,
+    item: CartItem,
     onIncrease: () -> Unit,
     onDecrease: () -> Unit
 ) {
-    val imagePainter = if (item.product.imageURL.isNotBlank()) {
-        rememberAsyncImagePainter(model = item.product.imageURL)
+    val imagePainter = if (item.product.imgURL.isNotBlank()) {
+        rememberAsyncImagePainter(model = item.product.imgURL)
     } else {
         painterResource(id = missing_img_product)
     }
@@ -72,7 +69,7 @@ fun CartItemCard(
         Column(
             modifier = Modifier.weight(1.5f)
         ) {
-            Text(text = item.product.productName, fontWeight = FontWeight.SemiBold)
+            Text(text = item.product.name, fontWeight = FontWeight.SemiBold)
             Text(
                 text = item.product.category,
                 style = MaterialTheme.typography.bodySmall,
@@ -106,7 +103,7 @@ fun CartItemCard(
             }
 
             Text(
-                text = item.cartItem.quantity.toString(),
+                text = item.quantity.toString(),
                 modifier = Modifier.padding(horizontal = 4.dp),
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -129,6 +126,7 @@ fun CartItemCard(
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun CartItemPreview() {
@@ -154,4 +152,4 @@ fun CartItemPreview() {
             onDecrease = {}
         )
     }
-}
+} */

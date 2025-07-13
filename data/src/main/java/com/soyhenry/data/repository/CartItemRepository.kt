@@ -1,7 +1,7 @@
 package com.soyhenry.data.repository
 
+import com.soyhenry.core.domain.CartItem
 import com.soyhenry.core.entities.CartItemEntity
-import com.soyhenry.core.entities.CartItemWithProductEntity
 import kotlinx.coroutines.flow.Flow
 
 interface CartItemRepository {
@@ -10,6 +10,6 @@ interface CartItemRepository {
     suspend fun deleteCartItems()
     suspend fun deleteCartItem(cartItemId: Int)
     fun getAllCartItems(): Flow<List<CartItemEntity>>
-    fun getAllCartItemsWithProducts(): Flow<List<CartItemWithProductEntity>>
+    fun getAllCartItemsWithProducts(): Flow<List<CartItem>>
     suspend fun getCartItemByProductId(productId: String): CartItemEntity?
 }

@@ -12,6 +12,4 @@ data class ProductEntity(
     val imageURL: String,
     val category: String = "General",
     val isFeatured: Boolean = false
-){
-    fun toDomain() = Product(id, productName, description = "", imageURL, price, category)
-}
+)

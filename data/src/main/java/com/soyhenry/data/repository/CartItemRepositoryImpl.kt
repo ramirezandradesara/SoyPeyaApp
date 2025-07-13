@@ -1,9 +1,11 @@
 package com.soyhenry.data.repository
 
+import com.soyhenry.core.domain.CartItem
 import com.soyhenry.core.entities.CartItemEntity
-import com.soyhenry.core.entities.CartItemWithProductEntity
+import com.soyhenry.core.mappers.toDomain
 import com.soyhenry.data.local.datasource.CartItemLocalDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CartItemRepositoryImpl @Inject constructor(
@@ -25,8 +27,10 @@ class CartItemRepositoryImpl @Inject constructor(
     override fun getAllCartItems(): Flow<List<CartItemEntity>> =
         local.getAllCartItems()
 
-    override fun getAllCartItemsWithProducts(): Flow<List<CartItemWithProductEntity>> =
-        local.getAllCartItemsWithProducts()
+    override fun getAllCartItemsWithProducts(): Flow<List<CartItem>> {
+        return local.getAllCartItemsWithProducts()
+            .map { list -> list.map { it.toDomain() } }
+    }
 
     override suspend fun getCartItemByProductId(productId: String): CartItemEntity? =
         local.getCartItemByProductId(productId)

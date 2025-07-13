@@ -56,39 +56,3 @@ fun OrdersView(
         }
     }
 }
-/*@Preview(showBackground = true)
-@Composable
-fun OrdersViewPreview() {
-    val sampleOrders = listOf(
-        OrderWithItems(
-            order = OrderEntity(
-                id = 1,
-                orderDate = System.currentTimeMillis(),
-                totalAmount = 250.0,
-                totalItems = 3
-            ),
-            items = listOf(
-                OrderItemEntity(
-                    orderItemId = 1,
-                    orderId = 1,
-                    productId = "P001",
-                    quantity = 1,
-                    price = 100.0
-                ),
-                OrderItemEntity(
-                    orderItemId = 2,
-                    orderId = 1,
-                    productId = "P002",
-                    quantity = 2,
-                    price = 75.0
-                )
-            )
-        )
-    )
-
-    MaterialTheme {
-        Column(modifier = Modifier.padding(16.dp)) {
-            sampleOrders.forEach { OrderWithItemsCard(it) }
-        }
-    }
-}*/

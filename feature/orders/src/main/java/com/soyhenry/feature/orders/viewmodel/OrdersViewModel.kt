@@ -3,8 +3,8 @@ package com.soyhenry.feature.orders.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.soyhenry.core.domain.CartItem
 import com.soyhenry.core.domain.Order
-import com.soyhenry.core.entities.CartItemWithProductEntity
 import com.soyhenry.core.state.UiState
 import com.soyhenry.data.remote.dto.CartItemDto
 import com.soyhenry.data.remote.dto.OrderDto
@@ -36,7 +36,7 @@ class OrdersViewModel @Inject constructor(
     }
 
     fun createOrder(
-        cartItems: List<CartItemWithProductEntity>,
+        cartItems: List<CartItem>,
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
@@ -46,17 +46,17 @@ class OrdersViewModel @Inject constructor(
                 productIds = cartItems.map {
                     CartItemDto(
                         productId = it.product.id,
-                        name = it.product.productName,
+                        name = it.product.name,
                         //description = it.product.description ?: "Sin descripción",
                         description = "Sin descripción",
-                        imageUrl = it.product.imageURL,
+                        imageUrl = it.product.imgURL,
                         price = it.product.price,
                         //hasDrink = it.product.hasDrink ?: false,
                         hasDrink = false,
-                        quantity = it.cartItem.quantity
+                        quantity = it.quantity
                     )
                 },
-                total = cartItems.sumOf { it.cartItem.quantity * it.product.price },
+                total = cartItems.sumOf { it.quantity * it.product.price },
                 timestamp = System.currentTimeMillis()
             )
 
