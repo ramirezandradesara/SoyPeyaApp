@@ -1,4 +1,4 @@
-package com.soyhenry.data.local.datasource.products
+package com.soyhenry.data.local.datasource
 
 import com.soyhenry.core.entities.ProductEntity
 

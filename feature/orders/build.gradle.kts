@@ -60,6 +60,8 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:constants:appinfo"))
     implementation(project(":library"))
+    implementation(project(":data"))
+
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -69,15 +71,23 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    // OkHttp
+    implementation(libs.okhttp.logging)
+
     // Room for local database
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     kapt(libs.room.compiler)
 
-    implementation(libs.lifecycle.viewmodel) // ViewModel
+    // ViewModel
+    implementation(libs.lifecycle.viewmodel)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
+
+    // Retrofit and Gson
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 
     // Coil
     implementation(libs.coil.compose)

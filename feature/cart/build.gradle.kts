@@ -61,6 +61,7 @@ dependencies {
     implementation(project(":core:constants:appinfo"))
     implementation(project(":data"))
     implementation(project(":library"))
+    implementation(project(":feature:orders"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

@@ -1,4 +1,4 @@
-package com.soyhenry.core.mappers.product
+package com.soyhenry.core.mappers
 
 import com.soyhenry.core.domain.Product
 import com.soyhenry.core.entities.ProductEntity

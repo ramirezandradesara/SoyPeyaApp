@@ -1,8 +1,6 @@
 package com.soyhenry.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
-import com.soyhenry.core.domain.Product
-import com.soyhenry.core.entities.ProductEntity
 
 data class ProductDto(
     @SerializedName("_id")

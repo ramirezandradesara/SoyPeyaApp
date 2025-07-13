@@ -5,81 +5,57 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.soyhenry.core.entities.OrderEntity
-import com.soyhenry.core.entities.OrderItemEntity
-import com.soyhenry.core.entities.OrderWithItems
 import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
 import com.soyhenry.library.ui.components.container.ViewContainer
+import com.soyhenry.core.state.UiState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrdersView(
     navController: NavController,
     ordersViewModel: OrdersViewModel = hiltViewModel()
 ) {
-    val orders = listOf(
-        OrderWithItems(
-            order = OrderEntity(
-                id = 1,
-                orderDate = System.currentTimeMillis() - 86_400_000L,
-                totalAmount = 350.0,
-                totalItems = 2
-            ),
-            items = listOf(
-                OrderItemEntity(
-                    orderItemId = 1,
-                    orderId = 1,
-                    productId = "A1",
-                    quantity = 1,
-                    price = 150.0
-                ),
-                OrderItemEntity(
-                    orderItemId = 2,
-                    orderId = 1,
-                    productId = "B2",
-                    quantity = 2,
-                    price = 100.0
-                )
-            )
-        ),
-        OrderWithItems(
-            order = OrderEntity(
-                id = 2,
-                orderDate = System.currentTimeMillis() - 3 * 86_400_000L,
-                totalAmount = 99.99,
-                totalItems = 1
-            ),
-            items = listOf(
-                OrderItemEntity(
-                    orderItemId = 3,
-                    orderId = 2,
-                    productId = "C3",
-                    quantity = 1,
-                    price = 99.99
-                )
-            )
-        )
-    )
+    val uiState by ordersViewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+     ordersViewModel.loadOrders()
+    }
 
     ViewContainer(title = "Order history") {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            items(orders) { orderWithItems ->
-                OrderWithItemsCard(orderWithItems)
-                Spacer(modifier = Modifier.height(12.dp))
+        when (val state = uiState) {
+            is UiState.Loading -> {
+                CircularProgressIndicator()
+            }
+
+            is UiState.Success -> {
+                val orders = state.data
+                if (orders.isEmpty()) {
+                    Text("No orders found.")
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(orders) { orderWithItems ->
+                            OrderCard(orderWithItems)
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
+                    }
+                }
+            }
+
+            is UiState.Error -> {
+                Text("Error: ${state.message}")
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun OrdersViewPreview() {
     val sampleOrders = listOf(
@@ -114,4 +90,4 @@ fun OrdersViewPreview() {
             sampleOrders.forEach { OrderWithItemsCard(it) }
         }
     }
-}
+}*/

@@ -20,7 +20,7 @@ import com.soyhenryfeature.products.R
 import androidx.compose.ui.graphics.Color
 import com.soyhenry.core.domain.Product
 import com.soyhenry.core.entities.ProductEntity
-import com.soyhenry.core.mappers.product.toEntity
+import com.soyhenry.core.mappers.toEntity
 
 @Composable
 fun ProductItem(

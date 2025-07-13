@@ -1,7 +1,7 @@
-package com.soyhenry.data.local.datasource.products
+package com.soyhenry.data.local.datasource
 
-import com.soyhenry.data.local.dao.ProductDao
 import com.soyhenry.core.entities.ProductEntity
+import com.soyhenry.data.local.dao.ProductDao
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,7 +1,7 @@
 package com.soyhenry.data.repository
 
 import com.soyhenry.core.domain.Product
-import com.soyhenry.data.local.datasource.products.ProductLocalDataSource
+import com.soyhenry.data.local.datasource.ProductLocalDataSource
 import com.soyhenry.data.mappers.toDomain
 import com.soyhenry.data.mappers.toEntity
 import com.soyhenry.data.remote.datasource.products.ProductRemoteDataSource

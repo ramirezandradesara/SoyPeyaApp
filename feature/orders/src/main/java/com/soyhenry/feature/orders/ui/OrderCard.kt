@@ -14,20 +14,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.soyhenry.core.entities.OrderWithItems
+import com.soyhenry.core.domain.Order
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
-fun OrderWithItemsCard(orderWithItems: OrderWithItems) {
+fun OrderCard(
+    orderWithItems: Order
+) {
     fun formatDate(timestamp: Long): String {
         val pattern = "EEEE, dd MMM yyyy HH:mm"
         val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
         return sdf.format(Date(timestamp))
     }
 
-    val formattedDate = formatDate(orderWithItems.order.orderDate)
+    val formattedDate = formatDate(orderWithItems.date)
 
     Card(
         modifier = Modifier
@@ -50,11 +52,11 @@ fun OrderWithItemsCard(orderWithItems: OrderWithItems) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Order #${orderWithItems.order.id}",
+                    text = "Order #${orderWithItems.id}",
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
-                    text = "$${"%.2f".format(orderWithItems.order.totalAmount)}",
+                    text = "$${"%.2f".format(orderWithItems.totalAmount)}",
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
@@ -62,7 +64,7 @@ fun OrderWithItemsCard(orderWithItems: OrderWithItems) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "${orderWithItems.order.totalItems} products",
+                text = "${orderWithItems.totalItems} products",
                 style = MaterialTheme.typography.bodyMedium
             )
         }
