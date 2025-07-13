@@ -8,7 +8,8 @@ import com.soyhenry.core.domain.Order
 import com.soyhenry.core.state.UiState
 import com.soyhenry.data.remote.dto.CartItemDto
 import com.soyhenry.data.remote.dto.OrderDto
-import com.soyhenry.data.repository.OrderRepository
+import com.soyhenry.feature.orders.domain.usecase.CreateOrderUseCase
+import com.soyhenry.feature.orders.domain.usecase.GetOrdersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrdersViewModel @Inject constructor(
-    private val orderRepository: OrderRepository
+    private val createOrderUseCase: CreateOrderUseCase,
+    private val getOrdersUseCase: GetOrdersUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<Order>>>(UiState.Loading)
@@ -27,7 +29,7 @@ class OrdersViewModel @Inject constructor(
     fun loadOrders (refreshData: Boolean = false) {
         viewModelScope.launch {
             try {
-                val orders = orderRepository.getOrders(refreshData)
+                val orders = getOrdersUseCase(refreshData)
                 _uiState.value = UiState.Success(orders)
             } catch(e: Exception) {
                 _uiState.value = UiState.Error(e.message ?: "Error loading orders")
@@ -61,7 +63,7 @@ class OrdersViewModel @Inject constructor(
             )
 
             try {
-                orderRepository.createOrder(orderRequest)
+                createOrderUseCase(orderRequest)
                 onSuccess()
             } catch (e: Exception) {
                 Log.e("OrderViewModel", "Error creating order", e)
