@@ -14,18 +14,38 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun getAllProducts(refreshData: Boolean): List<Product> {
         return if (refreshData) {
-            val remoteProducts = remote.getAllProducts()
-            val entities = remoteProducts.map { it.toEntity() }
-            local.updateProducts(entities)
-            remoteProducts.map { it.toDomain() }
+            getRemoteThenFallbackToLocal()
         } else {
+            getLocalThenFallbackToRemote()
+        }
+    }
+
+    private suspend fun getRemoteThenFallbackToLocal(): List<Product> {
+        return try {
+            val remoteProducts = remote.getAllProducts()
+            local.updateProducts(remoteProducts.map { it.toEntity() })
+            remoteProducts.map { it.toDomain() }
+        } catch (e: Exception) {
             val localProducts = local.getAllProducts()
             if (localProducts.isNotEmpty()) {
-               localProducts.map { it.toDomain() }
+                localProducts.map { it.toDomain() }
             } else {
+                throw e
+            }
+        }
+    }
+
+    private suspend fun getLocalThenFallbackToRemote(): List<Product> {
+        val localProducts = local.getAllProducts()
+        return if (localProducts.isNotEmpty()) {
+            localProducts.map { it.toDomain() }
+        } else {
+            try {
                 val remoteProducts = remote.getAllProducts()
                 local.insertProducts(remoteProducts.map { it.toEntity() })
                 remoteProducts.map { it.toDomain() }
+            } catch (e: Exception) {
+                throw e
             }
         }
     }

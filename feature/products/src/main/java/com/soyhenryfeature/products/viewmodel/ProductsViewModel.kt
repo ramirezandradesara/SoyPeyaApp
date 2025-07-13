@@ -27,10 +27,6 @@ class ProductsViewModel
     private val _filterText = MutableStateFlow("")
     val filterText: StateFlow<String> = _filterText.asStateFlow()
 
-    init {
-        loadProducts()
-    }
-
     val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         println("Error in ProductsViewModel: ${exception.message}")
     }
