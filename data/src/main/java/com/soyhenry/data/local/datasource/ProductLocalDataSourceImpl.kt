@@ -34,4 +34,8 @@ class ProductLocalDataSourceImpl @Inject constructor(
     override suspend fun getProductById(productId: String): ProductEntity? {
         return productDao.getProductById(productId)
     }
+
+    override suspend fun updateProducts(products: List<ProductEntity>) {
+        productDao.updateProducts(products)
+    }
 }

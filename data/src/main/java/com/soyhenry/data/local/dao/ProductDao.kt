@@ -29,4 +29,16 @@ interface ProductDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM cart_items WHERE productId = :productId)")
     suspend fun isProductUsedInCart(productId: String): Boolean
+
+    @Transaction
+    suspend fun updateProducts(newProducts: List<ProductEntity>) {
+        newProducts.forEach { product ->
+            val existing = getProductById(product.id)
+            if (existing != null) {
+                updateProduct(product)
+            } else {
+                insertProduct(product)
+            }
+        }
+    }
 }

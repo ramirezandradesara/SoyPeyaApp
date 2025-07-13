@@ -9,4 +9,5 @@ interface ProductLocalDataSource {
     suspend fun addProduct(product: ProductEntity)
     suspend fun deleteProduct(productId: String)
     suspend fun getProductById(productId: String): ProductEntity?
+    suspend fun updateProducts(products: List<ProductEntity>)
 }
