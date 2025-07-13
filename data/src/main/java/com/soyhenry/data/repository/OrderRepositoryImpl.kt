@@ -14,21 +14,52 @@ class OrderRepositoryImpl @Inject constructor(
     private val remote: OrderRemoteDataSource,
     private val local: OrderLocalDataSource
 ) : OrderRepository {
+
     override suspend fun createOrder(order: OrderDto) {
         remote.createOrder(order)
     }
 
     override suspend fun getOrders(refreshData: Boolean): List<Order> {
         return if (refreshData) {
+            getRemoteThenFallbackToLocal()
+        } else {
+            getLocalThenFallbackToRemote()
+        }
+    }
+
+    private suspend fun getRemoteThenFallbackToLocal(): List<Order> {
+        return try {
             val remoteOrders = remote.getOrders()
             val orderEntities = remoteOrders.map { it.toOrderEntity() }
             val orderItems = remoteOrders.flatMap { it.toOrderItemEntities() }
 
             local.updateOrders(orderEntities, orderItems)
-            //orderEntities.map { it.toDomain() }
             remoteOrders.map { it.toDomain() }
+        } catch (e: Exception) {
+            val localOrders = local.getOrders()
+            if (localOrders.isNotEmpty()) {
+                localOrders.map { it.toDomain() }
+            } else {
+                throw e
+            }
+        }
+    }
+
+    private suspend fun getLocalThenFallbackToRemote(): List<Order> {
+        val localOrders = local.getOrders()
+        return if (localOrders.isNotEmpty()) {
+            localOrders.map { it.toDomain() }
         } else {
-            local.getOrders().map { it.toDomain() }
+            try {
+                val remoteOrders = remote.getOrders()
+                val orderEntities = remoteOrders.map { it.toOrderEntity() }
+                val orderItems = remoteOrders.flatMap { it.toOrderItemEntities() }
+
+                local.updateOrders(orderEntities, orderItems)
+                remoteOrders.map { it.toDomain() }
+            } catch (e: Exception) {
+                throw e
+            }
         }
     }
 }
