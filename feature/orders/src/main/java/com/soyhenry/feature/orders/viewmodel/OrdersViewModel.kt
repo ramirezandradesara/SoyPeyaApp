@@ -24,10 +24,10 @@ class OrdersViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState<List<Order>>>(UiState.Loading)
     val uiState: StateFlow<UiState<List<Order>>> = _uiState
 
-    fun loadOrders () {
+    fun loadOrders (refreshData: Boolean = false) {
         viewModelScope.launch {
             try {
-                val orders = orderRepository.getOrders()
+                val orders = orderRepository.getOrders(refreshData)
                 _uiState.value = UiState.Success(orders)
             } catch(e: Exception) {
                 _uiState.value = UiState.Error(e.message ?: "Error loading orders")
@@ -45,6 +45,7 @@ class OrdersViewModel @Inject constructor(
                 orderId = UUID.randomUUID().toString(),
                 productIds = cartItems.map {
                     CartItemDto(
+                        productId = it.product.id,
                         name = it.product.productName,
                         //description = it.product.description ?: "Sin descripción",
                         description = "Sin descripción",

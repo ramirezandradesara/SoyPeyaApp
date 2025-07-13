@@ -25,7 +25,7 @@ fun OrdersView(
     val uiState by ordersViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        ordersViewModel.loadOrders()
+        ordersViewModel.loadOrders(refreshData = true)
     }
 
     ViewContainer(title = stringResource(id = R.string.order_history)) {

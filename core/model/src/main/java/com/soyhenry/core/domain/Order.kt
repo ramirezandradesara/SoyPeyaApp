@@ -1,6 +1,6 @@
 package com.soyhenry.core.domain
 
-data class Order(
+data class Order (
     val id: String,
     val date: Long,
     val totalAmount: Double,

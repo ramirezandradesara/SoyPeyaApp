@@ -33,7 +33,7 @@ object DatabaseModule {
     }
 
     @Provides
-    fun provideOrderHistoryDao(database: AppDatabase): OrderHistoryDao {
+    fun provideOrderHistoryDao(database: AppDatabase): OrderDao {
         return database.orderHistoryDao()
     }
 

@@ -7,8 +7,9 @@ fun OrderWithItems.toDomain(): Order {
     return Order(
         id = order.id,
         date = order.orderDate,
-        totalItems = order.totalItems,
         totalAmount = order.totalAmount,
-        // items = TODO()
+        totalItems = order.totalItems
+        // items = items.map { it.toDomain() }
     )
 }
+

@@ -12,7 +12,7 @@ import com.soyhenry.data.local.dao.*
         OrderEntity::class,
         OrderItemEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -21,7 +21,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun cartItemDao(): CartItemDao
 
-    abstract fun orderHistoryDao(): OrderHistoryDao
+    abstract fun orderHistoryDao(): OrderDao
 
     abstract fun orderItemDao(): OrderItemDao
 }

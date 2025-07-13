@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface OrderItemDao {
+    @Query("SELECT * FROM order_items WHERE orderId = :orderId")
+    fun getOrderItemsByOrderId(orderId: Int): Flow<List<OrderItemEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrderItem(orderItem: OrderItemEntity)
@@ -13,9 +15,9 @@ interface OrderItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrderItems(orderItems: List<OrderItemEntity>)
 
-    @Query("SELECT * FROM order_items WHERE orderId = :orderId")
-    fun getOrderItemsByOrderId(orderId: Int): Flow<List<OrderItemEntity>>
+    @Query("DELETE FROM order_items")
+    suspend fun clearOrderItems()
 
     @Query("DELETE FROM order_items WHERE orderId = :orderId")
-    suspend fun deleteItemsByOrderId(orderId: Int)
+    suspend fun deleteOrderItemsByOrderId(orderId: Int)
 }

@@ -5,5 +5,5 @@ import com.soyhenry.data.remote.dto.OrderDto
 
 interface OrderRepository {
     suspend fun createOrder(order: OrderDto)
-    suspend fun getOrders(): List<Order>
+    suspend fun getOrders(refreshData: Boolean): List<Order>
 }
