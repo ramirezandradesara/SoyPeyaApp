@@ -18,6 +18,8 @@ import com.soyhenry.core.domain.Order
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.ui.res.stringResource
+import com.soyhenry.feature.orders.R
 
 @Composable
 fun OrderCard(
@@ -25,11 +27,17 @@ fun OrderCard(
 ) {
     fun formatDate(timestamp: Long): String {
         val pattern = "EEEE, dd MMM yyyy HH:mm"
-        val sdf = SimpleDateFormat(pattern, Locale.ENGLISH)
+        val sdf = SimpleDateFormat(pattern, Locale("es"))
         return sdf.format(Date(timestamp))
     }
 
     val formattedDate = formatDate(orderWithItems.date)
+
+    val productsText = if (orderWithItems.totalItems == 1) {
+        stringResource(id = R.string.product_singular, orderWithItems.totalItems)
+    } else {
+        stringResource(id = R.string.product_plural, orderWithItems.totalItems)
+    }
 
     Card(
         modifier = Modifier
@@ -52,7 +60,10 @@ fun OrderCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Order #${orderWithItems.id.takeLast(8)}...",
+                    text = stringResource(
+                        id = R.string.order_number,
+                        orderWithItems.id.takeLast(8)
+                    ),
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
@@ -64,7 +75,7 @@ fun OrderCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "${orderWithItems.totalItems} products",
+                text = productsText,
                 style = MaterialTheme.typography.bodyMedium
             )
         }

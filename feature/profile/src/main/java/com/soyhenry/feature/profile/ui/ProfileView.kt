@@ -5,7 +5,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,8 +24,6 @@ import androidx.compose.material3.Card
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material3.AlertDialog
@@ -38,6 +35,9 @@ import coil.compose.AsyncImage
 import com.soyhenry.feature.profile.data.model.ProfileModel
 import com.soyhenry.library.ui.components.container.ViewContainer
 import com.soyhenry.library.ui.components.textField.PasswordTextField
+import androidx.compose.ui.res.stringResource
+import com.soyhenry.core.approutes.AppRoutes
+import com.soyhenry.feature.profile.R
 
 @Composable
 fun ProfileView(
@@ -63,12 +63,12 @@ fun ProfileView(
     }
 
     ViewContainer(
-        title = "Profile",
+        title = stringResource(id = R.string.profile_title),
         icon = {
             IconButton(onClick = { navController.navigate("orders") }) {
                 Icon(
                     imageVector = Icons.Default.Receipt,
-                    contentDescription = "View orders"
+                    contentDescription = stringResource(id = R.string.view_orders)
                 )
             }
         }
@@ -77,7 +77,7 @@ fun ProfileView(
             AlertDialog(
                 onDismissRequest = {},
                 confirmButton = {},
-                title = { Text(text = "Uploading imagen") },
+                title = { Text(text = stringResource(id = R.string.uploading_image)) },
                 text = {
                     Column(
                         modifier = Modifier
@@ -95,7 +95,8 @@ fun ProfileView(
         if (profile.image.isNotEmpty()) {
             imageUri = null
             LoadImage(
-                url = profile.image, contentDescription = profile.name,
+                url = profile.image,
+                contentDescription = profile.name,
                 modifier = Modifier.size(50.dp)
             )
         } else {
@@ -121,7 +122,7 @@ fun ProfileView(
                     if (bitmap != null) {
                         Image(
                             bitmap = bitmap,
-                            contentDescription = "Profile image",
+                            contentDescription = stringResource(id = R.string.profile_title),
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.fillMaxSize()
                         )
@@ -130,7 +131,7 @@ fun ProfileView(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(text = "Error uploading image")
+                            Text(text = stringResource(id = R.string.error_uploading_image))
                         }
                     }
                 } else {
@@ -138,7 +139,7 @@ fun ProfileView(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "Select image")
+                        Text(text = stringResource(id = R.string.select_image))
                     }
                 }
             }
@@ -149,7 +150,7 @@ fun ProfileView(
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Name") },
+            label = { Text(stringResource(id = R.string.name_label)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -158,7 +159,7 @@ fun ProfileView(
         OutlinedTextField(
             value = lastName,
             onValueChange = { lastName = it },
-            label = { Text("Last name") },
+            label = { Text(stringResource(id = R.string.last_name_label)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -167,7 +168,7 @@ fun ProfileView(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") },
+            label = { Text(stringResource(id = R.string.email_label)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -176,7 +177,7 @@ fun ProfileView(
         PasswordTextField(
             value = password,
             onValueChange = { password = it },
-            label = "Password",
+            label = stringResource(id = R.string.password_label),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -185,7 +186,7 @@ fun ProfileView(
         OutlinedTextField(
             value = nationality,
             onValueChange = { nationality = it },
-            label = { Text("Nationality") },
+            label = { Text(stringResource(id = R.string.nationality_label)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -208,10 +209,9 @@ fun ProfileView(
                 .fillMaxWidth()
                 .padding(top = 16.dp)
         ) {
-            Text("Save changes")
+            Text(stringResource(id = R.string.save_changes_button))
         }
     }
-
 }
 
 @Composable

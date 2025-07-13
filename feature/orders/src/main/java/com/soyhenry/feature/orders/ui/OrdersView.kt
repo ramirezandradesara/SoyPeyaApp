@@ -14,6 +14,8 @@ import androidx.navigation.NavController
 import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
 import com.soyhenry.library.ui.components.container.ViewContainer
 import com.soyhenry.core.state.UiState
+import androidx.compose.ui.res.stringResource
+import com.soyhenry.feature.orders.R
 
 @Composable
 fun OrdersView(
@@ -23,10 +25,10 @@ fun OrdersView(
     val uiState by ordersViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-     ordersViewModel.loadOrders()
+        ordersViewModel.loadOrders()
     }
 
-    ViewContainer(title = "Order history") {
+    ViewContainer(title = stringResource(id = R.string.order_history)) {
         when (val state = uiState) {
             is UiState.Loading -> {
                 CircularProgressIndicator()
@@ -35,7 +37,7 @@ fun OrdersView(
             is UiState.Success -> {
                 val orders = state.data
                 if (orders.isEmpty()) {
-                    Text("No orders found.")
+                    Text(stringResource(id = R.string.no_orders_found))
                 } else {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize()
@@ -49,12 +51,11 @@ fun OrdersView(
             }
 
             is UiState.Error -> {
-                Text("Error: ${state.message}")
+                Text(stringResource(id = R.string.error_loading_orders, state.message))
             }
         }
     }
 }
-
 /*@Preview(showBackground = true)
 @Composable
 fun OrdersViewPreview() {

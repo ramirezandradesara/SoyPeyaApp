@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import com.soyhenry.core.domain.Product
 import com.soyhenry.core.entities.ProductEntity
 import com.soyhenry.core.mappers.toEntity
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ProductItem(
@@ -47,7 +48,7 @@ fun ProductItem(
         ) {
             Image(
                 painter = imagePainter,
-                contentDescription = "Product image",
+                contentDescription = stringResource(R.string.product_image_description),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.matchParentSize()
             )
@@ -91,7 +92,7 @@ fun ProductItem(
                     Icon(
                         modifier = Modifier.size(15.dp),
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Add to cart",
+                        contentDescription = stringResource(R.string.add_to_cart_description),
                         tint = Color.White
                     )
                 }

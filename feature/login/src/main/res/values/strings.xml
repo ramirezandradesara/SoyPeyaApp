@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_back">¡Bienvenido de nuevo!</string>
+    <string name="log_in">Iniciar sesión</string>
+    <string name="new_to_app">¿Nuevo en %1$s?</string> <!-- %1$s es para AppInfo.APP_NAME -->
+    <string name="sign_up">Registrarse</string>
+    <string name="password_label">Contraseña</string>
+</resources>

@@ -32,7 +32,6 @@ fun BottomNavBar(
 
             NavigationBarItem(
                 icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
-                label = { Text(item.label) },
                 selected = selected,
                 onClick = {
                     if (!selected) {

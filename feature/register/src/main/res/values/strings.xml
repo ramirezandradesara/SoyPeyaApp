@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_up_free">Regístrate, es gratis</string>
+    <string name="register_button">Registrarse</string>
+    <string name="already_have_account">¿Ya tienes una cuenta?</string>
+    <string name="log_in">Inicia sesión</string>
+    <string name="full_name_label">Nombre completo</string>
+    <string name="password_label">Contraseña</string>
+    <string name="confirm_password_label">Confirmar contraseña</string>
+</resources>

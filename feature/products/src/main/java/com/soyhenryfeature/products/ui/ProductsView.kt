@@ -19,6 +19,8 @@ import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import com.soyhenry.library.ui.components.EmptyState
 import com.soyhenry.library.ui.components.container.ViewContainer
+import androidx.compose.ui.res.stringResource
+import com.soyhenryfeature.products.R
 
 @Composable
 fun ProductsView(
@@ -33,11 +35,11 @@ fun ProductsView(
         viewModel.loadProducts(refreshData = true)
     }
 
-    ViewContainer(title = "Products") {
+    ViewContainer(title = stringResource(R.string.products_title)) {
         OutlinedTextField(
             value = filterText,
             onValueChange = viewModel::onFilterTextChange,
-            label = { Text("Filter products") },
+            label = { Text(stringResource(R.string.filter_products_label)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
@@ -53,8 +55,8 @@ fun ProductsView(
                 val products = state.data
                 if (products.isEmpty()) {
                     EmptyState(
-                        title = "No products found",
-                        subtitle = "Try adjusting your filters.",
+                        title = stringResource(R.string.no_products_title),
+                        subtitle = stringResource(R.string.no_products_subtitle),
                         icon = Icons.Default.Search,
                     )
                 } else {

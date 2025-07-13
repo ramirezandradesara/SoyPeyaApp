@@ -21,6 +21,8 @@ import com.soyhenry.feature.login.viewmodel.LoginViewModel
 import com.soyhenry.library.ui.components.container.AuthContainer
 import com.soyhenry.library.ui.components.textField.EmailTextField
 import com.soyhenry.library.ui.components.textField.PasswordTextField
+import androidx.compose.ui.res.stringResource
+import com.soyhenry.feature.login.R
 
 @Composable
 fun LoginView(
@@ -52,12 +54,12 @@ fun LoginView(
     }
 
     AuthContainer(
-        title = "Welcome back!",
-        submitButtonText = "Log in",
+        title = stringResource(id = R.string.welcome_back),
+        submitButtonText = stringResource(id = R.string.log_in),
         onSubmitClick = { loginViewModel.onLoginClick(context) },
         isSubmitEnabled = isFormValid,
-        bottomText = "New to ${AppInfo.APP_NAME}?",
-        bottomActionText = "Sign up",
+        bottomText = stringResource(id = R.string.new_to_app, AppInfo.APP_NAME),
+        bottomActionText = stringResource(id = R.string.sign_up),
         onBottomActionClick = {
             navController.navigate(AppRoutes.Register.route) {
                 popUpTo(AppRoutes.LogIn.route) { inclusive = true }
@@ -75,7 +77,7 @@ fun LoginView(
         PasswordTextField(
             value = password,
             onValueChange = loginViewModel::onPasswordChange,
-            label = "Password",
+            label = stringResource(id = R.string.password_label),
             modifier = Modifier.fillMaxWidth()
         )
     }

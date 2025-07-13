@@ -36,6 +36,8 @@ import com.soyhenry.core.entities.CartItemEntity
 import com.soyhenry.core.entities.CartItemWithProductEntity
 import com.soyhenry.core.entities.ProductEntity
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
+import androidx.compose.ui.res.stringResource
+import com.soyhenry.feature.cart.R
 
 @Composable
 fun CartItemCard(
@@ -57,7 +59,7 @@ fun CartItemCard(
     ) {
         Image(
             painter = imagePainter,
-            contentDescription = "Product image",
+            contentDescription = stringResource(R.string.product_image_description),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .weight(1f)
@@ -98,7 +100,7 @@ fun CartItemCard(
                 Icon(
                     modifier = Modifier.size(15.dp),
                     imageVector = Icons.Default.Remove,
-                    contentDescription = "Decrease",
+                    contentDescription = stringResource(R.string.decrease_quantity),
                     tint = Color.White,
                 )
             }
@@ -119,7 +121,7 @@ fun CartItemCard(
                 Icon(
                     modifier = Modifier.size(15.dp),
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Increase",
+                    contentDescription = stringResource(R.string.increase_quantity),
                     tint = Color.White,
                 )
             }

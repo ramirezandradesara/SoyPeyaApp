@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="products_title">Productos</string>
+    <string name="filter_products_label">Filtrar</string>
+    <string name="no_products_title">No hay resultados para tu búsqueda.</string>
+    <string name="no_products_subtitle">Intenta ajustar los filtros.</string>
+    <string name="product_image_description">Imagen de producto</string>
+    <string name="add_to_cart_description">Agregar a carrito</string>
+</resources>

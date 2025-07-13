@@ -23,6 +23,8 @@ import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
 import com.soyhenry.library.ui.components.EmptyState
 import com.soyhenry.library.ui.components.container.ViewContainer
+import androidx.compose.ui.res.stringResource
+import com.soyhenry.feature.cart.R
 
 @Composable
 fun CartView(
@@ -30,13 +32,14 @@ fun CartView(
     cartViewModel: CartViewModel = hiltViewModel(),
     ordersViewModel: OrdersViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val uiState by cartViewModel.uiState.collectAsState()
 
     fun navigateToProducts() {
         navController.navigate(AppRoutes.Products.route)
     }
-    val context = LocalContext.current
-    ViewContainer(title = "Cart") {
+
+    ViewContainer(title = stringResource(R.string.cart_title)) {
         when (val state = uiState) {
             is UiState.Loading -> {
                 CircularProgressIndicator()
@@ -49,10 +52,10 @@ fun CartView(
 
                 if (cartItems.isEmpty()) {
                     EmptyState(
-                        title = "Your cart is empty",
-                        subtitle = "Start selecting products to add to your cart.",
+                        title = stringResource(R.string.cart_empty_title),
+                        subtitle = stringResource(R.string.cart_empty_subtitle),
                         icon = Icons.Default.ShoppingCart,
-                        buttonText = "Browse products",
+                        buttonText = stringResource(R.string.browse_products),
                         onClick = { navigateToProducts() },
                     )
                 } else {
@@ -81,35 +84,34 @@ fun CartView(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     CartSummaryRow(
-                        label = "Total items",
+                        label = stringResource(R.string.total_items),
                         value = totalItems.toString()
                     )
                     CartSummaryRow(
-                        label = "Total amount",
+                        label = stringResource(R.string.total_amount),
                         value = "$${"%.2f".format(totalAmount)}",
                     )
                     Button(
                         onClick = {
-                                ordersViewModel.createOrder(
-                                    cartItems = state.data,
-                                    onSuccess = {
-                                        cartViewModel.removeAllFromCart()
-                                        navController.navigate(AppRoutes.Orders.route) // navegar al listado de órdenes
-                                    },
-                                    onError = { message ->
-                                        Toast.makeText(context, "Error: $message", Toast.LENGTH_LONG).show()
-                                    }
-                                )
+                            ordersViewModel.createOrder(
+                                cartItems = state.data,
+                                onSuccess = {
+                                    cartViewModel.removeAllFromCart()
+                                    navController.navigate(AppRoutes.Orders.route) },
+                                onError = { message ->
+                                    Toast.makeText(context, "Error: $message", Toast.LENGTH_LONG).show()
+                                }
+                            )
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Create order")
+                        Text(stringResource(R.string.create_order))
                     }
                 }
             }
 
             is UiState.Error -> {
-                Text("Error: ${state.message}")
+                Text(text = stringResource(R.string.error_message, state.message))
             }
         }
     }
