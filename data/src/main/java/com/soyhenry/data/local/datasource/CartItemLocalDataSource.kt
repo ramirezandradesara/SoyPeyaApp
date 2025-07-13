@@ -1,10 +1,10 @@
-package com.soyhenry.data.repository
+package com.soyhenry.data.local.datasource
 
 import com.soyhenry.core.entities.CartItemEntity
 import com.soyhenry.core.entities.CartItemWithProductEntity
 import kotlinx.coroutines.flow.Flow
 
-interface CartItemRepository {
+interface CartItemLocalDataSource {
     suspend fun insertCartItem(cartItem: CartItemEntity)
     suspend fun updateCartItem(cartItem: CartItemEntity)
     suspend fun deleteCartItems()

@@ -39,6 +39,10 @@ fun CartView(
         navController.navigate(AppRoutes.Products.route)
     }
 
+    LaunchedEffect(Unit) {
+        cartViewModel.refreshCartItems()
+    }
+
     ViewContainer(title = stringResource(R.string.cart_title)) {
         when (val state = uiState) {
             is UiState.Loading -> {
