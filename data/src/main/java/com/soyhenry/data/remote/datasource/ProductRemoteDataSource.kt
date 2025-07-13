@@ -1,4 +1,4 @@
-package com.soyhenry.data.remote.datasource.products
+package com.soyhenry.data.remote.datasource
 
 import com.soyhenry.data.remote.dto.ProductDto
 

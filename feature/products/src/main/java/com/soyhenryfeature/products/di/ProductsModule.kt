@@ -4,8 +4,8 @@ import com.soyhenry.data.local.dao.ProductDao
 import com.soyhenry.data.local.datasource.ProductLocalDataSource
 import com.soyhenry.data.local.datasource.ProductLocalDataSourceImpl
 import com.soyhenry.data.remote.api.ProductsService
-import com.soyhenry.data.remote.datasource.products.ProductRemoteDataSource
-import com.soyhenry.data.remote.datasource.products.ProductRemoteDataSourceImpl
+import com.soyhenry.data.remote.datasource.ProductRemoteDataSource
+import com.soyhenry.data.remote.datasource.ProductRemoteDataSourceImpl
 import com.soyhenry.data.repository.ProductRepositoryImpl
 import com.soyhenry.data.repository.ProductsRepository
 import dagger.Module
