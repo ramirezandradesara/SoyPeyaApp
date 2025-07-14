@@ -1,4 +1,4 @@
-package com.soyhenry.feature.profile.di
+package com.soyhenry.data.di
 
 import com.soyhenry.data.remote.api.UserService
 import com.soyhenry.data.remote.datasource.UserRemoteDataSource

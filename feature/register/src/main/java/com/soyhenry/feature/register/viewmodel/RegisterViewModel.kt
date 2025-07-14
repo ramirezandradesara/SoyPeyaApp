@@ -3,6 +3,7 @@ package com.soyhenry.feature.register.viewmodel
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.feature.register.domain.usecase.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import java.io.IOException
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
+    private val userPreferences: UserPreferences
 ) : ViewModel() {
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
@@ -144,7 +146,8 @@ class RegisterViewModel @Inject constructor(
                         name = _name.value,
                         password = _password.value
                     )
-                    _toastMessage.value = "Registration successful"
+                    userPreferences.saveUserEmail(_email.value)
+                    _toastMessage.value = "Registration successful 🎉"
                     _registerSuccess.value = true
                 } catch (e: HttpException) {
                     val message = when (e.code()) {

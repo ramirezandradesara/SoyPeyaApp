@@ -9,7 +9,7 @@ import com.cloudinary.Cloudinary
 import com.soyhenry.core.domain.User
 import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.core.state.UiState
-import com.soyhenry.data.repository.UserRepository
+import com.soyhenry.feature.profile.domain.usecase.GetUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     myApplication: Application,
-    private val repository: UserRepository,
+    private val getUserProfileUseCase: GetUserProfileUseCase,
     private val cloudinary: Cloudinary,
     private val userPreferences: UserPreferences
 ): AndroidViewModel(myApplication)  {
@@ -36,7 +36,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             userPreferences.userEmail.collect { email ->
                 if (!email.isNullOrEmpty()) {
-                    _uiState.value = UiState.Success(repository.getProfileByEmail(email))
+                    _uiState.value = UiState.Success(getUserProfileUseCase(email))
                 }
             }
         }
@@ -50,7 +50,6 @@ class ProfileViewModel @Inject constructor(
         }
         // TODO() actualizar
     }
-
 
     private fun uploadImage(uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {

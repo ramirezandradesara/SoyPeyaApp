@@ -40,11 +40,6 @@ class LoginViewModel @Inject constructor(
         _password.value = newPassword
     }
 
-    private fun saveLoginStatus(context: Context, isLoggedIn: Boolean) {
-        val sharedPreferences = context.getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putBoolean("is_logged_in", isLoggedIn).apply()
-    }
-
     fun onLoginClick(context: Context) {
         viewModelScope.launch {
             if (!isValidEmail(_email.value)) {
