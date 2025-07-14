@@ -80,6 +80,7 @@ dependencies {
     testImplementation(libs.junit)
 
     implementation(project(":core:approutes"))
+    implementation(project(":core:session"))
     implementation(project(":core:model"))
     implementation(project(":data"))
     implementation(project(":library"))

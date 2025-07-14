@@ -1,14 +1,15 @@
 package com.soyhenry.feature.profile.viewmodel
 
-
 import android.app.Application
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cloudinary.Cloudinary
-import com.soyhenry.feature.profile.data.model.ProfileModel
-import com.soyhenry.feature.profile.data.repository.ProfileRepository
+import com.soyhenry.core.domain.User
+import com.soyhenry.core.session.UserPreferences
+import com.soyhenry.core.state.UiState
+import com.soyhenry.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,34 +20,37 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    val myApplication: Application,
-    private val repository: ProfileRepository,
-    val cloudinary: Cloudinary
+    myApplication: Application,
+    private val repository: UserRepository,
+    private val cloudinary: Cloudinary,
+    private val userPreferences: UserPreferences
 ): AndroidViewModel(myApplication)  {
 
-    private val _profile = MutableStateFlow(ProfileModel())
-    val profile: StateFlow<ProfileModel> = _profile.asStateFlow()
+    private val _uiState = MutableStateFlow<UiState<User>>(UiState.Loading)
+    val uiState: StateFlow<UiState<User>> = _uiState
 
     private val _isImageUploading =  MutableStateFlow(false)
     val isImageUploading: StateFlow<Boolean> = _isImageUploading.asStateFlow()
 
-    init {
-        loadProfile()
-    }
-
-    private fun loadProfile(){
+    fun loadProfile() {
         viewModelScope.launch {
-            _profile.value = repository.getProfile()
+            userPreferences.userEmail.collect { email ->
+                if (!email.isNullOrEmpty()) {
+                    _uiState.value = UiState.Success(repository.getProfileByEmail(email))
+                }
+            }
         }
     }
 
-    fun updateProfile(newProfile: ProfileModel, imageUri: Uri?) {
-        _profile.value = newProfile
+    fun updateProfile(newProfile: User, imageUri: Uri?) {
+        _uiState.value = UiState.Success(newProfile)
+
         if (imageUri != null) {
             uploadImage(imageUri)
         }
-        // profile.dataSource.updateProfileInfo()
+        // TODO() actualizar
     }
+
 
     private fun uploadImage(uri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -55,8 +59,11 @@ class ProfileViewModel @Inject constructor(
                 val inputStream = getApplication<Application>().contentResolver.openInputStream(uri)
                 val uploadResult = cloudinary.uploader().upload(inputStream, mapOf("upload_preset" to "soypeya-example"))
                 val imageUrl = uploadResult["secure_url"] as String
-                val updatedProfile = _profile.value.copy(image = imageUrl)
-                _profile.value = updatedProfile
+
+                val updatedProfile = (_uiState.value as? UiState.Success)?.data?.copy(image = imageUrl)
+                if (updatedProfile != null) {
+                    _uiState.value = UiState.Success(updatedProfile)
+                }
             } catch (e: Exception) {
                 Log.e("Cloudinary", "Error uploading image", e)
             } finally {

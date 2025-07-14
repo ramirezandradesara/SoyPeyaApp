@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.feature.login.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,8 @@ import java.io.IOException
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val userPreferences: UserPreferences
 ) : ViewModel() {
     private val _email = MutableStateFlow("")
     val email: StateFlow<String> = _email.asStateFlow()
@@ -53,7 +55,7 @@ class LoginViewModel @Inject constructor(
             try {
                 loginUseCase(_email.value, _password.value)
 
-                // saveLoginStatus(context, true)
+                userPreferences.saveUserEmail(_email.value)
                 _loginSuccess.value = true
                 _toastMessage.value = "Welcome 🎉"
             } catch (e: HttpException) {

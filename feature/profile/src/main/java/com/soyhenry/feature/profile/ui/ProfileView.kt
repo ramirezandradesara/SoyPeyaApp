@@ -31,13 +31,14 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
-import com.soyhenry.feature.profile.data.model.ProfileModel
 import com.soyhenry.library.ui.components.container.ViewContainer
 import com.soyhenry.library.ui.components.textField.PasswordTextField
 import androidx.compose.ui.res.stringResource
 import com.soyhenry.core.approutes.AppRoutes
+import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.profile.R
 import com.soyhenry.library.ui.components.textField.EmailTextField
 
@@ -46,14 +47,7 @@ fun ProfileView(
     navController: NavController,
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
-
-    val profile by profileViewModel.profile.collectAsState()
-    var name by remember(profile.name) { mutableStateOf(profile.name) }
-    var lastName by remember(profile.lastName) { mutableStateOf(profile.lastName) }
-    var email by remember(profile.email) { mutableStateOf(profile.email) }
-    var password by remember(profile.password) { mutableStateOf(profile.password) }
-    var nationality by remember(profile.nationality) { mutableStateOf(profile.nationality) }
-
+    val uiState by profileViewModel.uiState.collectAsState()
     val isImageUploading by profileViewModel.isImageUploading.collectAsState()
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     val context = LocalContext.current
@@ -62,6 +56,10 @@ fun ProfileView(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         imageUri = uri
+    }
+
+    LaunchedEffect(Unit) {
+        profileViewModel.loadProfile()
     }
 
     ViewContainer(
@@ -75,143 +73,149 @@ fun ProfileView(
             }
         }
     ) {
-        if (isImageUploading) {
-            AlertDialog(
-                onDismissRequest = {},
-                confirmButton = {},
-                title = { Text(text = stringResource(id = R.string.uploading_image)) },
-                text = {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-            )
-        }
-
-        if (profile.image.isNotEmpty()) {
-            imageUri = null
-            LoadImage(
-                url = profile.image,
-                contentDescription = profile.name,
-                modifier = Modifier.size(50.dp)
-            )
-        } else {
-            Card(
-                modifier = Modifier
-                    .size(120.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .clickable { launcher.launch("image/*") }
-            ) {
-                if (imageUri != null) {
-                    val bitmap = remember(imageUri) {
-                        try {
-                            @Suppress("DEPRECATION")
-                            MediaStore.Images.Media.getBitmap(
-                                context.contentResolver,
-                                imageUri
-                            ).asImageBitmap()
-                        } catch (e: Exception) {
-                            null
-                        }
-                    }
-
-                    if (bitmap != null) {
-                        Image(
-                            bitmap = bitmap,
-                            contentDescription = stringResource(id = R.string.profile_title),
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    } else {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = stringResource(id = R.string.error_uploading_image))
-                        }
-                    }
-                } else {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = stringResource(id = R.string.select_image))
-                    }
+        when (val state = uiState) {
+            is UiState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
                 }
             }
-        }
 
-        Spacer(Modifier.height(8.dp))
+            is UiState.Error -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Error: ${state.message}")
+                }
+            }
 
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text(stringResource(id = R.string.name_label)) },
-            modifier = Modifier.fillMaxWidth()
-        )
+            is UiState.Success -> {
+                val profile = state.data
 
-        Spacer(Modifier.height(8.dp))
+                var name by remember(profile.fullName) { mutableStateOf(profile.fullName) }
+                var email by remember(profile.email) { mutableStateOf(profile.email) }
+                var password by remember(profile.password) { mutableStateOf(profile.password) }
 
-        OutlinedTextField(
-            value = lastName,
-            onValueChange = { lastName = it },
-            label = { Text(stringResource(id = R.string.last_name_label)) },
-            modifier = Modifier.fillMaxWidth()
-        )
+                if (isImageUploading) {
+                    AlertDialog(
+                        onDismissRequest = {},
+                        confirmButton = {},
+                        title = { Text(text = stringResource(id = R.string.uploading_image)) },
+                        text = {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 16.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                    )
+                }
 
-        Spacer(Modifier.height(8.dp))
+                if (profile.image.isNullOrEmpty().not()) {
+                    imageUri = null
+                    LoadImage(
+                        url = profile.image!!,
+                        contentDescription = profile.fullName,
+                        modifier = Modifier.size(120.dp).align(Alignment.CenterHorizontally)
+                    )
+                } else {
+                    Card(
+                        modifier = Modifier
+                            .size(120.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .clickable { launcher.launch("image/*") }
+                    ) {
+                        if (imageUri != null) {
+                            val bitmap = remember(imageUri) {
+                                try {
+                                    @Suppress("DEPRECATION")
+                                    MediaStore.Images.Media.getBitmap(
+                                        context.contentResolver,
+                                        imageUri
+                                    ).asImageBitmap()
+                                } catch (e:  Exception) {
+                                    null
+                                }
+                            }
 
-        EmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.fillMaxWidth(),
-            // errorMessage = TODO(),
-        )
+                            if (bitmap != null) {
+                                Image(
+                                    bitmap = bitmap,
+                                    contentDescription = stringResource(id = R.string.profile_title),
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            } else {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(stringResource(id = R.string.error_uploading_image))
+                                }
+                            }
+                        } else {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(stringResource(id = R.string.select_image))
+                            }
+                        }
+                    }
+                }
 
-        Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(8.dp))
 
-        PasswordTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = stringResource(id = R.string.password_label),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(Modifier.height(8.dp))
-
-        OutlinedTextField(
-            value = nationality,
-            onValueChange = { nationality = it },
-            label = { Text(stringResource(id = R.string.nationality_label)) },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(Modifier.height(8.dp))
-
-        Button(
-            onClick = {
-                val updateProfile = ProfileModel(
-                    name = name,
-                    lastName = lastName,
-                    email = email,
-                    password = password,
-                    nationality = nationality,
-                    image = profile.image
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text(stringResource(id = R.string.name_label)) },
+                    modifier = Modifier.fillMaxWidth()
                 )
-                profileViewModel.updateProfile(updateProfile, imageUri)
-            },
-            enabled = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-        ) {
-            Text(stringResource(id = R.string.save_changes_button))
+
+                Spacer(Modifier.height(8.dp))
+
+                EmailTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+
+                Spacer(Modifier.height(8.dp))
+
+                PasswordTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = stringResource(id = R.string.password_label),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(Modifier.height(8.dp))
+
+                Button(
+                    onClick = {
+                        val updatedUser = profile.copy(
+                            fullName = name,
+                            email = email,
+                            password = password
+                        )
+                        profileViewModel.updateProfile(updatedUser, imageUri)
+                    },
+                    enabled = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                ) {
+                    Text(stringResource(id = R.string.save_changes_button))
+                }
+            }
         }
     }
 }

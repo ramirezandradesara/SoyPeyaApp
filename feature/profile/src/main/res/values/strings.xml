@@ -5,9 +5,7 @@
     <string name="uploading_image">Subiendo imagen</string>
     <string name="error_uploading_image">Error al subir la imagen</string>
     <string name="select_image">Seleccionar imagen</string>
-    <string name="name_label">Nombre</string>
-    <string name="last_name_label">Apellido</string>
+    <string name="name_label">Nombre completo</string>
     <string name="password_label">Contraseña</string>
-    <string name="nationality_label">Nacionalidad</string>
     <string name="save_changes_button">Guardar cambios</string>
 </resources>

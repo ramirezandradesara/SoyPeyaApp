@@ -83,6 +83,7 @@ dependencies {
     implementation(project(":feature:register"))
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
+    implementation(project(":core:session"))
     implementation(project(":data"))
     implementation(project(":library"))
 

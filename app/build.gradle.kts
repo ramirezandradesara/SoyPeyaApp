@@ -126,6 +126,7 @@ dependencies {
     implementation(project(":feature:orders"))
     implementation(project(":core:approutes"))
     implementation(project(":core:model"))
+    implementation(project(":core:session"))
     implementation(project(":data"))
     implementation(project(":library"))
 
