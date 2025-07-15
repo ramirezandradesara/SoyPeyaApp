@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.flow.first
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -34,10 +35,16 @@ class ProfileViewModel @Inject constructor(
 
     fun loadProfile() {
         viewModelScope.launch {
-            userPreferences.userEmail.collect { email ->
+            try {
+                val email = userPreferences.userEmail.first()
                 if (!email.isNullOrEmpty()) {
-                    _uiState.value = UiState.Success(getUserProfileUseCase(email))
+                    val user = getUserProfileUseCase(email)
+                    _uiState.value = UiState.Success(user)
+                } else {
+                    _uiState.value = UiState.Error("No se encontró un email guardado")
                 }
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error(e.message ?: "Ocurrió un error al cargar el perfil")
             }
         }
     }
@@ -64,7 +71,7 @@ class ProfileViewModel @Inject constructor(
                     _uiState.value = UiState.Success(updatedProfile)
                 }
             } catch (e: Exception) {
-                Log.e("Cloudinary", "Error uploading image", e)
+                _uiState.value = UiState.Error(e.message ?: "Error al subir imagen")
             } finally {
                 _isImageUploading.value = false
             }
