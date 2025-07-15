@@ -1,14 +1,23 @@
 package com.soyhenry.feature.register.viewmodel
 
-import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.soyhenry.core.session.UserPreferences
+import com.soyhenry.feature.register.domain.usecase.RegisterUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import retrofit2.HttpException
+import java.io.IOException
 
-class RegisterViewModel : ViewModel() {
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val registerUseCase: RegisterUseCase,
+    private val userPreferences: UserPreferences
+) : ViewModel() {
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
 
@@ -123,30 +132,43 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
-    fun onRegisterClick(context: Context) {
+    fun onRegisterClick() {
         val isEmailValid = validateEmail()
         val isNameValid = validateName()
         val isPasswordValid = validatePassword()
         val isConfirmPasswordValid = validateConfirmPassword()
 
         if (isEmailValid && isNameValid && isPasswordValid && isConfirmPasswordValid) {
-            context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE).edit().apply {
-                putString("registered_email", _email.value)
-                putString("registered_name", _name.value)
-                putString("registered_password", _password.value)
-                putBoolean("is_registered", true)
-                apply()
-            }
             viewModelScope.launch {
-                _toastMessage.value = "Registration successful"
-                _registerSuccess.value = true
+                try {
+                    registerUseCase(
+                        email = _email.value,
+                        name = _name.value,
+                        password = _password.value
+                    )
+                    userPreferences.saveUserEmail(_email.value)
+                    _toastMessage.value = "Registration successful 🎉"
+                    _registerSuccess.value = true
+                } catch (e: HttpException) {
+                    val message = when (e.code()) {
+                        400 -> "Bad request: please check your input"
+                        403 -> "Forbidden: you are not allowed"
+                        409 -> "Email already registered"
+                        500 -> "Server error. Please try again later"
+                        else -> "Unknown error: ${e.code()}"
+                    }
+                    _toastMessage.value = "Registration failed: $message"
+                } catch (e: IOException) {
+                    _toastMessage.value = "Network error: please check your connection"
+                } catch (e: Exception) {
+                    _toastMessage.value = "Unexpected error: ${e.message}"
+                }
             }
         } else {
-            viewModelScope.launch {
-                _toastMessage.value = "Please fix the errors in the form"
-            }
+            _toastMessage.value = "Please fix the errors in the form"
         }
     }
+
 
     fun clearToastMessage() {
         _toastMessage.value = null

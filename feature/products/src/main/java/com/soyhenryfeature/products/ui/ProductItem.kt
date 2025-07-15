@@ -18,16 +18,17 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenryfeature.products.R
 import androidx.compose.ui.graphics.Color
-import com.soyhenry.core.model.database.entities.ProductEntity
+import com.soyhenry.core.domain.Product
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ProductItem(
-    product: ProductEntity,
+    product: Product,
     modifier: Modifier = Modifier,
-    onAddToCart: (ProductEntity) -> Unit,
+    onAddToCart: (Product) -> Unit,
 ) {
-    val imagePainter = if (product.imageURL.isNotBlank()) {
-        rememberAsyncImagePainter(model = product.imageURL)
+    val imagePainter = if (product.imgURL.isNotBlank()) {
+        rememberAsyncImagePainter(model = product.imgURL)
     } else {
         painterResource(id = R.drawable.missing_img_product)
     }
@@ -35,7 +36,8 @@ fun ProductItem(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Box(
             modifier = Modifier
@@ -45,7 +47,7 @@ fun ProductItem(
         ) {
             Image(
                 painter = imagePainter,
-                contentDescription = "Product image",
+                contentDescription = stringResource(R.string.product_image_description),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.matchParentSize()
             )
@@ -53,13 +55,13 @@ fun ProductItem(
 
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
-                text = product.productName,
+                text = product.name,
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
             Text(
-                text = product.category,
+                text = product.description,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(top = 4.dp)
             )
@@ -89,7 +91,7 @@ fun ProductItem(
                     Icon(
                         modifier = Modifier.size(15.dp),
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Add to cart",
+                        contentDescription = stringResource(R.string.add_to_cart_description),
                         tint = Color.White
                     )
                 }
@@ -102,12 +104,13 @@ fun ProductItem(
 @Preview(showBackground = true)
 @Composable
 fun ProductItemPreview() {
-    val sampleProduct = ProductEntity(
+    val sampleProduct = Product(
         id = "1",
-        productName = "Sample Product",
+        name = "Sample Product",
+        description = "A delicious sample product for preview purposes.",
+        imgURL = "",
         price = 29.99,
         category = "Pizza",
-        imageURL = ""
     )
 
     MaterialTheme {

@@ -1,5 +1,6 @@
 package com.soyhenry.feature.cart.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,24 +16,34 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.state.UiState
+import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
 import com.soyhenry.library.ui.components.EmptyState
-import com.soyhenry.library.ui.components.ViewContainer
+import com.soyhenry.library.ui.components.container.ViewContainer
+import androidx.compose.ui.res.stringResource
+import com.soyhenry.feature.cart.R
 
 @Composable
 fun CartView(
     navController: NavController,
-    cartViewModel: CartViewModel = hiltViewModel()
+    cartViewModel: CartViewModel = hiltViewModel(),
+    ordersViewModel: OrdersViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val uiState by cartViewModel.uiState.collectAsState()
 
     fun navigateToProducts() {
         navController.navigate(AppRoutes.Products.route)
     }
 
-    ViewContainer(title = "Cart") {
+    LaunchedEffect(Unit) {
+        cartViewModel.refreshCartItems()
+    }
+
+    ViewContainer(title = stringResource(R.string.cart_title)) {
         when (val state = uiState) {
             is UiState.Loading -> {
                 CircularProgressIndicator()
@@ -40,15 +51,15 @@ fun CartView(
 
             is UiState.Success -> {
                 val cartItems = state.data
-                val totalItems = cartItems.sumOf { it.cartItem.quantity }
-                val totalAmount = cartItems.sumOf { it.cartItem.quantity * it.product.price }
+                val totalItems = cartItems.sumOf { it.quantity }
+                val totalAmount = cartItems.sumOf { it.quantity * it.product.price }
 
                 if (cartItems.isEmpty()) {
                     EmptyState(
-                        title = "Your cart is empty",
-                        subtitle = "Start selecting products to add to your cart.",
+                        title = stringResource(R.string.cart_empty_title),
+                        subtitle = stringResource(R.string.cart_empty_subtitle),
                         icon = Icons.Default.ShoppingCart,
-                        buttonText = "Browse products",
+                        buttonText = stringResource(R.string.browse_products),
                         onClick = { navigateToProducts() },
                     )
                 } else {
@@ -58,16 +69,16 @@ fun CartView(
                                 item = item,
                                 onIncrease = {
                                     cartViewModel.updateQuantity(
-                                        item.product.id, item.cartItem.quantity + 1
+                                        item.product.id, item.quantity + 1
                                     )
                                 },
                                 onDecrease = {
-                                    if (item.cartItem.quantity > 1) {
+                                    if (item.quantity > 1) {
                                         cartViewModel.updateQuantity(
-                                            item.product.id, item.cartItem.quantity - 1
+                                            item.product.id, item.quantity - 1
                                         )
                                     } else {
-                                        cartViewModel.removeFromCart(item.cartItem)
+                                        cartViewModel.removeFromCart(item)
                                     }
                                 })
                             Spacer(modifier = Modifier.height(12.dp))
@@ -77,23 +88,34 @@ fun CartView(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     CartSummaryRow(
-                        label = "Total items",
+                        label = stringResource(R.string.total_items),
                         value = totalItems.toString()
                     )
                     CartSummaryRow(
-                        label = "Total amount",
+                        label = stringResource(R.string.total_amount),
                         value = "$${"%.2f".format(totalAmount)}",
                     )
                     Button(
-                        onClick = { }, modifier = Modifier.fillMaxWidth()
+                        onClick = {
+                            ordersViewModel.createOrder(
+                                cartItems = state.data,
+                                onSuccess = {
+                                    cartViewModel.removeAllFromCart()
+                                    navController.navigate(AppRoutes.Orders.route) },
+                                onError = { message ->
+                                    Toast.makeText(context, "Error: $message", Toast.LENGTH_LONG).show()
+                                }
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Create order")
+                        Text(stringResource(R.string.create_order))
                     }
                 }
             }
 
             is UiState.Error -> {
-                Text("Error: ${state.message}")
+                Text(text = stringResource(R.string.error_message, state.message))
             }
         }
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_title">Perfil</string>
+    <string name="view_orders">Ver pedidos</string>
+    <string name="uploading_image">Subiendo imagen</string>
+    <string name="error_uploading_image">Error al subir la imagen</string>
+    <string name="select_image">Seleccionar imagen</string>
+    <string name="name_label">Nombre completo</string>
+    <string name="password_label">Contraseña</string>
+    <string name="save_changes_button">Guardar cambios</string>
+</resources>

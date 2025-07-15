@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cart_title">Carrito</string>
+    <string name="cart_empty_title">Tu carrito está vacío</string>
+    <string name="cart_empty_subtitle">Empieza a seleccionar productos para agregarlos a tu carrito.</string>
+    <string name="browse_products">Explorar productos</string>
+    <string name="total_items">Total de productos</string>
+    <string name="total_amount">Monto total</string>
+    <string name="create_order">Crear orden</string>
+    <string name="error_message">Error: %1$s</string>
+    <string name="product_image_description">Imagen del producto</string>
+    <string name="decrease_quantity">Disminuir</string>
+    <string name="increase_quantity">Aumentar</string>
+</resources>

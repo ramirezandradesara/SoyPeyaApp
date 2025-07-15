@@ -29,22 +29,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.soyhenry.core.model.database.entities.CartItemEntity
-import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
-import com.soyhenry.core.model.database.entities.ProductEntity
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
+import androidx.compose.ui.res.stringResource
+import com.soyhenry.core.domain.CartItem
+import com.soyhenry.feature.cart.R
 
 @Composable
 fun CartItemCard(
-    item: CartItemWithProductEntity,
+    item: CartItem,
     onIncrease: () -> Unit,
     onDecrease: () -> Unit
 ) {
-    val imagePainter = if (item.product.imageURL.isNotBlank()) {
-        rememberAsyncImagePainter(model = item.product.imageURL)
+    val imagePainter = if (item.product.imgURL.isNotBlank()) {
+        rememberAsyncImagePainter(model = item.product.imgURL)
     } else {
         painterResource(id = missing_img_product)
     }
@@ -57,7 +56,7 @@ fun CartItemCard(
     ) {
         Image(
             painter = imagePainter,
-            contentDescription = "Product image",
+            contentDescription = stringResource(R.string.product_image_description),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .weight(1f)
@@ -70,7 +69,7 @@ fun CartItemCard(
         Column(
             modifier = Modifier.weight(1.5f)
         ) {
-            Text(text = item.product.productName, fontWeight = FontWeight.SemiBold)
+            Text(text = item.product.name, fontWeight = FontWeight.SemiBold)
             Text(
                 text = item.product.category,
                 style = MaterialTheme.typography.bodySmall,
@@ -98,13 +97,13 @@ fun CartItemCard(
                 Icon(
                     modifier = Modifier.size(15.dp),
                     imageVector = Icons.Default.Remove,
-                    contentDescription = "Decrease",
+                    contentDescription = stringResource(R.string.decrease_quantity),
                     tint = Color.White,
                 )
             }
 
             Text(
-                text = item.cartItem.quantity.toString(),
+                text = item.quantity.toString(),
                 modifier = Modifier.padding(horizontal = 4.dp),
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -119,7 +118,7 @@ fun CartItemCard(
                 Icon(
                     modifier = Modifier.size(15.dp),
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Increase",
+                    contentDescription = stringResource(R.string.increase_quantity),
                     tint = Color.White,
                 )
             }
@@ -127,6 +126,7 @@ fun CartItemCard(
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun CartItemPreview() {
@@ -136,7 +136,7 @@ fun CartItemPreview() {
             productName = "Melting Cheese Pizza",
             category = "Pizza",
             price = 11.88,
-            imageURL = ""
+            imageURL = "",
         ),
         cartItem = CartItemEntity(
             id = 1,
@@ -152,4 +152,4 @@ fun CartItemPreview() {
             onDecrease = {}
         )
     }
-}
+} */

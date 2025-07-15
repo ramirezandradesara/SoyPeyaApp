@@ -1,6 +1,5 @@
 package com.soyhenryfeature.products.ui
 
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
@@ -15,10 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.LaunchedEffect
 import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import com.soyhenry.library.ui.components.EmptyState
-import com.soyhenry.library.ui.components.ViewContainer
+import com.soyhenry.library.ui.components.container.ViewContainer
+import androidx.compose.ui.res.stringResource
+import com.soyhenryfeature.products.R
 
 @Composable
 fun ProductsView(
@@ -29,11 +31,15 @@ fun ProductsView(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val filterText by viewModel.filterText.collectAsStateWithLifecycle()
 
-    ViewContainer(title = "Products") {
+    LaunchedEffect(Unit) {
+        viewModel.loadProducts(refreshData = true)
+    }
+
+    ViewContainer(title = stringResource(R.string.products_title)) {
         OutlinedTextField(
             value = filterText,
             onValueChange = viewModel::onFilterTextChange,
-            label = { Text("Filter products") },
+            label = { Text(stringResource(R.string.filter_products_label)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
@@ -42,15 +48,15 @@ fun ProductsView(
 
         when (val state = uiState) {
             is UiState.Loading -> {
-                CircularProgressIndicator()
+                ProductsSkeletonList()
             }
 
             is UiState.Success -> {
                 val products = state.data
                 if (products.isEmpty()) {
                     EmptyState(
-                        title = "No products found",
-                        subtitle = "Try adjusting your filters.",
+                        title = stringResource(R.string.no_products_title),
+                        subtitle = stringResource(R.string.no_products_subtitle),
                         icon = Icons.Default.Search,
                     )
                 } else {

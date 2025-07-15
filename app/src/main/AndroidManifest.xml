@@ -14,7 +14,7 @@
         android:theme="@style/Theme.SoyPeyaApp"
         tools:targetApi="31">
         <activity
-            android:name=".view.ui.activities.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.SoyPeyaApp">
             <intent-filter>

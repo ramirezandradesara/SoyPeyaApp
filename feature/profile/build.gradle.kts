@@ -55,10 +55,12 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
-    implementation(project(":library:ui:components"))
     implementation(project(":core:model"))
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
+    implementation(project(":core:session"))
+    implementation(project(":library"))
+    implementation(project(":data"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -67,6 +69,10 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    // Retrofit and Gson
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 
     // ViewModel
     implementation(libs.lifecycle.viewmodel)

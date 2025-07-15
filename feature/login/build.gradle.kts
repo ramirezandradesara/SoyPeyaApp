@@ -54,18 +54,38 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.activity)
 
+    // OkHttp
+    implementation(libs.okhttp.logging)
+
+    // Room for local database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
+
     // Hilt
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    // ViewModel
+    implementation(libs.lifecycle.viewmodel)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Retrofit and Gson
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+
     implementation(libs.androidx.navigation.compose)
+    testImplementation(libs.junit)
+
     implementation(project(":feature:register"))
-    implementation(project(":library:ui:components"))
     implementation(project(":core:approutes"))
     implementation(project(":core:constants:appinfo"))
-
-    testImplementation(libs.junit)
+    implementation(project(":core:session"))
+    implementation(project(":data"))
+    implementation(project(":library"))
 
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)

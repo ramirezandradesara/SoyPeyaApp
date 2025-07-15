@@ -11,10 +11,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.feature.register.viewmodel.RegisterViewModel
-import com.soyhenry.library.ui.components.AuthContainer
-import com.soyhenry.library.ui.components.PasswordTextField
-import androidx.compose.material3.*
+import com.soyhenry.library.ui.components.container.AuthContainer
+import com.soyhenry.library.ui.components.textField.PasswordTextField
 import androidx.compose.foundation.layout.*
+import com.soyhenry.library.ui.components.textField.EmailTextField
+import com.soyhenry.library.ui.components.textField.SimpleTextField
+import androidx.compose.ui.res.stringResource
+import com.soyhenry.feature.register.R
 
 @Composable
 fun RegisterView(
@@ -57,40 +60,33 @@ fun RegisterView(
     }
 
     AuthContainer(
-        title = "Sign up, it's free!",
-        submitButtonText = "Register",
+        title = stringResource(id = R.string.sign_up_free),
+        submitButtonText = stringResource(id = R.string.register_button),
         isSubmitEnabled = isFormValid,
-        onSubmitClick = { viewModel.onRegisterClick(context) },
-        bottomText = "Already have an account?",
-        bottomActionText = "Log in",
+        onSubmitClick = { viewModel.onRegisterClick() },
+        bottomText = stringResource(id = R.string.already_have_account),
+        bottomActionText = stringResource(id = R.string.log_in),
         onBottomActionClick = {
             navController.navigate(AppRoutes.LogIn.route) {
                 popUpTo(AppRoutes.Register.route) { inclusive = true }
             }
         }
     ) {
-        OutlinedTextField(
+        EmailTextField(
             value = email,
             onValueChange = viewModel::onEmailChange,
-            label = { Text("Email") },
             modifier = Modifier.fillMaxWidth(),
-            isError = emailError != null,
-            supportingText = if (emailError != null) {
-                { Text(emailError!!) }
-            } else null
+            errorMessage = emailError,
         )
 
         Spacer(Modifier.height(8.dp))
 
-        OutlinedTextField(
+        SimpleTextField(
             value = name,
             onValueChange = viewModel::onNameChange,
-            label = { Text("Full name") },
-            modifier = Modifier.fillMaxWidth(),
-            isError = nameError != null,
-            supportingText = if (nameError != null) {
-                { Text(nameError!!) }
-            } else null
+            label = stringResource(id = R.string.full_name_label),
+            errorMessage = nameError,
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(Modifier.height(8.dp))
@@ -98,13 +94,9 @@ fun RegisterView(
         PasswordTextField(
             value = password,
             onValueChange = viewModel::onPasswordChange,
-            label = "Password",
+            label = stringResource(id = R.string.password_label),
             modifier = Modifier.fillMaxWidth(),
-            isError = passwordError != null,
-            supportingText = if (passwordError != null) {
-                { Text(passwordError!!) }
-            } else null
-
+            errorMessage = passwordError,
         )
 
         Spacer(Modifier.height(8.dp))
@@ -112,12 +104,9 @@ fun RegisterView(
         PasswordTextField(
             value = confirmPassword,
             onValueChange = viewModel::onConfirmPasswordChange,
-            label = "Confirm password",
+            label = stringResource(id = R.string.confirm_password_label),
             modifier = Modifier.fillMaxWidth(),
-            isError = confirmPasswordError != null,
-            supportingText = if (confirmPasswordError != null) {
-                { Text(confirmPasswordError!!) }
-            } else null
+            errorMessage = confirmPasswordError,
         )
     }
 }

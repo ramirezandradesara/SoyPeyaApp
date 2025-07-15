@@ -2,11 +2,11 @@ package com.soyhenry.feature.cart.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soyhenry.core.model.database.entities.CartItemEntity
-import com.soyhenry.core.model.database.entities.CartItemWithProductEntity
-import com.soyhenry.core.model.database.entities.ProductEntity
-import com.soyhenry.core.repository.CartItemRepository
+import com.soyhenry.core.domain.CartItem
+import com.soyhenry.core.domain.Product
+import com.soyhenry.core.entities.CartItemEntity
 import com.soyhenry.core.state.UiState
+import com.soyhenry.feature.cart.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,24 +16,22 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartItemRepository: CartItemRepository
+    private val insertCartItemUseCase: InsertCartItemUseCase,
+    private val getAllCartItemsWithProductsUseCase: GetAllCartItemsWithProductsUseCase,
+    private val getCartItemByProductIdUseCase: GetCartItemByProductIdUseCase,
+    private val updateCartItemUseCase: UpdateCartItemUseCase,
+    private val deleteCartItemByIdUseCase: DeleteCartItemByIdUseCase,
+    private val deleteCartItemsUseCase: DeleteCartItemsUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<List<CartItemWithProductEntity>>>(UiState.Loading)
-    val uiState: StateFlow<UiState<List<CartItemWithProductEntity>>> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow<UiState<List<CartItem>>>(UiState.Loading)
+    val uiState: StateFlow<UiState<List<CartItem>>> = _uiState.asStateFlow()
 
-    private val _cartItems = MutableStateFlow<List<CartItemWithProductEntity>>(emptyList())
-    val cartItems: StateFlow<List<CartItemWithProductEntity>> = _cartItems.asStateFlow()
-
-    init {
-        refreshCartItems()
-    }
-
-    private fun refreshCartItems() {
+    fun refreshCartItems() {
         viewModelScope.launch {
             try {
                 _uiState.value = UiState.Loading
-                cartItemRepository.getAllCartItemsWithProducts().collect { items ->
+                getAllCartItemsWithProductsUseCase().collect { items ->
                     _uiState.value = UiState.Success(items)
                 }
             } catch (e: Exception) {
@@ -44,33 +42,31 @@ class CartViewModel @Inject constructor(
 
     fun updateQuantity(productId: String, newQuantity: Int) {
         viewModelScope.launch {
-            cartItemRepository.getCartItemByProductId(productId)?.let { existing ->
+            getCartItemByProductIdUseCase(productId)?.let { existing ->
                 val updated = existing.copy(quantity = newQuantity.coerceAtLeast(1))
-                cartItemRepository.updateCartItem(updated)
+                insertCartItemUseCase(updated)
             }
         }
     }
 
-    fun addToCart(product: ProductEntity) {
+    fun addToCart(product: Product) {
         viewModelScope.launch {
-            val existingCartItem = cartItemRepository.getCartItemByProductId(product.id)
+            val existingCartItem = getCartItemByProductIdUseCase(product.id)
 
             if (existingCartItem != null) {
                 val updatedCartItem = existingCartItem.copy(quantity = existingCartItem.quantity + 1)
-                cartItemRepository.updateCartItem(updatedCartItem)
+                updateCartItemUseCase(updatedCartItem)
             } else {
-                cartItemRepository.insertCartItem(
-                    CartItemEntity(productId = product.id, quantity = 1)
-                )
+                insertCartItemUseCase(CartItemEntity(productId = product.id, quantity = 1))
             }
             refreshCartItems()
         }
     }
 
-    fun removeFromCart(cartItem: CartItemEntity) {
+    fun removeFromCart(cartItem: CartItem) {
         viewModelScope.launch {
-            cartItemRepository.getCartItemByProductId(cartItem.productId)?.let {
-                cartItemRepository.deleteCartItem(it.id)
+            getCartItemByProductIdUseCase(cartItem.productId)?.let {
+                deleteCartItemByIdUseCase(it.id)
             }
             refreshCartItems()
         }
@@ -78,7 +74,7 @@ class CartViewModel @Inject constructor(
 
     fun removeAllFromCart() {
         viewModelScope.launch {
-            cartItemRepository.deleteCartItems()
+            deleteCartItemsUseCase()
             refreshCartItems()
         }
     }
