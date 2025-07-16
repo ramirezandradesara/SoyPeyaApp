@@ -1,6 +1,7 @@
 package com.soyhenry.core.approutes
 
 sealed class AppRoutes(val route: String) {
+    object StartUp : AppRoutes("start_up")
     object LogIn : AppRoutes("login")
     object Register : AppRoutes("register")
     object Products : AppRoutes("products")

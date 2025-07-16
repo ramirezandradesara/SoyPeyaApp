@@ -7,12 +7,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.feature.navigation.ui.MainScreen
 import com.soyhenry.library.ui.theme.SoyPeyaAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +24,7 @@ class MainActivity : ComponentActivity() {
 
             SoyPeyaAppTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    MainScreen(navController)
+                    MainScreen( navController, userPreferences)
                 }
             }
         }
