@@ -1,6 +1,7 @@
 package com.soyhenry.data.remote.datasource
 
 import com.soyhenry.data.remote.api.UserService
+import com.soyhenry.data.remote.dto.LoginResponseDto
 import com.soyhenry.data.remote.dto.UserDto
 import com.soyhenry.data.remote.model.LoginRequest
 import com.soyhenry.data.remote.model.RegisterRequest
@@ -16,7 +17,7 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override suspend fun registerUser(user: RegisterRequest) {
         service.registerUser(user)
     }
-    override suspend fun loginUser(user: LoginRequest) {
-        service.loginUser(user)
+    override suspend fun loginUser(user: LoginRequest): LoginResponseDto {
+        return service.loginUser(user)
     }
 }

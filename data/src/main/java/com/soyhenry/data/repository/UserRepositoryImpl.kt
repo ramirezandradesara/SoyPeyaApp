@@ -3,7 +3,10 @@ package com.soyhenry.data.repository
 import com.soyhenry.core.domain.User
 import com.soyhenry.data.mappers.toDomain
 import com.soyhenry.data.remote.datasource.UserRemoteDataSource
+import com.soyhenry.data.remote.dto.LoginResponseDto
+import com.soyhenry.data.remote.dto.UserDto
 import com.soyhenry.data.remote.model.LoginRequest
+import com.soyhenry.data.remote.model.LoginResult
 import com.soyhenry.data.remote.model.RegisterRequest
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,7 +23,11 @@ class UserRepositoryImpl @Inject constructor(
         remote.registerUser(user)
     }
 
-    override suspend fun loginUser(user: LoginRequest) {
-        remote.loginUser(user)
+    override suspend fun loginUser(user: LoginRequest): LoginResult {
+        val response = remote.loginUser(user)
+        return LoginResult(
+            message = response.message,
+            user = response.user.toDomain()
+        )
     }
 }

@@ -44,7 +44,7 @@ fun ProfileFormSection(
 ) {
     var name by remember(profile.fullName) { mutableStateOf(profile.fullName) }
     var email by remember(profile.email) { mutableStateOf(profile.email) }
-    var password by remember(profile.password) { mutableStateOf(profile.password) }
+    var password by remember(profile.encryptedPassword) { mutableStateOf(profile.encryptedPassword) }
 
     val context = LocalContext.current
 
@@ -77,9 +77,9 @@ fun ProfileFormSection(
         storagePermissionLauncher.launch(permissionToRequest)
     }
 
-    if (profile.image.isNullOrEmpty().not()) {
+    if (profile.imageUrl.isNullOrEmpty().not()) {
         LoadImage(
-            url = profile.image,
+            url = profile.imageUrl,
             contentDescription = profile.fullName,
             modifier = Modifier.size(120.dp)
         )
@@ -161,7 +161,7 @@ fun ProfileFormSection(
             val updatedUser = profile.copy(
                 fullName = name,
                 email = email,
-                password = password
+                encryptedPassword = password
             )
             onSave(updatedUser, imageUri)
         },

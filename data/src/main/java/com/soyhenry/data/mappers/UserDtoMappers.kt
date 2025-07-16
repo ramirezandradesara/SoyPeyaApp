@@ -8,6 +8,6 @@ fun UserDto.toDomain(): User {
         id = id,
         email = email,
         fullName = fullName,
-        password = encryptedPassword,
+        encryptedPassword = encryptedPassword,
     )
 }

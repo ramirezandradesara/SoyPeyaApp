@@ -1,6 +1,7 @@
 package com.soyhenry.feature.profile.ui
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import com.soyhenry.library.ui.components.container.ViewContainer
 import androidx.compose.ui.res.stringResource
 import com.soyhenry.core.approutes.AppRoutes
@@ -31,12 +33,21 @@ fun ProfileView(
     navController: NavController,
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val uiState by profileViewModel.uiState.collectAsState()
     val isImageUploading by profileViewModel.isImageUploading.collectAsState()
     var imageUri by remember { mutableStateOf<Uri?>(null) }
+    val toastMessage by profileViewModel.toastMessage.collectAsState()
 
     LaunchedEffect(Unit) {
         profileViewModel.loadProfile()
+    }
+
+    toastMessage?.let { message ->
+        LaunchedEffect(toastMessage) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            profileViewModel.clearToastMessage()
+        }
     }
 
     ViewContainer(
