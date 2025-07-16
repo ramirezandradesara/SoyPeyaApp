@@ -1,5 +1,6 @@
 package com.soyhenry.feature.register.domain.usecase
 
+import com.soyhenry.core.domain.User
 import com.soyhenry.data.remote.model.RegisterRequest
 import com.soyhenry.data.repository.UserRepository
 import javax.inject.Inject
@@ -11,12 +12,12 @@ class RegisterUseCase @Inject constructor(
         email: String,
         name: String,
         password: String,
-    ) {
+    ): User {
         val user = RegisterRequest(
             email = email,
             fullName = name,
             encryptedPassword = password
         )
-        userRepository.registerUser(user)
+        return userRepository.registerUser(user)
     }
 }

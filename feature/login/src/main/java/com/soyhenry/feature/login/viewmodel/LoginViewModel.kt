@@ -5,6 +5,7 @@ import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyhenry.core.session.UserPreferences
+import com.soyhenry.data.remote.dto.LoginResponseDto
 import com.soyhenry.feature.login.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,11 +49,10 @@ class LoginViewModel @Inject constructor(
             }
 
             try {
-                loginUseCase(_email.value, _password.value)
-
-                userPreferences.saveUserEmail(_email.value)
+                val response = loginUseCase(_email.value, _password.value)
+                userPreferences.saveUser(response.user)
                 _loginSuccess.value = true
-                _toastMessage.value = "Welcome 🎉"
+                _toastMessage.value = response.message
             } catch (e: HttpException) {
                 val message = when (e.code()) {
                     401 -> "Invalid credentials"

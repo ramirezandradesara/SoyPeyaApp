@@ -141,12 +141,12 @@ class RegisterViewModel @Inject constructor(
         if (isEmailValid && isNameValid && isPasswordValid && isConfirmPasswordValid) {
             viewModelScope.launch {
                 try {
-                    registerUseCase(
+                    val response = registerUseCase(
                         email = _email.value,
                         name = _name.value,
                         password = _password.value
                     )
-                    userPreferences.saveUserEmail(_email.value)
+                    userPreferences.saveUser(response)
                     _toastMessage.value = "Registration successful 🎉"
                     _registerSuccess.value = true
                 } catch (e: HttpException) {

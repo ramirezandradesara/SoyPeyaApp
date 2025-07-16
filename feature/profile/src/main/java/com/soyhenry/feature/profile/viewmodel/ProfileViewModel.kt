@@ -30,18 +30,20 @@ class ProfileViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState<User>>(UiState.Loading)
     val uiState: StateFlow<UiState<User>> = _uiState
 
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
+
     private val _isImageUploading =  MutableStateFlow(false)
     val isImageUploading: StateFlow<Boolean> = _isImageUploading.asStateFlow()
 
     fun loadProfile() {
         viewModelScope.launch {
             try {
-                val email = userPreferences.userEmail.first()
-                if (!email.isNullOrEmpty()) {
-                    val user = getUserProfileUseCase(email)
+                val user = userPreferences.user.first()
+                if (user != null) {
                     _uiState.value = UiState.Success(user)
                 } else {
-                    _uiState.value = UiState.Error("No se encontró un email guardado")
+                    _uiState.value = UiState.Error("No se encontró un usuario guardado")
                 }
             } catch (e: Exception) {
                 _uiState.value = UiState.Error(e.message ?: "Ocurrió un error al cargar el perfil")
@@ -50,31 +52,45 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun updateProfile(newProfile: User, imageUri: Uri?) {
-        _uiState.value = UiState.Success(newProfile)
-
-        if (imageUri != null) {
-            uploadImage(imageUri)
+        viewModelScope.launch {
+            try {
+                if (imageUri == null) {
+                    userPreferences.saveUser(newProfile)
+                    _uiState.value = UiState.Success(newProfile)
+                    _toastMessage.value = "Perfil actualizado"
+                } else {
+                    uploadImage(imageUri, newProfile)
+                }
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error("Error al guardar el perfil: ${e.message}")
+            }
         }
-        // TODO() actualizar
     }
 
-    private fun uploadImage(uri: Uri) {
+    private fun uploadImage(uri: Uri, baseUser: User) {
         viewModelScope.launch(Dispatchers.IO) {
             _isImageUploading.value = true
             try {
                 val inputStream = getApplication<Application>().contentResolver.openInputStream(uri)
-                val uploadResult = cloudinary.uploader().upload(inputStream, mapOf("upload_preset" to "soypeya-example"))
+                val uploadResult = cloudinary.uploader().upload(
+                    inputStream, mapOf("upload_preset" to "soypeya-example")
+                )
                 val imageUrl = uploadResult["secure_url"] as String
 
-                val updatedProfile = (_uiState.value as? UiState.Success)?.data?.copy(image = imageUrl)
-                if (updatedProfile != null) {
-                    _uiState.value = UiState.Success(updatedProfile)
-                }
+                val updatedUser = baseUser.copy(imageUrl = imageUrl)
+                userPreferences.saveUser(updatedUser)
+
+                _uiState.value = UiState.Success(updatedUser)
+                _toastMessage.value = "Perfil e imagen actualizados 🎉"
             } catch (e: Exception) {
-                _uiState.value = UiState.Error(e.message ?: "Error al subir imagen")
+                _uiState.value = UiState.Error("Error al subir imagen: ${e.message}")
             } finally {
                 _isImageUploading.value = false
             }
         }
+    }
+
+    fun clearToastMessage() {
+        _toastMessage.value = null
     }
 }

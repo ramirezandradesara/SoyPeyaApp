@@ -53,6 +53,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.activity)
 
+    // Coil
+    implementation(libs.coil.compose)
+
     implementation(libs.androidx.navigation.compose)
 
     testImplementation(libs.junit)

@@ -11,11 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.soyhenry.core.approutes.AppRoutes
+import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.feature.navigation.data.model.BottomNavItem
 import com.soyhenry.feature.navigation.graph.NavGraph
 
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(
+    navController: NavHostController,
+    userPreferences: UserPreferences
+) {
     val bottomNavItems = listOf(
         BottomNavItem(Icons.Filled.Home, "Products", AppRoutes.Products),
         BottomNavItem(Icons.Filled.ShoppingCart, "Cart", AppRoutes.Cart),
@@ -46,7 +50,8 @@ fun MainScreen(navController: NavHostController) {
     ) { innerPadding ->
         NavGraph(
             navController = navController,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            userPreferences = userPreferences
         )
     }
 }
