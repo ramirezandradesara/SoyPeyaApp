@@ -34,7 +34,7 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = AppRoutes.Register.route,
+        startDestination = AppRoutes.Profile.route,
         modifier = modifier
     ) {
         composable(AppRoutes.LogIn.route) {

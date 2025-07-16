@@ -1,7 +1,9 @@
 package com.soyhenry.feature.profile.ui
 
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -45,29 +47,34 @@ fun ProfileFormSection(
     var password by remember(profile.password) { mutableStateOf(profile.password) }
 
     val context = LocalContext.current
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        onImageSelected(uri)
+
+    val sdkInt = android.os.Build.VERSION.SDK_INT
+    val permissionToRequest = if (sdkInt >= Build.VERSION_CODES.TIRAMISU) {
+        android.Manifest.permission.READ_MEDIA_IMAGES
+    } else {
+        android.Manifest.permission.READ_EXTERNAL_STORAGE
     }
 
-    if (isImageUploading) {
-        AlertDialog(
-            onDismissRequest = {},
-            confirmButton = {},
-            title = { Text(text = stringResource(id = R.string.uploading_image)) },
-            text = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator()
-                }
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? ->
+            onImageSelected(uri)
+        }
+    )
+
+    val storagePermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted ->
+            if (granted) {
+                imagePickerLauncher.launch("image/*")
+            } else {
+                Toast.makeText(context, "Permiso denegado para acceder a la galería", Toast.LENGTH_SHORT).show()
             }
-        )
+        }
+    )
+
+    fun selectImageWithPermission() {
+        storagePermissionLauncher.launch(permissionToRequest)
     }
 
     if (profile.image.isNullOrEmpty().not()) {
@@ -80,7 +87,7 @@ fun ProfileFormSection(
         Card(
             modifier = Modifier
                 .size(120.dp)
-                .clickable { launcher.launch("image/*") }
+                .clickable { selectImageWithPermission() }
         ) {
             if (imageUri != null) {
                 val bitmap = remember(imageUri) {
