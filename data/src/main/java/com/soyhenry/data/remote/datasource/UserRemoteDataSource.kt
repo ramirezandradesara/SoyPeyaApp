@@ -7,6 +7,6 @@ import com.soyhenry.data.remote.model.RegisterRequest
 
 interface UserRemoteDataSource {
     suspend fun getProfileByEmail(email: String): UserDto
-    suspend fun registerUser(user: RegisterRequest)
+    suspend fun registerUser(user: RegisterRequest): UserDto
     suspend fun loginUser(user: LoginRequest): LoginResponseDto
 }

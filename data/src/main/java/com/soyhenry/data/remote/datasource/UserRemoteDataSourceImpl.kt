@@ -14,8 +14,8 @@ class UserRemoteDataSourceImpl @Inject constructor(
        return service.getUserByEmail(email)
     }
 
-    override suspend fun registerUser(user: RegisterRequest) {
-        service.registerUser(user)
+    override suspend fun registerUser(user: RegisterRequest): UserDto {
+        return service.registerUser(user)
     }
     override suspend fun loginUser(user: LoginRequest): LoginResponseDto {
         return service.loginUser(user)

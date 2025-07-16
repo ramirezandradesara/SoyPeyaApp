@@ -19,8 +19,8 @@ class UserRepositoryImpl @Inject constructor(
         return remote.getProfileByEmail(email).toDomain()
     }
 
-    override suspend fun registerUser(user: RegisterRequest) {
-        remote.registerUser(user)
+    override suspend fun registerUser(user: RegisterRequest): User {
+        return remote.registerUser(user).toDomain()
     }
 
     override suspend fun loginUser(user: LoginRequest): LoginResult {
