@@ -59,6 +59,7 @@ dependencies {
     // Room for local database
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    testImplementation(libs.jupiter.junit.jupiter)
     kapt(libs.room.compiler)
 
     // Hilt
@@ -77,8 +78,15 @@ dependencies {
     implementation(libs.retrofit.gson)
 
     implementation(libs.androidx.navigation.compose)
-    testImplementation(libs.junit)
 
+    // Test dependencies
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.junit.jupiter)
+    testImplementation("androidx.test:core:1.5.0")
     implementation(project(":core:approutes"))
     implementation(project(":core:session"))
     implementation(project(":core:model"))

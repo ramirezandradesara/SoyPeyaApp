@@ -1,10 +1,13 @@
 package com.soyhenry.feature.register.viewmodel
 
-import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.feature.register.domain.usecase.RegisterUseCase
+import com.soyhenry.library.utils.validator.ConfirmPasswordValidator
+import com.soyhenry.library.utils.validator.EmailValidator
+import com.soyhenry.library.utils.validator.NameValidator
+import com.soyhenry.library.utils.validator.PasswordValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +19,7 @@ import java.io.IOException
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
-    private val userPreferences: UserPreferences
+    private val userPreferences: UserPreferences,
 ) : ViewModel() {
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
@@ -72,64 +75,27 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun validateEmail(): Boolean {
-        return when {
-            _email.value.isEmpty() -> {
-                _emailError.value = "Email is required"
-                false
-            }
-            !Patterns.EMAIL_ADDRESS.matcher(_email.value).matches() -> {
-                _emailError.value = "Invalid email format"
-                false
-            }
-            else -> {
-                _emailError.value = null
-                true
-            }
-        }
+        val result = EmailValidator.validate(_email.value)
+        _emailError.value = result.errorMessage
+        return result.isValid
     }
 
     private fun validateName(): Boolean {
-        return if (_name.value.isEmpty()) {
-            _nameError.value = "Name is required"
-            false
-        } else {
-            _nameError.value = null
-            true
-        }
+        val result = NameValidator.validate(_name.value)
+        _nameError.value = result.errorMessage
+        return result.isValid
     }
 
     private fun validatePassword(): Boolean {
-        return when {
-            _password.value.isEmpty() -> {
-                _passwordError.value = "Password is required"
-                false
-            }
-            _password.value.length < 8 -> {
-                _passwordError.value = "Password must be at least 8 characters"
-                false
-            }
-            else -> {
-                _passwordError.value = null
-                true
-            }
-        }
+        val result = PasswordValidator.validate(_password.value)
+        _passwordError.value = result.errorMessage
+        return result.isValid
     }
 
     private fun validateConfirmPassword(): Boolean {
-        return when {
-            _confirmPassword.value.isEmpty() -> {
-                _confirmPasswordError.value = "Please confirm your password"
-                false
-            }
-            _confirmPassword.value != _password.value -> {
-                _confirmPasswordError.value = "Passwords don't match"
-                false
-            }
-            else -> {
-                _confirmPasswordError.value = null
-                true
-            }
-        }
+        val result = ConfirmPasswordValidator.validate(_password.value, _confirmPassword.value)
+        _confirmPasswordError.value = result.errorMessage
+        return result.isValid
     }
 
     fun onRegisterClick() {
@@ -147,28 +113,27 @@ class RegisterViewModel @Inject constructor(
                         password = _password.value
                     )
                     userPreferences.saveUser(response)
-                    _toastMessage.value = "Registration successful 🎉"
+                    _toastMessage.value = "Registro exitoso"
                     _registerSuccess.value = true
                 } catch (e: HttpException) {
                     val message = when (e.code()) {
-                        400 -> "Bad request: please check your input"
-                        403 -> "Forbidden: you are not allowed"
-                        409 -> "Email already registered"
-                        500 -> "Server error. Please try again later"
-                        else -> "Unknown error: ${e.code()}"
+                        400 -> "Error en la solicitud: por favor, verifique sus datos"
+                        403 -> "Prohibido: no tienes permiso"
+                        409 -> "El email ya está registrado"
+                        500 -> ">Error del servidor. Por favor, inténtalo de nuevo más tarde"
+                        else -> "Error desconocido: ${e.code()}"
                     }
-                    _toastMessage.value = "Registration failed: $message"
+                    _toastMessage.value = "Error inesperado: $message"
                 } catch (e: IOException) {
-                    _toastMessage.value = "Network error: please check your connection"
+                    _toastMessage.value = "Error de red. por favor, verifica tu conexión"
                 } catch (e: Exception) {
-                    _toastMessage.value = "Unexpected error: ${e.message}"
+                    _toastMessage.value = "Error inesperado: ${e.message}"
                 }
             }
         } else {
-            _toastMessage.value = "Please fix the errors in the form"
+            _toastMessage.value = "Se encontraron errores en el formulario, inténtelo de nuevo"
         }
     }
-
 
     fun clearToastMessage() {
         _toastMessage.value = null
