@@ -33,6 +33,8 @@ fun LoginView(
 
     val email by loginViewModel.email.collectAsState()
     val password by loginViewModel.password.collectAsState()
+    val emailError by loginViewModel.emailError.collectAsState()
+    val passwordError by loginViewModel.passwordError.collectAsState()
     val loginSuccess by loginViewModel.loginSuccess.collectAsState()
     val toastMessage by loginViewModel.toastMessage.collectAsState()
 
@@ -56,7 +58,7 @@ fun LoginView(
     AuthContainer(
         title = stringResource(id = R.string.welcome_back),
         submitButtonText = stringResource(id = R.string.log_in),
-        onSubmitClick = { loginViewModel.onLoginClick(context) },
+        onSubmitClick = { loginViewModel.onLoginClick() },
         isSubmitEnabled = isFormValid,
         bottomText = stringResource(id = R.string.new_to_app, AppInfo.APP_NAME),
         bottomActionText = stringResource(id = R.string.sign_up),
@@ -69,6 +71,7 @@ fun LoginView(
         EmailTextField(
             value = email,
             onValueChange = loginViewModel::onEmailChange,
+            errorMessage = emailError,
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -77,6 +80,7 @@ fun LoginView(
         PasswordTextField(
             value = password,
             onValueChange = loginViewModel::onPasswordChange,
+            errorMessage = passwordError,
             label = stringResource(id = R.string.password_label),
             modifier = Modifier.fillMaxWidth()
         )

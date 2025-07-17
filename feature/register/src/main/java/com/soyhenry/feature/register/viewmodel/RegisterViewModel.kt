@@ -120,12 +120,12 @@ class RegisterViewModel @Inject constructor(
                         400 -> "Error en la solicitud: por favor, verifique sus datos"
                         403 -> "Prohibido: no tienes permiso"
                         409 -> "El email ya está registrado"
-                        500 -> ">Error del servidor. Por favor, inténtalo de nuevo más tarde"
+                        500 -> "Error del servidor. Por favor, inténtalo de nuevo más tarde"
                         else -> "Error desconocido: ${e.code()}"
                     }
                     _toastMessage.value = "Error inesperado: $message"
                 } catch (e: IOException) {
-                    _toastMessage.value = "Error de red. por favor, verifica tu conexión"
+                    _toastMessage.value = "Error de red. Verifica tu conexión"
                 } catch (e: Exception) {
                     _toastMessage.value = "Error inesperado: ${e.message}"
                 }

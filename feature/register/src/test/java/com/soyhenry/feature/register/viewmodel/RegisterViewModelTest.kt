@@ -81,7 +81,7 @@ class RegisterViewModelTest {
 
         viewModel.onRegisterClick()
 
-        assertTrue(viewModel.toastMessage.value!!.contains("Error de red. por favor, verifica tu conexión"))
+        assertTrue(viewModel.toastMessage.value!!.contains("Error de red. Verifica tu conexión"))
     }
 
     @Test
