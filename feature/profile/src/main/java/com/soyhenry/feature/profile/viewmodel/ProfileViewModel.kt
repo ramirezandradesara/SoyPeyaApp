@@ -2,14 +2,13 @@ package com.soyhenry.feature.profile.viewmodel
 
 import android.app.Application
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cloudinary.Cloudinary
 import com.soyhenry.core.domain.User
-import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.core.state.UiState
-import com.soyhenry.feature.profile.domain.usecase.GetUserProfileUseCase
+import com.soyhenry.feature.profile.domain.usecase.GetUserUseCase
+import com.soyhenry.feature.profile.domain.usecase.SaveUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,14 +16,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlinx.coroutines.flow.first
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     myApplication: Application,
-    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val saveUserUseCase: SaveUserUseCase,
+    private val getUserUseCase: GetUserUseCase,
     private val cloudinary: Cloudinary,
-    private val userPreferences: UserPreferences
 ): AndroidViewModel(myApplication)  {
 
     private val _uiState = MutableStateFlow<UiState<User>>(UiState.Loading)
@@ -39,7 +37,7 @@ class ProfileViewModel @Inject constructor(
     fun loadProfile() {
         viewModelScope.launch {
             try {
-                val user = userPreferences.user.first()
+                val user = getUserUseCase()
                 if (user != null) {
                     _uiState.value = UiState.Success(user)
                 } else {
@@ -55,7 +53,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (imageUri == null) {
-                    userPreferences.saveUser(newProfile)
+                    saveUserUseCase(newProfile)
                     _uiState.value = UiState.Success(newProfile)
                     _toastMessage.value = "Perfil actualizado"
                 } else {
@@ -73,15 +71,16 @@ class ProfileViewModel @Inject constructor(
             try {
                 val inputStream = getApplication<Application>().contentResolver.openInputStream(uri)
                 val uploadResult = cloudinary.uploader().upload(
-                    inputStream, mapOf("upload_preset" to "soypeya-example")
+                   inputStream, mapOf("upload_preset" to "soypeya-example")
+                 //inputStream, mapOf("upload_preset" to BuildConfig)
                 )
                 val imageUrl = uploadResult["secure_url"] as String
 
                 val updatedUser = baseUser.copy(imageUrl = imageUrl)
-                userPreferences.saveUser(updatedUser)
+                saveUserUseCase(updatedUser)
 
                 _uiState.value = UiState.Success(updatedUser)
-                _toastMessage.value = "Perfil e imagen actualizados 🎉"
+                _toastMessage.value = "Perfil e imagen actualizados"
             } catch (e: Exception) {
                 _uiState.value = UiState.Error("Error al subir imagen: ${e.message}")
             } finally {

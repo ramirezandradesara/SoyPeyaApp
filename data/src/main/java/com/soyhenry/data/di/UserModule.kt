@@ -1,5 +1,6 @@
 package com.soyhenry.data.di
 
+import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.data.remote.api.UserService
 import com.soyhenry.data.remote.datasource.UserRemoteDataSource
 import com.soyhenry.data.remote.datasource.UserRemoteDataSourceImpl
@@ -30,9 +31,10 @@ object ProfileModule {
 
     @Provides
     @Singleton
-    fun provideProductsRepository(
-        remoteDataSource: UserRemoteDataSource
+    fun provideUserRepository(
+        remoteDataSource: UserRemoteDataSource,
+        userPreferences: UserPreferences
     ): UserRepository {
-        return UserRepositoryImpl(remoteDataSource)
+        return UserRepositoryImpl(remoteDataSource, userPreferences)
     }
 }
