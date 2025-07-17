@@ -1,54 +1,88 @@
 package com.soyhenryfeature.products.viewmodel
 
 import androidx.compose.runtime.ExperimentalComposeRuntimeApi
-import com.soyhenry.core.model.database.entities.ProductEntity
-import kotlinx.coroutines.flow.flowOf
+import com.soyhenry.core.domain.Product
+import com.soyhenry.core.state.UiState
+import com.soyhenryfeature.products.MainDispatcherRule
+import com.soyhenryfeature.products.domain.usecase.GetProductsUseCase
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
-// import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
-import kotlin.math.exp
+import io.mockk.coEvery
+import io.mockk.mockk
 
 @ExperimentalComposeRuntimeApi
 class ProductsViewModelTest {
-    @get:Rule
-    val mainDispatcherRule = MainsDispatcherRule
 
-    private val getProductsUseCase: GetProductsUserCase = mokk()
-    private val updateProductsUseCase: UpdateProductsUseCase = mockk()
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
+    private lateinit var getProductsUseCase: GetProductsUseCase
+    private lateinit var viewModel: ProductsViewModel
+
+    private val fakeProducts = listOf(
+        Product(
+            id = "1",
+            name = "Salsa Roja",
+            description = "Hecha con tomates frescos",
+            imgURL = "",
+            price = 12.0,
+            category = ""
+        ),
+        Product(
+            id = "2",
+            name = "Salsa Verde",
+            description = "Hecha con albahaca fresca",
+            imgURL = "",
+            price = 15.0,
+            category = ""
+        )
+    )
 
     @Before
-    fun setup(){
-        coEvery { updateProductsUseCase.invoke } returns Uni
+    fun setup() {
+        getProductsUseCase = mockk()
     }
 
     @Test
-    fun `all products emits expected products`(){
-        // Arrenge
-        val expectedProducts = listOf(
-            ProductEntity(
-                id = "prod1",
-                productName = "",
-                price= 10.2,
-                imageURL = "https",
-                isFeatured = false,
-                category = "salsa"
-            )
-        )
+    fun `loadProducts sets UiState to Success with product list`() = runTest {
+        coEvery { getProductsUseCase(any()) } returns fakeProducts
 
-        val flow = flowOf(expectedProducts)
+        viewModel = ProductsViewModel(getProductsUseCase)
 
-        every{ getProductsUseCase.invoke() } return true
+        viewModel.loadProducts()
 
-        val viewmodel = ProductsViewModel(
-            getProductsUseCase = getProductsUseCase,
-            updateProductsUseCase = updateProductsUseCase
-        )
+        assert(viewModel.uiState.value is UiState.Success)
+        val state = viewModel.uiState.value as UiState.Success
+        assert(state.data == fakeProducts)
+    }
 
-        // Act
-        val result = viewmodel.allProducts.first()
+    @Test
+    fun `onFilterTextChange filters products correctly`() = runTest {
+        coEvery { getProductsUseCase(any()) } returns fakeProducts
 
-        //asset
-        assert(result == expectedProducts)
+        viewModel = ProductsViewModel(getProductsUseCase)
+
+        viewModel.loadProducts()
+
+        viewModel.onFilterTextChange("Roja")
+
+        val state = viewModel.uiState.value as UiState.Success
+        assert(state.data.size == 1)
+        assert(state.data[0].name == "Salsa Roja")
+    }
+
+    @Test
+    fun `loadProducts sets UiState to Error when exception is thrown`() = runTest {
+        coEvery { getProductsUseCase(any()) } throws Exception("Network error")
+
+        viewModel = ProductsViewModel(getProductsUseCase)
+
+        viewModel.loadProducts()
+
+        val state = viewModel.uiState.value
+        assert(state is UiState.Error)
+        assert((state as UiState.Error).message == "Network error")
     }
 }
