@@ -7,14 +7,15 @@ import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.MainDispatcherRule
 import com.soyhenry.feature.cart.domain.usecase.*
 import io.mockk.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import io.mockk.coJustAwait
 
+@ExperimentalCoroutinesApi
 class CartViewModelTest {
 
     @get:Rule
