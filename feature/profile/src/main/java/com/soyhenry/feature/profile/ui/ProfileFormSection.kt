@@ -77,7 +77,7 @@ fun ProfileFormSection(
         storagePermissionLauncher.launch(permissionToRequest)
     }
 
-    if (profile.imageUrl.isNullOrEmpty().not()) {
+    if (profile.imageUrl.isEmpty().not()) {
         LoadImage(
             url = profile.imageUrl,
             contentDescription = profile.fullName,

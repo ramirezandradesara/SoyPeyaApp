@@ -88,6 +88,15 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":library"))
 
+    // Test dependencies
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.jupiter.junit.jupiter)
+
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)
     implementation (libs.lifecycle.viewmodel)

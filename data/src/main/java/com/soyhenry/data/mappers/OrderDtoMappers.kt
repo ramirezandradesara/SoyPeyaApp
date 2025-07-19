@@ -27,7 +27,7 @@ fun OrderDto.toOrderEntity(): OrderEntity {
 fun OrderDto.toOrderItemEntities(): List<OrderItemEntity> {
     return productIds.map { cartItem ->
         OrderItemEntity(
-            orderItemId = "$orderId-${cartItem.productId}", // o UUID.randomUUID().toString()
+            orderItemId = "$orderId-${cartItem.productId}",
             orderId = orderId,
             productId = cartItem.productId,
             quantity = cartItem.quantity,

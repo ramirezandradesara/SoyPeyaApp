@@ -85,7 +85,15 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.compose.icons.extended)
+
+    // Test dependencies
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.jupiter.junit.jupiter)
 
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.navigation.ui)

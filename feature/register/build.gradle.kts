@@ -77,7 +77,16 @@ dependencies {
     implementation(libs.retrofit.gson)
 
     implementation(libs.androidx.navigation.compose)
+
+    // Test dependencies
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.jupiter.junit.jupiter)
+    //testImplementation("androidx.test:core:1.5.0")
 
     implementation(project(":core:approutes"))
     implementation(project(":core:session"))

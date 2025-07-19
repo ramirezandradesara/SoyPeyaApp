@@ -32,7 +32,7 @@ class OrdersViewModel @Inject constructor(
                 val orders = getOrdersUseCase(refreshData)
                 _uiState.value = UiState.Success(orders)
             } catch(e: Exception) {
-                _uiState.value = UiState.Error(e.message ?: "Error loading orders")
+                _uiState.value = UiState.Error(e.message ?: "Error al cargar órdenes")
             }
         }
     }
@@ -49,11 +49,9 @@ class OrdersViewModel @Inject constructor(
                     CartItemDto(
                         productId = it.product.id,
                         name = it.product.name,
-                        //description = it.product.description ?: "Sin descripción",
-                        description = "Sin descripción",
+                        description = "",
                         imageUrl = it.product.imgURL,
                         price = it.product.price,
-                        //hasDrink = it.product.hasDrink ?: false,
                         hasDrink = false,
                         quantity = it.quantity
                     )
@@ -66,7 +64,6 @@ class OrdersViewModel @Inject constructor(
                 createOrderUseCase(orderRequest)
                 onSuccess()
             } catch (e: Exception) {
-                Log.e("OrderViewModel", "Error creating order", e)
                 onError(e.message ?: "Error desconocido")
             }
         }
