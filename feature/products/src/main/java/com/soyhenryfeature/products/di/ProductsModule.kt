@@ -6,6 +6,8 @@ import com.soyhenry.data.local.datasource.ProductLocalDataSourceImpl
 import com.soyhenry.data.remote.api.ProductsService
 import com.soyhenry.data.remote.datasource.ProductRemoteDataSource
 import com.soyhenry.data.remote.datasource.ProductRemoteDataSourceImpl
+import com.soyhenry.data.repository.CategoryRepository
+import com.soyhenry.data.repository.CategoryRepositoryImpl
 import com.soyhenry.data.repository.ProductRepositoryImpl
 import com.soyhenry.data.repository.ProductsRepository
 import dagger.Module
@@ -46,4 +48,8 @@ object ProductsModule {
     ): ProductsRepository {
         return ProductRepositoryImpl(remoteDataSource, localDataSource)
     }
+
+    @Provides
+    @Singleton
+    fun provideCategoryRepository(): CategoryRepository = CategoryRepositoryImpl()
 }

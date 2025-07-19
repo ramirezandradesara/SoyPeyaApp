@@ -1,5 +1,6 @@
 package com.soyhenryfeature.products.ui
 
+import ProductFilterBottomSheetContent
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
@@ -30,6 +31,7 @@ fun ProductsView(
     viewModel: ProductsViewModel = hiltViewModel(),
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
+    val categoriesState by viewModel.categoriesState.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val filterText by viewModel.filterText.collectAsStateWithLifecycle()
     val selectedCategory by viewModel.selectedCategory.collectAsStateWithLifecycle()
@@ -45,7 +47,7 @@ fun ProductsView(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.loadProducts(refreshData = true)
+        viewModel.loadInitialData(refreshData = true)
     }
 
     ViewContainer(title = stringResource(R.string.products_title)) {
@@ -80,7 +82,8 @@ fun ProductsView(
                         onDismissRequest = { showBottomSheet = false },
                         sheetState = bottomSheetState
                     ) {
-                        FilterBottomSheetContent(
+                        ProductFilterBottomSheetContent(
+                            categoryState = categoriesState,
                             selectedCategory = selectedCategory,
                             selectedPrice = selectedPrice,
                             onApplyFilters =  { category, price -> onApplyFilters(category, price) }
