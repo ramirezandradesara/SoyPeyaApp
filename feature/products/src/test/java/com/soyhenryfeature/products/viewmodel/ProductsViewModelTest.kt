@@ -1,9 +1,11 @@
 package com.soyhenryfeature.products.viewmodel
 
 import androidx.compose.runtime.ExperimentalComposeRuntimeApi
+import com.soyhenry.core.domain.Category
 import com.soyhenry.core.domain.Product
 import com.soyhenry.core.state.UiState
 import com.soyhenryfeature.products.MainDispatcherRule
+import com.soyhenryfeature.products.domain.usecase.GetCategoriesUseCase
 import com.soyhenryfeature.products.domain.usecase.GetProductsUseCase
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -19,6 +21,7 @@ class ProductsViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var getProductsUseCase: GetProductsUseCase
+    private lateinit var getCategoriesUseCase: GetCategoriesUseCase
     private lateinit var viewModel: ProductsViewModel
 
     private val fakeProducts = listOf(
@@ -43,13 +46,14 @@ class ProductsViewModelTest {
     @Before
     fun setup() {
         getProductsUseCase = mockk()
+        getCategoriesUseCase = mockk()
     }
 
     @Test
     fun `loadProducts sets UiState to Success with product list`() = runTest {
         coEvery { getProductsUseCase(any()) } returns fakeProducts
 
-        viewModel = ProductsViewModel(getProductsUseCase)
+        viewModel = ProductsViewModel(getProductsUseCase, getCategoriesUseCase)
 
         viewModel.loadProducts()
 
@@ -62,7 +66,7 @@ class ProductsViewModelTest {
     fun `onFilterTextChange filters products correctly`() = runTest {
         coEvery { getProductsUseCase(any()) } returns fakeProducts
 
-        viewModel = ProductsViewModel(getProductsUseCase)
+        viewModel = ProductsViewModel(getProductsUseCase, getCategoriesUseCase)
 
         viewModel.loadProducts()
 
@@ -77,7 +81,7 @@ class ProductsViewModelTest {
     fun `loadProducts sets UiState to Error when exception is thrown`() = runTest {
         coEvery { getProductsUseCase(any()) } throws Exception("Network error")
 
-        viewModel = ProductsViewModel(getProductsUseCase)
+        viewModel = ProductsViewModel(getProductsUseCase, getCategoriesUseCase)
 
         viewModel.loadProducts()
 
@@ -85,4 +89,38 @@ class ProductsViewModelTest {
         assert(state is UiState.Error)
         assert((state as UiState.Error).message == "Network error")
     }
+
+    @Test
+    fun `loadCategories sets UiState to Success with categories list`() = runTest {
+        val fakeCategories = listOf(
+            Category("Burger", "burger"),
+            Category("Pizza", "pizza")
+        )
+
+        coEvery { getCategoriesUseCase() } returns fakeCategories
+
+        viewModel = ProductsViewModel(getProductsUseCase, getCategoriesUseCase)
+
+        viewModel.loadCategories()
+
+        val state = viewModel.categoriesState.value
+        assert(state is UiState.Success)
+        val successState = state as UiState.Success
+        assert(successState.data.size == fakeCategories.size)
+        assert(successState.data[0].label == fakeCategories[0].label)
+    }
+
+    @Test
+    fun `loadCategories sets UiState to Error when exception is thrown`() = runTest {
+        coEvery { getCategoriesUseCase() } throws Exception("Error al cargar categorías")
+
+        viewModel = ProductsViewModel(getProductsUseCase, getCategoriesUseCase)
+
+        viewModel.loadCategories()
+
+        val state = viewModel.categoriesState.value
+        assert(state is UiState.Error)
+        assert((state as UiState.Error).message == "Error al cargar categorías")
+    }
+
 }
