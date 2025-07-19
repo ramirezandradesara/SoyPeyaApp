@@ -2,6 +2,13 @@
 <resources>
     <string name="products_title">Productos</string>
     <string name="filter_products_label">Filtrar</string>
+    <string name="filter_icon_content_desc">Filtrar</string>
+    <string name="search_icon_content_desc">Filtrar</string>
+    <string name="filters_title">Filtros</string>
+    <string name="apply_filter_button">Aplicar filtros</string>
+    <string name="filter_by_category_subtitle">Categoría</string>
+    <string name="filter_by_price_subtitle">Precio: hasta $%1$d</string>
+    <string name="category_load_error">Error al cargar categorías</string>
     <string name="no_products_title">No hay resultados para tu búsqueda.</string>
     <string name="no_products_subtitle">Intenta ajustar los filtros.</string>
     <string name="product_image_description">Imagen de producto</string>

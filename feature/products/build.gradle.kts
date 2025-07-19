@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.material3.android)
+    implementation(libs.compose.icons.extended)
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.activity)
