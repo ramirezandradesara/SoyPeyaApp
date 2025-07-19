@@ -31,6 +31,23 @@ class ProductsViewModel
         println("Error in ProductsViewModel: ${exception.message}")
     }
 
+    private val _selectedCategory = MutableStateFlow<String?>(null)
+    val selectedCategory: StateFlow<String?> = _selectedCategory.asStateFlow()
+
+    private val _selectedPrice = MutableStateFlow(200f)
+    val selectedPrice: StateFlow<Float> = _selectedPrice.asStateFlow()
+
+    fun onCategorySelected(category: String?) {
+        _selectedCategory.value = category
+        applyFilter()
+    }
+
+    fun onPriceSelected(price: Float) {
+        _selectedPrice.value = price
+        applyFilter()
+    }
+
+
     fun loadProducts(refreshData: Boolean = false) {
         viewModelScope.launch {
             try {
@@ -49,14 +66,17 @@ class ProductsViewModel
 
     private fun applyFilter() {
         val text = _filterText.value.trim()
+        val category = _selectedCategory.value
+        val maxPrice = _selectedPrice.value
 
-        val filtered = if (text.isBlank()) {
-            allProducts
-        } else {
-            allProducts.filter { product ->
-                product.name.contains(text, ignoreCase = true)
-            }
+        val filtered = allProducts.filter { product ->
+            val matchesText = text.isBlank() || product.name.contains(text, ignoreCase = true)
+            val matchesCategory = category == null || product.category.equals(category, ignoreCase = true)
+            val matchesPrice = product.price <= maxPrice
+
+            matchesText && matchesCategory && matchesPrice
         }
+
         _uiState.value = UiState.Success(filtered)
     }
 }
