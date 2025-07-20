@@ -23,6 +23,9 @@ fun ProductCategorySelector(
         modifier = Modifier.fillMaxWidth()
     ) {
         when (categoriesState) {
+            is UiState.Loading -> {
+                item { CircularProgressIndicator() }
+            }
             is UiState.Success -> {
                 items(categoriesState.data) { category ->
                     ProductCategoryCard(
@@ -31,9 +34,6 @@ fun ProductCategorySelector(
                         onClick = { onCategorySelected(category.value) }
                     )
                 }
-            }
-            is UiState.Loading -> {
-                item { CircularProgressIndicator() }
             }
             is UiState.Error -> {
                 item {

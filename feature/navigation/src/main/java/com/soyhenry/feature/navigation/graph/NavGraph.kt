@@ -37,7 +37,7 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = AppRoutes.Products.route,
+        startDestination = AppRoutes.StartUp.route,
         modifier = modifier
     ) {
         composable(AppRoutes.StartUp.route) {
@@ -59,7 +59,7 @@ fun NavGraph(
             ProfileView(navController, profileViewModel)
         }
         composable(AppRoutes.Orders.route) {
-            OrdersView(ordersViewModel)
+            OrdersView(navController, ordersViewModel)
         }
     }
 }

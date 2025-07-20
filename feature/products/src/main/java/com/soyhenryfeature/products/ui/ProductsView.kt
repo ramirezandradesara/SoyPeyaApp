@@ -1,9 +1,6 @@
 package com.soyhenryfeature.products.ui
 
-import ProductFilterBottomSheetContent
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.soyhenryfeature.products.viewmodel.ProductsViewModel
@@ -58,9 +55,7 @@ fun ProductsView(
         )
 
         when (val state = uiState) {
-            is UiState.Loading -> {
-                ProductsSkeletonList()
-            }
+            is UiState.Loading -> ProductsSkeletonList()
 
             is UiState.Success -> {
                 val products = state.data
@@ -92,9 +87,7 @@ fun ProductsView(
                 }
             }
 
-            is UiState.Error -> {
-                ErrorState(message = state.message)
-            }
+            is UiState.Error -> ErrorState(message = state.message)
         }
     }
 }

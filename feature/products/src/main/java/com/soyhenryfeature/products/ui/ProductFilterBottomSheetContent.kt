@@ -1,3 +1,4 @@
+package com.soyhenryfeature.products.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -9,7 +10,6 @@ import androidx.compose.ui.unit.dp
 import com.soyhenry.core.state.UiState
 import com.soyhenryfeature.products.R
 import com.soyhenryfeature.products.model.UiCategory
-import com.soyhenryfeature.products.ui.ProductCategorySelector
 
 @Composable
 fun ProductFilterBottomSheetContent(

@@ -2,11 +2,8 @@ package com.soyhenry.feature.profile.ui
 
 import android.net.Uri
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.soyhenry.feature.profile.viewmodel.ProfileViewModel
@@ -14,10 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Receipt
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.LaunchedEffect
@@ -53,20 +48,18 @@ fun ProfileView(
     }
 
     ViewContainer(
-        title = stringResource(id = R.string.profile_title),
+        title = stringResource(R.string.profile_title),
         icon = {
             IconButton(onClick = { navController.navigate(AppRoutes.Orders.route) }) {
                 Icon(
                     imageVector = Icons.Default.Receipt,
-                    contentDescription = stringResource(id = R.string.view_orders)
+                    contentDescription = stringResource(R.string.view_orders)
                 )
             }
         }
     ) {
         when (val state = uiState) {
-            is UiState.Loading -> {
-                LoadingScreen()
-            }
+            is UiState.Loading -> LoadingScreen()
 
             is UiState.Success -> {
                 val profile = state.data
@@ -80,9 +73,7 @@ fun ProfileView(
                 )
             }
 
-            is UiState.Error -> {
-                ErrorState(message = state.message)
-            }
+            is UiState.Error -> ErrorState(message = state.message)
         }
     }
 }

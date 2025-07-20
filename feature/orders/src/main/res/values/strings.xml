@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="order_history">Historial de pedidos</string>
-    <string name="no_orders_found">No se encontraron pedidos.</string>
+    <string name="no_orders_title">No se encontraron pedidos.</string>
+    <string name="no_orders_subtitle">Explora productos y crea tu primera orden.</string>
+    <string name="browse_products">Explorar productos</string>
     <string name="error_loading_orders">Error: %1$s</string>
     <string name="order_number">Pedido #%1$s...</string>
     <string name="product_singular">%1$d producto</string>
