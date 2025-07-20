@@ -1,9 +1,6 @@
 package com.soyhenryfeature.products.ui
 
-import ProductFilterBottomSheetContent
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.soyhenryfeature.products.viewmodel.ProductsViewModel
@@ -19,15 +16,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
-import com.soyhenry.library.ui.components.EmptyState
+import com.soyhenry.library.ui.components.state.EmptyState
 import com.soyhenry.library.ui.components.container.ViewContainer
 import androidx.compose.ui.res.stringResource
+import com.soyhenry.library.ui.components.state.ErrorState
 import com.soyhenryfeature.products.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductsView(
-    navController: NavController,
     viewModel: ProductsViewModel = hiltViewModel(),
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
@@ -58,9 +55,7 @@ fun ProductsView(
         )
 
         when (val state = uiState) {
-            is UiState.Loading -> {
-                ProductsSkeletonList()
-            }
+            is UiState.Loading -> ProductsSkeletonList()
 
             is UiState.Success -> {
                 val products = state.data
@@ -92,9 +87,7 @@ fun ProductsView(
                 }
             }
 
-            is UiState.Error -> {
-                Text(text = state.message)
-            }
+            is UiState.Error -> ErrorState(message = state.message)
         }
     }
 }
