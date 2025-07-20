@@ -21,7 +21,6 @@ import com.soyhenry.library.ui.components.state.ErrorState
 
 @Composable
 fun OrdersView(
-    navController: NavController,
     ordersViewModel: OrdersViewModel = hiltViewModel()
 ) {
     val uiState by ordersViewModel.uiState.collectAsStateWithLifecycle()

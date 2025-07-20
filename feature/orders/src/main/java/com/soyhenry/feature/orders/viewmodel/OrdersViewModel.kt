@@ -1,6 +1,5 @@
 package com.soyhenry.feature.orders.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyhenry.core.domain.CartItem

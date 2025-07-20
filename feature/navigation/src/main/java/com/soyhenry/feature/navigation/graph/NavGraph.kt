@@ -50,7 +50,7 @@ fun NavGraph(
             RegisterView(navController, registerViewModel)
         }
         composable(AppRoutes.Products.route) {
-            ProductsView(navController, productsViewModel, cartViewModel)
+            ProductsView(productsViewModel, cartViewModel)
         }
         composable(AppRoutes.Cart.route) {
             CartView(navController, cartViewModel, ordersViewModel)
@@ -59,7 +59,7 @@ fun NavGraph(
             ProfileView(navController, profileViewModel)
         }
         composable(AppRoutes.Orders.route) {
-            OrdersView(navController, ordersViewModel)
+            OrdersView(ordersViewModel)
         }
     }
 }

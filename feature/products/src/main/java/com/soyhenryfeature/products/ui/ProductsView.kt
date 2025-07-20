@@ -28,7 +28,6 @@ import com.soyhenryfeature.products.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductsView(
-    navController: NavController,
     viewModel: ProductsViewModel = hiltViewModel(),
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
