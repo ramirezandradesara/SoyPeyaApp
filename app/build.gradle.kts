@@ -108,6 +108,11 @@ dependencies {
     implementation(libs.room.ktx)
     kapt(libs.room.compiler)
 
+    // WorkManager
+    implementation(libs.work.runtime)
+    implementation(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.work)
+
     implementation(libs.navigation.fragment) // Navigation
     implementation(libs.navigation.ui) // Navigation
 

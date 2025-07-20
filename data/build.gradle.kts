@@ -79,6 +79,11 @@ dependencies {
     // OkHttp
     implementation(libs.okhttp.logging)
 
+    // WorkManager
+    implementation(libs.work.runtime)
+    implementation(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.work)
+
     // Test dependencies
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
