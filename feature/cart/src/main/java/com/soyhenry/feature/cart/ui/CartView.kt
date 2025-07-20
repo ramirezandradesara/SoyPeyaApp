@@ -8,8 +8,8 @@ import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.platform.LocalContext
-import com.soyhenry.core.approutes.AppRoutes
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.constants.AppRoutes
+import com.soyhenry.core.model.state.UiState
 import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
 import com.soyhenry.library.ui.components.state.EmptyState
 import com.soyhenry.library.ui.components.container.ViewContainer

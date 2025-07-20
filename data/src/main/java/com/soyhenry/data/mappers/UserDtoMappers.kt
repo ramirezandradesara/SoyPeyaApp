@@ -1,6 +1,6 @@
 package com.soyhenry.data.mappers
 
-import com.soyhenry.core.domain.User
+import com.soyhenry.core.model.domain.User
 import com.soyhenry.data.remote.dto.UserDto
 
 fun UserDto.toDomain(): User {

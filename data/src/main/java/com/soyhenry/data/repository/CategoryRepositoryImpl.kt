@@ -1,6 +1,6 @@
 package com.soyhenry.data.repository
 
-import com.soyhenry.core.domain.Category
+import com.soyhenry.core.model.domain.Category
 
 class CategoryRepositoryImpl : CategoryRepository {
     override suspend fun getCategories(): List<Category> = listOf(

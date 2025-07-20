@@ -2,8 +2,8 @@ package com.soyhenry.data.remote.api
 
 import com.soyhenry.data.remote.dto.LoginResponseDto
 import com.soyhenry.data.remote.dto.UserDto
-import com.soyhenry.data.remote.model.LoginRequest
-import com.soyhenry.data.remote.model.RegisterRequest
+import com.soyhenry.core.model.domain.LoginRequest
+import com.soyhenry.core.model.domain.RegisterRequest
 import retrofit2.http.*
 
 interface UserService {

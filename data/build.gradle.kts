@@ -56,8 +56,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(project(":core:model"))
-    implementation(project(":core:session"))
+    implementation(project(":core"))
 
     // Room for local database
     implementation(libs.room.runtime)

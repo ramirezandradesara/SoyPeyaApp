@@ -19,8 +19,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import com.soyhenry.library.ui.components.container.ViewContainer
 import androidx.compose.ui.res.stringResource
-import com.soyhenry.core.approutes.AppRoutes
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.constants.AppRoutes
+import com.soyhenry.core.model.state.UiState
 import com.soyhenry.feature.profile.R
 import com.soyhenry.library.ui.components.LoadingScreen
 import com.soyhenry.library.ui.components.state.ErrorState

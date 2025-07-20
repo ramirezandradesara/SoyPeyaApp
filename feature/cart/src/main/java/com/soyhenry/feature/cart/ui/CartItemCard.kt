@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
 import androidx.compose.ui.res.stringResource
-import com.soyhenry.core.domain.CartItem
+import com.soyhenry.core.model.domain.CartItem
 import com.soyhenry.feature.cart.R
 
 @Composable

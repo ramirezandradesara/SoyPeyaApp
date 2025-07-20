@@ -81,10 +81,7 @@ dependencies {
     testImplementation(libs.junit)
 
     implementation(project(":feature:register"))
-    implementation(project(":core:approutes"))
-    implementation(project(":core:constants:appinfo"))
-    implementation(project(":core:model"))
-    implementation(project(":core:session"))
+    implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":library"))
 

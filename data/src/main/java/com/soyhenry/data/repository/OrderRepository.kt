@@ -1,6 +1,6 @@
 package com.soyhenry.data.repository
 
-import com.soyhenry.core.domain.Order
+import com.soyhenry.core.model.domain.Order
 import com.soyhenry.data.remote.dto.OrderDto
 
 interface OrderRepository {

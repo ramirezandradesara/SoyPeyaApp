@@ -23,13 +23,10 @@ import androidx.compose.material3.Card
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.foundation.Image
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.layout.ContentScale
-import coil.compose.AsyncImage
 import com.soyhenry.library.ui.components.textField.PasswordTextField
 import androidx.compose.ui.res.stringResource
-import com.soyhenry.core.domain.User
+import com.soyhenry.core.model.domain.User
 import com.soyhenry.feature.profile.R
 import com.soyhenry.library.ui.components.LoadImage
 import com.soyhenry.library.ui.components.textField.EmailTextField
@@ -48,7 +45,7 @@ fun ProfileFormSection(
 
     val context = LocalContext.current
 
-    val sdkInt = android.os.Build.VERSION.SDK_INT
+    val sdkInt = Build.VERSION.SDK_INT
     val permissionToRequest = if (sdkInt >= Build.VERSION_CODES.TIRAMISU) {
         android.Manifest.permission.READ_MEDIA_IMAGES
     } else {

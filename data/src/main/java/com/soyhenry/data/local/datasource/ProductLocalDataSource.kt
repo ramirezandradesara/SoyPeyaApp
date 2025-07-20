@@ -1,6 +1,6 @@
 package com.soyhenry.data.local.datasource
 
-import com.soyhenry.core.entities.ProductEntity
+import com.soyhenry.core.model.entities.ProductEntity
 
 interface ProductLocalDataSource {
     suspend fun getAllProducts(): List<ProductEntity>

@@ -1,9 +1,9 @@
 package com.soyhenry.data.local.datasource
 
 import androidx.room.Transaction
-import com.soyhenry.core.entities.OrderEntity
-import com.soyhenry.core.entities.OrderItemEntity
-import com.soyhenry.core.entities.OrderWithItems
+import com.soyhenry.core.model.entities.OrderEntity
+import com.soyhenry.core.model.entities.OrderItemEntity
+import com.soyhenry.core.model.entities.OrderWithItems
 import com.soyhenry.data.local.dao.OrderDao
 import com.soyhenry.data.local.dao.OrderItemDao
 import javax.inject.Inject

@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.soyhenry.core.domain.Order
+import com.soyhenry.core.model.domain.Order
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

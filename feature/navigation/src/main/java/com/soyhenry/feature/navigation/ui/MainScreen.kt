@@ -10,7 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.soyhenry.core.approutes.AppRoutes
+import com.soyhenry.core.constants.AppRoutes
 import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.feature.navigation.data.model.BottomNavItem
 import com.soyhenry.feature.navigation.graph.NavGraph

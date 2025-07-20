@@ -2,9 +2,9 @@ package com.soyhenry.feature.orders.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soyhenry.core.domain.CartItem
-import com.soyhenry.core.domain.Order
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.domain.CartItem
+import com.soyhenry.core.model.domain.Order
+import com.soyhenry.core.model.state.UiState
 import com.soyhenry.data.remote.dto.CartItemDto
 import com.soyhenry.data.remote.dto.OrderDto
 import com.soyhenry.feature.orders.domain.usecase.CreateOrderUseCase

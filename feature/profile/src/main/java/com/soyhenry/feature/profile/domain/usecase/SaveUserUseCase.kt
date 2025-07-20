@@ -1,6 +1,6 @@
 package com.soyhenry.feature.profile.domain.usecase
 
-import com.soyhenry.core.domain.User
+import com.soyhenry.core.model.domain.User
 import com.soyhenry.data.repository.UserRepository
 import javax.inject.Inject
 

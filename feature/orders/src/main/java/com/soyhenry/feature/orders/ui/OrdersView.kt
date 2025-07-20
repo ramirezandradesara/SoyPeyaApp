@@ -13,10 +13,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
 import com.soyhenry.library.ui.components.container.ViewContainer
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.state.UiState
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.soyhenry.core.approutes.AppRoutes
+import com.soyhenry.core.constants.AppRoutes
 import com.soyhenry.feature.orders.R
 import com.soyhenry.library.ui.components.LoadingScreen
 import com.soyhenry.library.ui.components.state.EmptyState

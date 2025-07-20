@@ -1,6 +1,6 @@
 package com.soyhenry.data.remote.api
 
-import com.soyhenry.core.entities.ProductEntity
+import com.soyhenry.core.model.entities.ProductEntity
 import com.soyhenry.data.remote.dto.ProductDto
 import retrofit2.http.*
 

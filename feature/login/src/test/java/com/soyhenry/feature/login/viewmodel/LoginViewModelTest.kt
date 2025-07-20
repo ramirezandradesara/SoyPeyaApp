@@ -14,7 +14,7 @@ import org.junit.Rule
 import org.junit.Test
 import retrofit2.HttpException
 import java.io.IOException
-import com.soyhenry.data.remote.model.LoginResult
+import com.soyhenry.core.model.domain.LoginResult
 
 class LoginViewModelTest {
 

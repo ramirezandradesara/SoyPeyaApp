@@ -15,7 +15,6 @@ import javax.inject.Inject
 import retrofit2.HttpException
 import java.io.IOException
 
-
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,

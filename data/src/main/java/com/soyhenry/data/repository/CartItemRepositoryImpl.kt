@@ -1,8 +1,8 @@
 package com.soyhenry.data.repository
 
-import com.soyhenry.core.domain.CartItem
-import com.soyhenry.core.entities.CartItemEntity
-import com.soyhenry.core.mappers.toDomain
+import com.soyhenry.core.model.domain.CartItem
+import com.soyhenry.core.model.entities.CartItemEntity
+import com.soyhenry.core.model.mappers.toDomain
 import com.soyhenry.data.local.datasource.CartItemLocalDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

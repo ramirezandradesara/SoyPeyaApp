@@ -61,9 +61,7 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
     implementation(project(":feature:cart"))
-    implementation(project(":core:model"))
-    implementation(project(":core:approutes"))
-    implementation(project(":core:constants:appinfo"))
+    implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":library"))
 

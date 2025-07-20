@@ -1,6 +1,6 @@
 package com.soyhenry.feature.orders.domain.usecase
 
-import com.soyhenry.core.domain.Order
+import com.soyhenry.core.model.domain.Order
 import com.soyhenry.data.repository.OrderRepository
 import javax.inject.Inject
 

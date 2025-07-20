@@ -1,7 +1,7 @@
 package com.soyhenry.feature.login.domain.usecase
 
-import com.soyhenry.data.remote.model.LoginRequest
-import com.soyhenry.data.remote.model.LoginResult
+import com.soyhenry.core.model.domain.LoginRequest
+import com.soyhenry.core.model.domain.LoginResult
 import com.soyhenry.data.repository.UserRepository
 import javax.inject.Inject
 

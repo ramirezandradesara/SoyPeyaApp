@@ -5,8 +5,8 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cloudinary.Cloudinary
-import com.soyhenry.core.domain.User
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.domain.User
+import com.soyhenry.core.model.state.UiState
 import com.soyhenry.feature.profile.domain.usecase.GetUserUseCase
 import com.soyhenry.feature.profile.domain.usecase.SaveUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

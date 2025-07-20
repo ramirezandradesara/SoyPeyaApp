@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenryfeature.products.R
 import androidx.compose.ui.graphics.Color
-import com.soyhenry.core.domain.Product
+import com.soyhenry.core.model.domain.Product
 import androidx.compose.ui.res.stringResource
 
 @Composable
