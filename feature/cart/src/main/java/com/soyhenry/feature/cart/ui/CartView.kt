@@ -13,8 +13,6 @@ import com.soyhenry.feature.cart.viewmodel.CartViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,11 +20,13 @@ import androidx.compose.ui.unit.dp
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.orders.viewmodel.OrdersViewModel
-import com.soyhenry.library.ui.components.EmptyState
+import com.soyhenry.library.ui.components.state.EmptyState
 import com.soyhenry.library.ui.components.container.ViewContainer
 import androidx.compose.ui.res.stringResource
 import com.soyhenry.feature.cart.R
+import com.soyhenry.library.ui.components.LoadingScreen
 import com.soyhenry.library.ui.components.button.LoadingButton
+import com.soyhenry.library.ui.components.state.ErrorState
 
 @Composable
 fun CartView(
@@ -49,7 +49,7 @@ fun CartView(
     ViewContainer(title = stringResource(R.string.cart_title)) {
         when (val state = uiState) {
             is UiState.Loading -> {
-                CircularProgressIndicator()
+                LoadingScreen()
             }
 
             is UiState.Success -> {
@@ -121,7 +121,7 @@ fun CartView(
             }
 
             is UiState.Error -> {
-                Text(text = stringResource(R.string.error_message, state.message))
+                ErrorState(message = state.message)
             }
         }
     }

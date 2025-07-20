@@ -19,9 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.cart.viewmodel.CartViewModel
-import com.soyhenry.library.ui.components.EmptyState
+import com.soyhenry.library.ui.components.state.EmptyState
 import com.soyhenry.library.ui.components.container.ViewContainer
 import androidx.compose.ui.res.stringResource
+import com.soyhenry.library.ui.components.state.ErrorState
 import com.soyhenryfeature.products.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,7 +94,7 @@ fun ProductsView(
             }
 
             is UiState.Error -> {
-                Text(text = state.message)
+                ErrorState(message = state.message)
             }
         }
     }

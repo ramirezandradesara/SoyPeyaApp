@@ -27,6 +27,8 @@ import androidx.compose.ui.res.stringResource
 import com.soyhenry.core.approutes.AppRoutes
 import com.soyhenry.core.state.UiState
 import com.soyhenry.feature.profile.R
+import com.soyhenry.library.ui.components.LoadingScreen
+import com.soyhenry.library.ui.components.state.ErrorState
 
 @Composable
 fun ProfileView(
@@ -63,21 +65,7 @@ fun ProfileView(
     ) {
         when (val state = uiState) {
             is UiState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            is UiState.Error -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("Error: ${state.message}")
-                }
+                LoadingScreen()
             }
 
             is UiState.Success -> {
@@ -90,6 +78,10 @@ fun ProfileView(
                     onImageSelected = { uri -> imageUri = uri },
                     onSave = { updatedUser, uri -> profileViewModel.updateProfile(updatedUser, uri) }
                 )
+            }
+
+            is UiState.Error -> {
+                ErrorState(message = state.message)
             }
         }
     }

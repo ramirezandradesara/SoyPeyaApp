@@ -1,25 +1,24 @@
-package com.soyhenry.library.ui.components
+package com.soyhenry.library.ui.components.state
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material3.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import com.soyhenry.library.R
 
 @Composable
-fun EmptyState(
-    title: String,
-    subtitle: String,
-    buttonText: String? = null,
-    onClick: (() -> Unit)? = null,
-    icon: ImageVector = Icons.Default.Info
+fun ErrorState(
+    message: String,
+    icon: ImageVector = Icons.Default.Error
 ) {
     Column(
         modifier = Modifier
@@ -31,14 +30,15 @@ fun EmptyState(
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.error,
             modifier = Modifier.size(64.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = title,
+            text = "¡Oh no! Hubo un error",
+            // text = stringResource(R.string.error_title),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center
         )
@@ -46,29 +46,16 @@ fun EmptyState(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = subtitle,
+            text = message,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             fontSize = 16.sp
         )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        if (!buttonText.isNullOrBlank() && onClick != null) {
-            Button(onClick = onClick) {
-                Text(text = buttonText)
-            }
-        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun EmptyStatePreview() {
-    EmptyState(
-        title = "Your cart is empty",
-        subtitle = "Start selecting products to add to your cart.",
-        buttonText = "Browse products",
-        onClick = { }
-    )
+fun ErrorStatePreview() {
+    ErrorState(message = "Error de servidor.")
 }

@@ -16,6 +16,8 @@ import com.soyhenry.library.ui.components.container.ViewContainer
 import com.soyhenry.core.state.UiState
 import androidx.compose.ui.res.stringResource
 import com.soyhenry.feature.orders.R
+import com.soyhenry.library.ui.components.LoadingScreen
+import com.soyhenry.library.ui.components.state.ErrorState
 
 @Composable
 fun OrdersView(
@@ -31,7 +33,7 @@ fun OrdersView(
     ViewContainer(title = stringResource(id = R.string.order_history)) {
         when (val state = uiState) {
             is UiState.Loading -> {
-                CircularProgressIndicator()
+                LoadingScreen()
             }
 
             is UiState.Success -> {
@@ -51,7 +53,7 @@ fun OrdersView(
             }
 
             is UiState.Error -> {
-                Text(stringResource(id = R.string.error_loading_orders, state.message))
+                ErrorState(message = state.message)
             }
         }
     }
