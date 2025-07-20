@@ -39,6 +39,9 @@ class LoginViewModel @Inject constructor(
     private val _toastMessage = MutableStateFlow<String?>(null)
     val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
     fun onEmailChange(newEmail: String) {
         _email.value = newEmail
     }
@@ -67,7 +70,7 @@ class LoginViewModel @Inject constructor(
             _toastMessage.value = "Se encontraron errores en el formulario"
             return
         }
-
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val response = loginUseCase(_email.value, _password.value)
@@ -86,6 +89,8 @@ class LoginViewModel @Inject constructor(
                 _toastMessage.value = "Error de red. Verifica tu conexión"
             } catch (e: Exception) {
                 _toastMessage.value = "Error inesperado: ${e.message}"
+            } finally {
+                _isLoading.value = false
             }
         }
     }

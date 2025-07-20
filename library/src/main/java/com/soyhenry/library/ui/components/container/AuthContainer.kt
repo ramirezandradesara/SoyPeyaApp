@@ -17,12 +17,14 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import com.soyhenry.library.ui.components.button.LoadingButton
 
 @Composable
 fun AuthContainer(
     title: String,
     submitButtonText: String,
     onSubmitClick: () -> Unit,
+    isLoading: Boolean = false,
     isSubmitEnabled: Boolean = true,
     bottomText: String,
     bottomActionText: String,
@@ -46,15 +48,15 @@ fun AuthContainer(
 
         Spacer(Modifier.height(16.dp))
 
-        Button(
+        LoadingButton(
+            text = submitButtonText,
             onClick = onSubmitClick,
+            isLoading = isLoading,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 15.dp),
             enabled = isSubmitEnabled
-        ) {
-            Text(submitButtonText)
-        }
+        )
 
         Row(
             modifier = Modifier

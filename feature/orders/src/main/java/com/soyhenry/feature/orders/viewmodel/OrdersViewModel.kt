@@ -13,6 +13,7 @@ import com.soyhenry.feature.orders.domain.usecase.GetOrdersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -25,6 +26,9 @@ class OrdersViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<UiState<List<Order>>>(UiState.Loading)
     val uiState: StateFlow<UiState<List<Order>>> = _uiState
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     fun loadOrders (refreshData: Boolean = false) {
         viewModelScope.launch {
@@ -42,6 +46,7 @@ class OrdersViewModel @Inject constructor(
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
+        _isLoading.value = true
         viewModelScope.launch {
             val orderRequest = OrderDto(
                 orderId = UUID.randomUUID().toString(),
@@ -65,6 +70,8 @@ class OrdersViewModel @Inject constructor(
                 onSuccess()
             } catch (e: Exception) {
                 onError(e.message ?: "Error desconocido")
+            } finally {
+                _isLoading.value = false
             }
         }
     }

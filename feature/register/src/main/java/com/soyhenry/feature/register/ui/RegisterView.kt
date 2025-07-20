@@ -31,18 +31,19 @@ fun RegisterView(
     val password by viewModel.password.collectAsState()
     val confirmPassword by viewModel.confirmPassword.collectAsState()
     val toastMessage by viewModel.toastMessage.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
     val registerSuccess by viewModel.registerSuccess.collectAsState()
     val emailError by viewModel.emailError.collectAsState()
     val nameError by viewModel.nameError.collectAsState()
     val passwordError by viewModel.passwordError.collectAsState()
     val confirmPasswordError by viewModel.confirmPasswordError.collectAsState()
 
-    val isFormValid = listOf(
+    val isSubmitEnabled = listOf(
         emailError,
         nameError,
         passwordError,
         confirmPasswordError
-    ).all { it == null }
+    ).all { it == null } && !isLoading
 
     LaunchedEffect(toastMessage) {
         toastMessage?.let {
@@ -62,7 +63,8 @@ fun RegisterView(
     AuthContainer(
         title = stringResource(id = R.string.sign_up_free),
         submitButtonText = stringResource(id = R.string.register_button),
-        isSubmitEnabled = isFormValid,
+        isSubmitEnabled = isSubmitEnabled,
+        isLoading = isLoading,
         onSubmitClick = { viewModel.onRegisterClick() },
         bottomText = stringResource(id = R.string.already_have_account),
         bottomActionText = stringResource(id = R.string.log_in),

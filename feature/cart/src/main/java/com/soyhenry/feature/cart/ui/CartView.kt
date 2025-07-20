@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,6 +26,7 @@ import com.soyhenry.library.ui.components.EmptyState
 import com.soyhenry.library.ui.components.container.ViewContainer
 import androidx.compose.ui.res.stringResource
 import com.soyhenry.feature.cart.R
+import com.soyhenry.library.ui.components.button.LoadingButton
 
 @Composable
 fun CartView(
@@ -34,6 +36,7 @@ fun CartView(
 ) {
     val context = LocalContext.current
     val uiState by cartViewModel.uiState.collectAsState()
+    val isLoading by ordersViewModel.isLoading.collectAsState()
 
     fun navigateToProducts() {
         navController.navigate(AppRoutes.Products.route)
@@ -95,7 +98,10 @@ fun CartView(
                         label = stringResource(R.string.total_amount),
                         value = "$${"%.2f".format(totalAmount)}",
                     )
-                    Button(
+
+                    LoadingButton(
+                        text = stringResource(R.string.create_order),
+                        isLoading = isLoading,
                         onClick = {
                             ordersViewModel.createOrder(
                                 cartItems = state.data,
@@ -107,10 +113,10 @@ fun CartView(
                                 }
                             )
                         },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(stringResource(R.string.create_order))
-                    }
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 15.dp),
+                    )
                 }
             }
 

@@ -10,6 +10,7 @@ import com.soyhenry.library.utils.validator.NameValidator
 import com.soyhenry.library.utils.validator.PasswordValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,6 +53,9 @@ class RegisterViewModel @Inject constructor(
 
     private val _toastMessage = MutableStateFlow<String?>(null)
     val toastMessage = _toastMessage.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     fun onEmailChange(value: String) {
         _email.value = value
@@ -105,6 +109,7 @@ class RegisterViewModel @Inject constructor(
         val isConfirmPasswordValid = validateConfirmPassword()
 
         if (isEmailValid && isNameValid && isPasswordValid && isConfirmPasswordValid) {
+            _isLoading.value = true
             viewModelScope.launch {
                 try {
                     val response = registerUseCase(
@@ -128,6 +133,8 @@ class RegisterViewModel @Inject constructor(
                     _toastMessage.value = "Error de red. Verifica tu conexión"
                 } catch (e: Exception) {
                     _toastMessage.value = "Error inesperado: ${e.message}"
+                } finally {
+                    _isLoading.value = false
                 }
             }
         } else {
