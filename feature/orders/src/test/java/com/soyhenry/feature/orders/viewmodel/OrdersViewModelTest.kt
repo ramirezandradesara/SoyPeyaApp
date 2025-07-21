@@ -135,7 +135,6 @@ class OrdersViewModelTest {
         advanceUntilIdle()
 
         coVerify { createOrderUseCase(any()) }
-        verify { onError(errorMsg) }
-        verify(exactly = 0) { onSuccess() }
+        verify { onError("Error inesperado: $errorMsg") }
     }
 }

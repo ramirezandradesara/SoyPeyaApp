@@ -1,5 +1,7 @@
 package com.soyhenryfeature.products.ui
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,6 +9,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,8 +25,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenryfeature.products.R
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import com.soyhenry.core.model.domain.Product
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
+import com.soyhenry.library.ui.components.button.AnimatedIconButton
+import kotlinx.coroutines.delay
 
 @Composable
 fun ProductItem(
@@ -32,6 +43,12 @@ fun ProductItem(
     } else {
         painterResource(id = R.drawable.missing_img_product)
     }
+
+    var isPressed by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.85f else 1f,
+        label = "scaleAnimation"
+    )
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -63,7 +80,11 @@ fun ProductItem(
             Text(
                 text = product.description,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(top = 4.dp)
+                modifier = Modifier
+                    .padding(top = 4.dp)
+                    .fillMaxWidth(),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
 
             Row(
@@ -81,20 +102,11 @@ fun ProductItem(
                     )
                 )
 
-                IconButton(
+                AnimatedIconButton(
                     onClick = { onAddToCart(product) },
-                    modifier = Modifier.size(25.dp),
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    )
-                ) {
-                    Icon(
-                        modifier = Modifier.size(15.dp),
-                        imageVector = Icons.Default.Add,
-                        contentDescription = stringResource(R.string.add_to_cart_description),
-                        tint = Color.White
-                    )
-                }
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add_to_cart_description)
+                )
             }
         }
     }

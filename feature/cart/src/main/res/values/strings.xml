@@ -11,4 +11,5 @@
     <string name="product_image_description">Imagen del producto</string>
     <string name="decrease_quantity">Disminuir</string>
     <string name="increase_quantity">Aumentar</string>
+    <string name="remove_item">Eliminar producto</string>
 </resources>

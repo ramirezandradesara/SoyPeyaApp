@@ -9,23 +9,18 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.soyhenry.core.model.domain.CartItem
 import com.soyhenry.core.model.domain.Product
 import com.soyhenry.feature.cart.R
+import com.soyhenry.library.ui.components.button.AnimatedIconButton
+import androidx.compose.material.icons.filled.Delete
 
 @Composable
 fun CartItemCard(
@@ -90,20 +87,11 @@ fun CartItemCard(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.wrapContentWidth()
         ) {
-            IconButton(
+            AnimatedIconButton(
                 onClick = { onDecrease() },
-                modifier = Modifier.size(25.dp),
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                )
-            ) {
-                Icon(
-                    modifier = Modifier.size(15.dp),
-                    imageVector = Icons.Default.Remove,
-                    contentDescription = stringResource(R.string.decrease_quantity),
-                    tint = Color.White,
-                )
-            }
+                imageVector = if (item.quantity == 1) Icons.Default.Delete else Icons.Default.Remove,
+                contentDescription = if (item.quantity == 1) stringResource(R.string.remove_item) else stringResource(R.string.decrease_quantity)
+            )
 
             Text(
                 text = item.quantity.toString(),
@@ -111,24 +99,14 @@ fun CartItemCard(
                 style = MaterialTheme.typography.bodyMedium
             )
 
-            IconButton(
+            AnimatedIconButton(
                 onClick = { onIncrease() },
-                modifier = Modifier.size(25.dp),
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                )
-            ) {
-                Icon(
-                    modifier = Modifier.size(15.dp),
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.increase_quantity),
-                    tint = Color.White,
-                )
-            }
+                imageVector = Icons.Default.Add,
+                contentDescription = stringResource(R.string.increase_quantity)
+            )
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -137,7 +115,7 @@ fun CartItemPreview() {
         id = "1",
         name = "Pizza Margherita",
         description = "Delicious pizza with mozzarella and tomato.",
-        imgURL = "", // O podés poner una URL real para probar Coil
+        imgURL = "",
         price = 12.99,
         category = "Pizza"
     )
