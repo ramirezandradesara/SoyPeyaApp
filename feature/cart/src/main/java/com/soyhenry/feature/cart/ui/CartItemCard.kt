@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soyhenry.feature.cart.R.drawable.missing_img_product
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.soyhenry.core.model.domain.CartItem
+import com.soyhenry.core.model.domain.Product
 import com.soyhenry.feature.cart.R
 
 @Composable
@@ -51,15 +53,15 @@ fun CartItemCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White, RoundedCornerShape(16.dp))
-            .padding(12.dp), verticalAlignment = Alignment.CenterVertically
+            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(16.dp)),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = imagePainter,
             contentDescription = stringResource(R.string.product_image_description),
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .weight(1f)
+                .weight(0.8f)
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(12.dp))
         )
@@ -69,16 +71,17 @@ fun CartItemCard(
         Column(
             modifier = Modifier.weight(1.5f)
         ) {
-            Text(text = item.product.name, fontWeight = FontWeight.SemiBold)
             Text(
-                text = item.product.category,
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.Gray
+                text = item.product.name,
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(bottom = 2.dp)
             )
             Text(
                 text = "$${item.product.price}",
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
             )
         }
 
@@ -126,30 +129,31 @@ fun CartItemCard(
     }
 }
 
-/*
+
 @Preview(showBackground = true)
 @Composable
 fun CartItemPreview() {
-    val cartItemWithProductEntity = CartItemWithProductEntity(
-        product = ProductEntity(
-            id = "id_1",
-            productName = "Melting Cheese Pizza",
-            category = "Pizza",
-            price = 11.88,
-            imageURL = "",
-        ),
-        cartItem = CartItemEntity(
-            id = 1,
-            productId = "id_1",
-            quantity = 2
-        ),
+    val sampleProduct = Product(
+        id = "1",
+        name = "Pizza Margherita",
+        description = "Delicious pizza with mozzarella and tomato.",
+        imgURL = "", // O podés poner una URL real para probar Coil
+        price = 12.99,
+        category = "Pizza"
+    )
+
+    val sampleCartItem = CartItem(
+        id = 1,
+        productId = sampleProduct.id,
+        quantity = 2,
+        product = sampleProduct
     )
 
     MaterialTheme {
         CartItemCard(
-            item = cartItemWithProductEntity,
+            item = sampleCartItem,
             onIncrease = {},
             onDecrease = {}
         )
     }
-} */
+}
