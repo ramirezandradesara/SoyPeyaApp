@@ -10,17 +10,16 @@ fun OrderDto.toDomain(): Order {
         id = orderId,
         date = timestamp,
         totalAmount = total,
-        totalItems = productIds.size
+        totalItems = productIds.sumOf { it.quantity }
     )
 }
 
 fun OrderDto.toOrderEntity(): OrderEntity {
-    val totalItems = productIds.sumOf { it.quantity }
     return OrderEntity(
         id = orderId,
         orderDate = timestamp,
         totalAmount = total,
-        totalItems = totalItems
+        totalItems = productIds.sumOf { it.quantity }
     )
 }
 
