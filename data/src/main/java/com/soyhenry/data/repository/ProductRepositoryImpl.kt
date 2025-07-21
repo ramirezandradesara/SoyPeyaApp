@@ -1,10 +1,10 @@
 package com.soyhenry.data.repository
 
-import com.soyhenry.core.domain.Product
+import com.soyhenry.core.model.domain.Product
 import com.soyhenry.data.local.datasource.ProductLocalDataSource
 import com.soyhenry.data.mappers.toDomain
 import com.soyhenry.data.mappers.toEntity
-import com.soyhenry.core.mappers.toDomain
+import com.soyhenry.core.model.mappers.toDomain
 import com.soyhenry.data.remote.datasource.ProductRemoteDataSource
 import javax.inject.Inject
 

@@ -1,6 +1,5 @@
 package com.soyhenry.data.repository
 
-import com.soyhenry.core.mappers.toDomain
 import com.soyhenry.data.local.datasource.OrderLocalDataSource
 import com.soyhenry.data.mappers.toOrderEntity
 import com.soyhenry.data.mappers.toOrderItemEntities
@@ -82,7 +81,7 @@ class OrderRepositoryImplTest {
 
         val result = repository.getOrders(refreshData = true)
 
-        assertEquals(listOf(orderEntity.toDomain()), result)
+        assertEquals(listOf(domainOrder), result)
         coVerify { local.getOrders() }
     }
 

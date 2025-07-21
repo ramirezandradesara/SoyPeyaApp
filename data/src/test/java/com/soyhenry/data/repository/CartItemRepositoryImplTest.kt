@@ -1,9 +1,9 @@
 package com.soyhenry.data.repository
 
-import com.soyhenry.core.entities.CartItemEntity
-import com.soyhenry.core.entities.CartItemWithProductEntity
-import com.soyhenry.core.entities.ProductEntity
-import com.soyhenry.core.mappers.toDomain
+import com.soyhenry.core.model.entities.CartItemEntity
+import com.soyhenry.core.model.entities.CartItemWithProductEntity
+import com.soyhenry.core.model.entities.ProductEntity
+import com.soyhenry.core.model.mappers.toDomain
 import com.soyhenry.data.local.datasource.CartItemLocalDataSource
 import io.mockk.coEvery
 import io.mockk.coVerify

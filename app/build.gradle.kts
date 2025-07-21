@@ -129,9 +129,7 @@ dependencies {
     implementation(project(":feature:cart"))
     implementation(project(":feature:profile"))
     implementation(project(":feature:orders"))
-    implementation(project(":core:approutes"))
-    implementation(project(":core:model"))
-    implementation(project(":core:session"))
+    implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":library"))
 

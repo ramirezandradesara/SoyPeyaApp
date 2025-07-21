@@ -1,9 +1,9 @@
 package com.soyhenryfeature.products.viewmodel
 
 import androidx.compose.runtime.ExperimentalComposeRuntimeApi
-import com.soyhenry.core.domain.Category
-import com.soyhenry.core.domain.Product
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.domain.Category
+import com.soyhenry.core.model.domain.Product
+import com.soyhenry.core.model.state.UiState
 import com.soyhenryfeature.products.MainDispatcherRule
 import com.soyhenryfeature.products.domain.usecase.GetCategoriesUseCase
 import com.soyhenryfeature.products.domain.usecase.GetProductsUseCase

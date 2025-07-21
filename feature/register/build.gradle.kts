@@ -86,11 +86,8 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.jupiter.junit.jupiter)
-    //testImplementation("androidx.test:core:1.5.0")
 
-    implementation(project(":core:approutes"))
-    implementation(project(":core:session"))
-    implementation(project(":core:model"))
+    implementation(project(":core"))
     implementation(project(":data"))
     implementation(project(":library"))
 

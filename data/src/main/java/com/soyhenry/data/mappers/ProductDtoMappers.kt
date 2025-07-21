@@ -1,7 +1,7 @@
 package com.soyhenry.data.mappers
 
-import com.soyhenry.core.domain.Product
-import com.soyhenry.core.entities.ProductEntity
+import com.soyhenry.core.model.domain.Product
+import com.soyhenry.core.model.entities.ProductEntity
 import com.soyhenry.data.remote.dto.ProductDto
 
 fun ProductDto.toDomain(): Product {

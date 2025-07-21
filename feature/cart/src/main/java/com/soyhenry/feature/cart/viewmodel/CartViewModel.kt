@@ -2,10 +2,10 @@ package com.soyhenry.feature.cart.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soyhenry.core.domain.CartItem
-import com.soyhenry.core.domain.Product
-import com.soyhenry.core.entities.CartItemEntity
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.domain.CartItem
+import com.soyhenry.core.model.domain.Product
+import com.soyhenry.core.model.entities.CartItemEntity
+import com.soyhenry.core.model.state.UiState
 import com.soyhenry.feature.cart.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

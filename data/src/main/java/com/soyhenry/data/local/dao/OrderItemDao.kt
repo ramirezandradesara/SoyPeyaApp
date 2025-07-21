@@ -1,7 +1,7 @@
 package com.soyhenry.data.local.dao
 
 import androidx.room.*
-import com.soyhenry.core.entities.OrderItemEntity
+import com.soyhenry.core.model.entities.OrderItemEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

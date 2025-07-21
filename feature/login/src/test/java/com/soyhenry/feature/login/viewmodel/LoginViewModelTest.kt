@@ -1,6 +1,6 @@
 package com.soyhenry.feature.login.viewmodel
 
-import com.soyhenry.core.domain.User
+import com.soyhenry.core.model.domain.User
 import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.feature.login.MainDispatcherRule
 import com.soyhenry.feature.login.domain.usecase.LoginUseCase
@@ -14,7 +14,7 @@ import org.junit.Rule
 import org.junit.Test
 import retrofit2.HttpException
 import java.io.IOException
-import com.soyhenry.data.remote.model.LoginResult
+import com.soyhenry.core.model.domain.LoginResult
 
 class LoginViewModelTest {
 

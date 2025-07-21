@@ -23,15 +23,13 @@ import androidx.compose.material3.Card
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.foundation.Image
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.layout.ContentScale
-import coil.compose.AsyncImage
 import com.soyhenry.library.ui.components.textField.PasswordTextField
 import androidx.compose.ui.res.stringResource
-import com.soyhenry.core.domain.User
+import com.soyhenry.core.model.domain.User
 import com.soyhenry.feature.profile.R
 import com.soyhenry.library.ui.components.LoadImage
+import com.soyhenry.library.ui.components.button.LoadingButton
 import com.soyhenry.library.ui.components.textField.EmailTextField
 
 @Composable
@@ -48,7 +46,7 @@ fun ProfileFormSection(
 
     val context = LocalContext.current
 
-    val sdkInt = android.os.Build.VERSION.SDK_INT
+    val sdkInt = Build.VERSION.SDK_INT
     val permissionToRequest = if (sdkInt >= Build.VERSION_CODES.TIRAMISU) {
         android.Manifest.permission.READ_MEDIA_IMAGES
     } else {
@@ -156,7 +154,8 @@ fun ProfileFormSection(
 
     Spacer(Modifier.height(8.dp))
 
-    Button(
+    LoadingButton(
+        isLoading = isImageUploading,
         onClick = {
             val updatedUser = profile.copy(
                 fullName = name,
@@ -165,11 +164,9 @@ fun ProfileFormSection(
             )
             onSave(updatedUser, imageUri)
         },
-        enabled = true,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp)
-    ) {
-        Text(stringResource(id = R.string.save_changes_button))
-    }
+            .padding(top = 8.dp),
+        text = stringResource(R.string.save_changes_button)
+    )
 }

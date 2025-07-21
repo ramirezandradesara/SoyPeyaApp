@@ -5,8 +5,9 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cloudinary.Cloudinary
-import com.soyhenry.core.domain.User
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.domain.User
+import com.soyhenry.core.model.state.UiState
+import com.soyhenry.feature.profile.BuildConfig
 import com.soyhenry.feature.profile.domain.usecase.GetUserUseCase
 import com.soyhenry.feature.profile.domain.usecase.SaveUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -71,8 +72,7 @@ class ProfileViewModel @Inject constructor(
             try {
                 val inputStream = getApplication<Application>().contentResolver.openInputStream(uri)
                 val uploadResult = cloudinary.uploader().upload(
-                   inputStream, mapOf("upload_preset" to "soypeya-example")
-                 //inputStream, mapOf("upload_preset" to BuildConfig)
+                    inputStream, mapOf("upload_preset" to BuildConfig.CLOUDINARY_UPLOAD_PRESET)
                 )
                 val imageUrl = uploadResult["secure_url"] as String
 

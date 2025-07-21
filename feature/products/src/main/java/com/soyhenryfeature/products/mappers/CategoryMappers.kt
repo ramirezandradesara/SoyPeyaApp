@@ -1,6 +1,6 @@
 package com.soyhenryfeature.products.mappers
 
-import com.soyhenry.core.domain.Category
+import com.soyhenry.core.model.domain.Category
 import com.soyhenryfeature.products.model.UiCategory
 import com.soyhenryfeature.products.R
 

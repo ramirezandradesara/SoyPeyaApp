@@ -69,10 +69,7 @@ dependencies {
     implementation(libs.androidx.activity)
 
     implementation(libs.androidx.navigation.compose)
-    implementation(project(":core:model"))
-    implementation(project(":core:approutes"))
-    implementation(project(":core:constants:appinfo"))
-    implementation(project(":core:session"))
+    implementation(project(":core"))
     implementation(project(":library"))
     implementation(project(":data"))
 

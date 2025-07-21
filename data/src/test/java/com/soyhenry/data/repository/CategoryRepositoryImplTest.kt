@@ -1,6 +1,6 @@
 package com.soyhenry.data.repository
 
-import com.soyhenry.core.domain.Category
+import com.soyhenry.core.model.domain.Category
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -1,8 +1,8 @@
 package com.soyhenry.data.mappers
 
-import com.soyhenry.core.domain.Order
-import com.soyhenry.core.entities.OrderEntity
-import com.soyhenry.core.entities.OrderItemEntity
+import com.soyhenry.core.model.domain.Order
+import com.soyhenry.core.model.entities.OrderEntity
+import com.soyhenry.core.model.entities.OrderItemEntity
 import com.soyhenry.data.remote.dto.OrderDto
 
 fun OrderDto.toDomain(): Order {

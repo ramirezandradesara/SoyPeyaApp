@@ -1,6 +1,6 @@
 package com.soyhenry.data.local.datasource
 
-import com.soyhenry.core.entities.ProductEntity
+import com.soyhenry.core.model.entities.ProductEntity
 import com.soyhenry.data.local.dao.ProductDao
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject

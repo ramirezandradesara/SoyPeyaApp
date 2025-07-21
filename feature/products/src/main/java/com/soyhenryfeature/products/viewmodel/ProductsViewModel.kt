@@ -2,8 +2,8 @@ package com.soyhenryfeature.products.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soyhenry.core.domain.Product
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.domain.Product
+import com.soyhenry.core.model.state.UiState
 import com.soyhenryfeature.products.domain.usecase.GetCategoriesUseCase
 import com.soyhenryfeature.products.domain.usecase.GetProductsUseCase
 import com.soyhenryfeature.products.mappers.toUiCategory

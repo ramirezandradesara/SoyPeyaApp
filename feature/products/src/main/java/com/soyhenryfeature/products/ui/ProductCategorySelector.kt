@@ -7,7 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.state.UiState
 import com.soyhenryfeature.products.R
 import com.soyhenryfeature.products.model.UiCategory
 import androidx.compose.foundation.lazy.items

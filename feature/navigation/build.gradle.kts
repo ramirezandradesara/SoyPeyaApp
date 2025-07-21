@@ -62,9 +62,7 @@ dependencies {
     implementation(project(":feature:profile"))
     implementation(project(":feature:cart"))
     implementation(project(":feature:orders"))
-    implementation(project(":core:approutes"))
-    implementation(project(":core:session"))
-    implementation(project(":core:model"))
+    implementation(project(":core"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

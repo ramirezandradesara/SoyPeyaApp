@@ -15,8 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.soyhenry.core.approutes.AppRoutes
-import com.soyhenry.core.constants.appinfo.AppInfo
+import com.soyhenry.core.constants.AppRoutes
+import com.soyhenry.core.constants.AppInfo
 import com.soyhenry.feature.login.viewmodel.LoginViewModel
 import com.soyhenry.library.ui.components.container.AuthContainer
 import com.soyhenry.library.ui.components.textField.EmailTextField

@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.soyhenry.core.approutes.AppRoutes
+import com.soyhenry.core.constants.AppRoutes
 import com.soyhenry.feature.register.viewmodel.RegisterViewModel
 import com.soyhenry.library.ui.components.container.AuthContainer
 import com.soyhenry.library.ui.components.textField.PasswordTextField

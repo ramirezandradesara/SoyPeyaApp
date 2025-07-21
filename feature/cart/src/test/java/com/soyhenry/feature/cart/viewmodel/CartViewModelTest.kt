@@ -1,9 +1,9 @@
 package com.soyhenry.feature.cart.viewmodel
 
-import com.soyhenry.core.domain.CartItem
-import com.soyhenry.core.domain.Product
-import com.soyhenry.core.entities.CartItemEntity
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.domain.CartItem
+import com.soyhenry.core.model.domain.Product
+import com.soyhenry.core.model.entities.CartItemEntity
+import com.soyhenry.core.model.state.UiState
 import com.soyhenry.feature.cart.MainDispatcherRule
 import com.soyhenry.feature.cart.domain.usecase.*
 import io.mockk.*

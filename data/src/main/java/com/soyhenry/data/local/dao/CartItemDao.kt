@@ -1,8 +1,8 @@
 package com.soyhenry.data.local.dao
 
 import androidx.room.*
-import com.soyhenry.core.entities.CartItemEntity
-import com.soyhenry.core.entities.CartItemWithProductEntity
+import com.soyhenry.core.model.entities.CartItemEntity
+import com.soyhenry.core.model.entities.CartItemWithProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

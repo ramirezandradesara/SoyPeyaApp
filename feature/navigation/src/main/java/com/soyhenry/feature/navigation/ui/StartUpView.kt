@@ -8,16 +8,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import com.soyhenry.core.approutes.AppRoutes
+import com.soyhenry.core.constants.AppRoutes
 import com.soyhenry.core.session.UserPreferences
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @Composable
 fun StartUpView(navController: NavHostController, userPreferences: UserPreferences) {
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {

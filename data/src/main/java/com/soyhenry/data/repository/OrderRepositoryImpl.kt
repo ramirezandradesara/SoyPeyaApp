@@ -1,14 +1,15 @@
 package com.soyhenry.data.repository
 
 import com.soyhenry.data.remote.dto.OrderDto
-import com.soyhenry.core.domain.Order
-import com.soyhenry.core.mappers.toDomain
+import com.soyhenry.core.model.domain.Order
+import com.soyhenry.core.model.mappers.toDomain
 import com.soyhenry.data.local.datasource.OrderLocalDataSource
 import com.soyhenry.data.mappers.toDomain
 import com.soyhenry.data.mappers.toOrderEntity
 import com.soyhenry.data.mappers.toOrderItemEntities
 import com.soyhenry.data.remote.datasource.OrderRemoteDataSource
 import javax.inject.Inject
+
 
 class OrderRepositoryImpl @Inject constructor(
     private val remote: OrderRemoteDataSource,

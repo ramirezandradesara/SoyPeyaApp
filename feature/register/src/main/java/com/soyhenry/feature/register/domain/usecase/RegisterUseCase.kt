@@ -1,7 +1,7 @@
 package com.soyhenry.feature.register.domain.usecase
 
-import com.soyhenry.core.domain.User
-import com.soyhenry.data.remote.model.RegisterRequest
+import com.soyhenry.core.model.domain.User
+import com.soyhenry.core.model.domain.RegisterRequest
 import com.soyhenry.data.repository.UserRepository
 import javax.inject.Inject
 
