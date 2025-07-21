@@ -1,6 +1,6 @@
 package com.soyhenry.data.repository
 
-import com.soyhenry.core.domain.User
+import com.soyhenry.core.model.domain.User
 import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.data.mappers.toDomain
 import com.soyhenry.data.remote.datasource.UserRemoteDataSource

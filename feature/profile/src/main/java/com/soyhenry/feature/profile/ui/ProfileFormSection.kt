@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import com.soyhenry.core.model.domain.User
 import com.soyhenry.feature.profile.R
 import com.soyhenry.library.ui.components.LoadImage
+import com.soyhenry.library.ui.components.button.LoadingButton
 import com.soyhenry.library.ui.components.textField.EmailTextField
 
 @Composable
@@ -153,7 +154,8 @@ fun ProfileFormSection(
 
     Spacer(Modifier.height(8.dp))
 
-    Button(
+    LoadingButton(
+        isLoading = isImageUploading,
         onClick = {
             val updatedUser = profile.copy(
                 fullName = name,
@@ -162,11 +164,9 @@ fun ProfileFormSection(
             )
             onSave(updatedUser, imageUri)
         },
-        enabled = true,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp)
-    ) {
-        Text(stringResource(id = R.string.save_changes_button))
-    }
+            .padding(top = 8.dp),
+        text = stringResource(R.string.save_changes_button)
+    )
 }

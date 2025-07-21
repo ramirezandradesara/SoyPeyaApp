@@ -5,8 +5,8 @@ import android.content.ContentResolver
 import android.net.Uri
 import androidx.compose.runtime.ExperimentalComposeRuntimeApi
 import com.cloudinary.Cloudinary
-import com.soyhenry.core.domain.User
-import com.soyhenry.core.state.UiState
+import com.soyhenry.core.model.domain.User
+import com.soyhenry.core.model.state.UiState
 import com.soyhenry.feature.profile.MainDispatcherRule
 import com.soyhenry.feature.profile.domain.usecase.GetUserUseCase
 import com.soyhenry.feature.profile.domain.usecase.SaveUserUseCase
@@ -84,6 +84,7 @@ class ProfileViewModelTest {
         assertTrue(viewModel.uiState.value is UiState.Success)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `updateProfile with image uploads image and updates user`() = runTest {
         val imageUri = mockk<Uri>()
@@ -96,6 +97,8 @@ class ProfileViewModelTest {
         coEvery { cloudinary.uploader().upload(inputStream, any()) } returns uploadResult
 
         viewModel.updateProfile(fakeUser, imageUri)
+
+        advanceUntilIdle()
 
         coVerify { saveUserUseCase(match { it.imageUrl == "https://image.url/test.png" }) }
         assertEquals("Perfil e imagen actualizados", viewModel.toastMessage.value)

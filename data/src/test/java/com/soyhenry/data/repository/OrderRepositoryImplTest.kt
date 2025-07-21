@@ -81,7 +81,7 @@ class OrderRepositoryImplTest {
 
         val result = repository.getOrders(refreshData = true)
 
-        assertEquals(listOf(orderEntity.toDomain()), result)
+        assertEquals(listOf(domainOrder), result)
         coVerify { local.getOrders() }
     }
 

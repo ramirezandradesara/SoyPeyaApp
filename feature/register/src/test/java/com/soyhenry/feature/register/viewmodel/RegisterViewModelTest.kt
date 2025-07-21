@@ -1,8 +1,7 @@
 package com.soyhenry.feature.register.viewmodel
 
-import android.app.Application
 import androidx.compose.runtime.ExperimentalComposeRuntimeApi
-import com.soyhenry.core.domain.User
+import com.soyhenry.core.model.domain.User
 import com.soyhenry.feature.register.MainDispatcherRule
 import com.soyhenry.core.session.UserPreferences
 import com.soyhenry.feature.register.domain.usecase.RegisterUseCase
