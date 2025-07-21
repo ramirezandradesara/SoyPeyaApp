@@ -45,9 +45,9 @@ fun RegisterView(
         confirmPasswordError
     ).all { it == null } && !isLoading
 
-    LaunchedEffect(toastMessage) {
-        toastMessage?.let {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+    toastMessage?.let { message ->
+        LaunchedEffect(message) {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             viewModel.clearToastMessage()
         }
     }

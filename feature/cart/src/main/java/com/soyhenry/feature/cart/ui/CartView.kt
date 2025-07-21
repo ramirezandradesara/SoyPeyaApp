@@ -27,6 +27,14 @@ fun CartView(
     val context = LocalContext.current
     val uiState by cartViewModel.uiState.collectAsState()
     val isLoading by ordersViewModel.isLoading.collectAsState()
+    val toastMessage by cartViewModel.toastMessage.collectAsState()
+
+    toastMessage?.let { message ->
+        LaunchedEffect(message) {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            cartViewModel.clearToastMessage()
+        }
+    }
 
     LaunchedEffect(Unit) {
         cartViewModel.refreshCartItems()

@@ -41,9 +41,9 @@ fun LoginView(
 
     val isSubmitEnabled = email.isNotBlank() && password.isNotBlank() && !isLoading
 
-    LaunchedEffect(toastMessage) {
-        toastMessage?.let {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+    toastMessage?.let { message ->
+        LaunchedEffect(message) {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             loginViewModel.clearToastMessage()
         }
     }

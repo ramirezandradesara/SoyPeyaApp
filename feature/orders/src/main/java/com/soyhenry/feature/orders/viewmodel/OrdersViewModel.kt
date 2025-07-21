@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import java.util.UUID
 import javax.inject.Inject
 
@@ -67,8 +69,17 @@ class OrdersViewModel @Inject constructor(
             try {
                 createOrderUseCase(orderRequest)
                 onSuccess()
+            } catch (e: HttpException) {
+                val message = when (e.code()) {
+                    400 -> "Error en la solicitud: por favor, verifique sus datos"
+                    500 -> "Error del servidor. Por favor, inténtalo de nuevo más tarde"
+                    else -> "Error: ${e.code()}"
+                }
+                onError(message)
+            } catch (e: IOException) {
+                onError("Error de red. Verifica tu conexión")
             } catch (e: Exception) {
-                onError(e.message ?: "Error desconocido")
+                onError("Error inesperado: ${e.message}")
             } finally {
                 _isLoading.value = false
             }
