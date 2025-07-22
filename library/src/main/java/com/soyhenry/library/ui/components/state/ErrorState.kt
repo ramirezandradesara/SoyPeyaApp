@@ -37,8 +37,7 @@ fun ErrorState(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "¡Oh no! Hubo un error",
-            // text = stringResource(R.string.error_title),
+            text = stringResource(R.string.error_title),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center
         )
