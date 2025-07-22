@@ -40,27 +40,33 @@ com.soypeya/
 ├── app/                  
 ├── core/                 
 │   ├── approutes/          
-│   └── constants/
+│   ├── constants/
 │   └── session/          
-│ 
+│
 ├── data/
-│    └── di/ 
-│    └── local/   
-│    └── mappers/   
-│    ├── remote/ 
-│    └── repository/    
-│    └── workers/                                
+│   ├── di/ 
+│   ├── local/   
+│   │   ├── dao/
+│   │   └── datasource/
+│   ├── mappers/   
+│   ├── remote/
+│   │   ├── api/ 
+│   │   ├── datasource/
+│   │   └── dto/
+│   ├── repository/    
+│   └── workers/                                
 │
 ├── feature/          
 │   ├── cart/
-│   └── login/  
+│   ├── login/  
 │   ├── orders/              
 │   ├── products/         
-│   └── register/
 │   ├── profile/  
+│   ├── register/
 │   └── navigation/              
 │
 └── library/                 
     ├── ui/            
-    └── utils/            
+    └── utils/      
+           
 ```
