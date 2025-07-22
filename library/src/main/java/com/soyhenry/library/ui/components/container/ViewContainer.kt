@@ -26,7 +26,7 @@ fun ViewContainer(
             .padding(
                 start = 16.dp,
                 end = 16.dp,
-                top = 24.dp
+                top = 16.dp
             )
     ) {
         Row(

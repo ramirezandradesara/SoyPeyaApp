@@ -80,7 +80,7 @@ fun ProductsSkeletonList() {
         contentPadding = PaddingValues(bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        val placeholderList = List(3) { listOf(null, null) } // 3 filas de 2 columnas
+        val placeholderList = List(3) { listOf(null, null) }
         items(placeholderList) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
