@@ -2,7 +2,6 @@ package com.soyhenry.feature.profile.ui
 
 import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,18 +15,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.material3.Card
-import androidx.compose.foundation.clickable
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.foundation.Image
-import androidx.compose.ui.layout.ContentScale
 import com.soyhenry.library.ui.components.textField.PasswordTextField
 import androidx.compose.ui.res.stringResource
 import com.soyhenry.core.model.domain.User
 import com.soyhenry.feature.profile.R
-import com.soyhenry.library.ui.components.LoadImage
 import com.soyhenry.library.ui.components.button.LoadingButton
 import com.soyhenry.library.ui.components.textField.EmailTextField
 
@@ -74,56 +66,11 @@ fun ProfileFormSection(
         storagePermissionLauncher.launch(permissionToRequest)
     }
 
-    if (profile.imageUrl.isEmpty().not()) {
-        LoadImage(
-            url = profile.imageUrl,
-            contentDescription = profile.fullName,
-            modifier = Modifier.size(120.dp)
-        )
-    } else {
-        Card(
-            modifier = Modifier
-                .size(120.dp)
-                .clickable { selectImageWithPermission() }
-        ) {
-            if (imageUri != null) {
-                val bitmap = remember(imageUri) {
-                    try {
-                        @Suppress("DEPRECATION")
-                        MediaStore.Images.Media.getBitmap(
-                            context.contentResolver,
-                            imageUri
-                        ).asImageBitmap()
-                    } catch (e: Exception) {
-                        null
-                    }
-                }
-
-                if (bitmap != null) {
-                    Image(
-                        bitmap = bitmap,
-                        contentDescription = stringResource(id = R.string.profile_title),
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                } else {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(stringResource(id = R.string.error_uploading_image))
-                    }
-                }
-            } else {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(stringResource(id = R.string.select_image))
-                }
-            }
-        }
-    }
+    ProfileImageSelector(
+        profileImageUrl = profile.imageUrl,
+        imageUri = imageUri,
+        onSelectImage = { selectImageWithPermission() }
+    )
 
     Spacer(Modifier.height(8.dp))
 
