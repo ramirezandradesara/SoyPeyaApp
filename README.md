@@ -40,17 +40,24 @@ com.soypeya/
 ├── app/                  
 ├── core/                 
 │   ├── approutes/          
-│   └── constants/         
+│   └── constants/
+│   └── session/          
 │ 
 ├── data/
-│    ├── remote/           
-│    └── local/                       
+│    └── di/ 
+│    └── local/   
+│    └── mappers/   
+│    ├── remote/ 
+│    └── repository/    
+│    └── workers/                                
 │
 ├── feature/          
 │   ├── cart/
-│   └── login/              
+│   └── login/  
+│   ├── orders/              
 │   ├── products/         
 │   └── register/
+│   ├── profile/  
 │   └── navigation/              
 │
 └── library/                 
